@@ -1,0 +1,138 @@
+@base: #333;
+@font: #333;
+@blue: #26A0DA;
+@dark: #666;
+@text: #EEE;
+
+body,
+.pure-g [class *= "pure-u"],
+.pure-g-r [class *= "pure-u"] {
+    font-family: "Microsoft YaHei", Helvetica;
+    h2 {
+        font-size: 1em;
+    }
+}
+
+.banner,
+.content,
+.about,
+.footer {
+    max-width: 980px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.banner {
+    height: 6em;
+    width: 100%;
+    display: table;
+    position: relative;
+    text-align: left;
+    .banner-head {
+        width: 100%;
+        position: absolute;
+        bottom: 1em;
+        a, span {
+            color: @blue;
+        }
+        .head {
+            font-size: 2em;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .blog {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            font-size: 1.2em;
+        }
+        span {
+            margin-left: 0.5em;
+            font-size: 1em;
+            font-weight: 200;
+        }
+        @media screen and (max-width: 48em) {
+            span {
+                display: none;
+            }
+        }
+    }
+}
+
+.content {
+    .list {
+        border-radius:6px;
+        background-color: @text;
+        margin-bottom: 0.5em;
+        h2 {
+            border: dashed black;
+            border-width: 0 1px 0 0;
+        }
+        ul {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        a {
+            color: @font;
+            text-decoration: underline;
+            &:hover {
+                color: @blue;
+            }
+        }
+        @media screen and (max-width: 48em) {
+            ul {
+                padding-left: 0;
+            }
+            li{
+                display: block;
+                list-style-type: none;
+            }
+        }
+    }
+}
+
+.about {
+    margin-bottom: 2em;
+    .skill {
+        padding-left: 8.5em;
+    }
+    .skill-title {
+        margin-left: -8.5em;
+        width: 8em;
+        padding-right: 0.5em;
+        // line-height: 1em;
+        text-align: right;
+    }
+}
+
+.footer {
+    font-size: 0.8em;
+}
+
+.label {
+    background-color: @text;
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: @dark;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
+.process {
+    height: 1em;
+    width: 100%;
+    margin-top: 4px;
+    margin-bottom: 6px;
+    background-color: @text;
+    .bar {
+        float: left;
+        width: 0;
+        background-color: @blue;
+        height: 100%;
+    }
+}

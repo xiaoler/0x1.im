@@ -1,0 +1,10 @@
+body,.pure-g [class*="pure-u"],.pure-g-r [class*="pure-u"]{font-family:"Microsoft YaHei",Helvetica}
+body h2,.pure-g [class*="pure-u"] h2,.pure-g-r [class*="pure-u"] h2{font-size:1em}.banner,.content,.about,.footer{max-width:980px;margin:0 auto;text-align:center}
+.banner{height:6em;width:100%;display:table;position:relative;text-align:left}.banner .banner-head{width:100%;position:absolute;bottom:1em}.banner .banner-head a,.banner .banner-head span{color:#26a0da}
+.banner .banner-head .head{font-size:2em;font-weight:700;text-decoration:none}.banner .banner-head .blog{position:absolute;bottom:0;right:0;font-size:1.2em}
+.banner .banner-head span{margin-left:.5em;font-size:1em;font-weight:200}@media screen and (max-width:48em){.banner .banner-head span{display:none}}.content .list{border-radius:6px;background-color:#eee;margin-bottom:.5em}
+.content .list h2{border:dashed black;border-width:0 1px 0 0}.content .list ul{margin-top:.5em;margin-bottom:.5em}.content .list a{color:#333;text-decoration:underline}
+.content .list a:hover{color:#26a0da}@media screen and (max-width:48em){.content .list ul{padding-left:0}.content .list li{display:block;list-style-type:none}
+}.about{margin-bottom:2em}.about .skill{padding-left:8.5em}.about .skill-title{margin-left:-8.5em;width:8em;padding-right:.5em;text-align:right}.footer{font-size:.8em}
+.label{background-color:#eee;display:inline;padding:.2em .6em .3em;font-size:75%;font-weight:700;line-height:1;color:#666;text-align:center;white-space:nowrap;vertical-align:baseline;border-radius:.25em}
+.process{height:1em;width:100%;margin-top:4px;margin-bottom:6px;background-color:#eee}.process .bar{float:left;width:0;background-color:#26a0da;height:100%}
