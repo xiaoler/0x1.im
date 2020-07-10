@@ -5,13 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="1. 统一的编码规范 编码规范往简单说其实就是三个方面：
- 换行 空格 变量命名  放在 PHP 里面，还有一些附加的地方，比如关键字大小写，语法糖的使用（array() 与 [] 等）的问题。之前整理过 PSR 的标准，也找过 php-cs-fixer 这样的工具。这些都是规范代码的重要手段。有统一的标准，配合上工具的检查，形成统一的编码约束不是什么难题。
-没有规范，不同的人甚至同一个人在空格、换行和命名上都有可能是十分随意的。代码一长，回使整个文件看起来无比杂乱。
-典型的例子比如：if 和 else 的组合，可以写出无数种风格，比如：
-&amp;lt;?php # 单语句不写大括号 if (true) doSomething(); # else 大括号换行 十分占篇幅 if (true) { doSomething(); } else { doElseThings(); } # 此外还有关键字后不带空格，随意缩进等等 # ... 再比如变量函数命名的问题上，各种混搭风格层出不穷：
-&amp;lt;?php # 全小写 $someparam1 = null; # 首字母下环线 $_some_param_1 = null; # 某些库的类，下划线和大小写混用 class Abstract_ClassA { } 这里并不探讨各种写法的优缺点，只是风格需要保持统一，不要混用。
-2. 良好的编码习惯 如果你仔细看过 PSR 的标准，可能也会注意到某些地方其实是标准无法涉及到的。比如一个超长的表达式在什么时候换行，如何缩进等。" />
+<meta name="description" content="1. 统一的编码规范 编码规范往简单说其实就是三个方面： 换行 空格 变量命名 放在 PHP 里面，还有一些附加的地方，比如关键字大小写，语法糖的使用（array" />
 <meta name="keywords" content=", php" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -39,29 +33,17 @@
 
 
 <meta itemprop="name" content="PHP 代码规范简洁之道">
-<meta itemprop="description" content="1. 统一的编码规范 编码规范往简单说其实就是三个方面：
- 换行 空格 变量命名  放在 PHP 里面，还有一些附加的地方，比如关键字大小写，语法糖的使用（array() 与 [] 等）的问题。之前整理过 PSR 的标准，也找过 php-cs-fixer 这样的工具。这些都是规范代码的重要手段。有统一的标准，配合上工具的检查，形成统一的编码约束不是什么难题。
-没有规范，不同的人甚至同一个人在空格、换行和命名上都有可能是十分随意的。代码一长，回使整个文件看起来无比杂乱。
-典型的例子比如：if 和 else 的组合，可以写出无数种风格，比如：
-&lt;?php # 单语句不写大括号 if (true) doSomething(); # else 大括号换行 十分占篇幅 if (true) { doSomething(); } else { doElseThings(); } # 此外还有关键字后不带空格，随意缩进等等 # ... 再比如变量函数命名的问题上，各种混搭风格层出不穷：
-&lt;?php # 全小写 $someparam1 = null; # 首字母下环线 $_some_param_1 = null; # 某些库的类，下划线和大小写混用 class Abstract_ClassA { } 这里并不探讨各种写法的优缺点，只是风格需要保持统一，不要混用。
-2. 良好的编码习惯 如果你仔细看过 PSR 的标准，可能也会注意到某些地方其实是标准无法涉及到的。比如一个超长的表达式在什么时候换行，如何缩进等。">
+<meta itemprop="description" content="1. 统一的编码规范 编码规范往简单说其实就是三个方面： 换行 空格 变量命名 放在 PHP 里面，还有一些附加的地方，比如关键字大小写，语法糖的使用（array">
 <meta itemprop="datePublished" content="2016-02-28T12:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2016-02-28T12:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="148">
+<meta itemprop="wordCount" content="1264">
 
 
 
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="PHP 代码规范简洁之道"/>
-<meta name="twitter:description" content="1. 统一的编码规范 编码规范往简单说其实就是三个方面：
- 换行 空格 变量命名  放在 PHP 里面，还有一些附加的地方，比如关键字大小写，语法糖的使用（array() 与 [] 等）的问题。之前整理过 PSR 的标准，也找过 php-cs-fixer 这样的工具。这些都是规范代码的重要手段。有统一的标准，配合上工具的检查，形成统一的编码约束不是什么难题。
-没有规范，不同的人甚至同一个人在空格、换行和命名上都有可能是十分随意的。代码一长，回使整个文件看起来无比杂乱。
-典型的例子比如：if 和 else 的组合，可以写出无数种风格，比如：
-&lt;?php # 单语句不写大括号 if (true) doSomething(); # else 大括号换行 十分占篇幅 if (true) { doSomething(); } else { doElseThings(); } # 此外还有关键字后不带空格，随意缩进等等 # ... 再比如变量函数命名的问题上，各种混搭风格层出不穷：
-&lt;?php # 全小写 $someparam1 = null; # 首字母下环线 $_some_param_1 = null; # 某些库的类，下划线和大小写混用 class Abstract_ClassA { } 这里并不探讨各种写法的优缺点，只是风格需要保持统一，不要混用。
-2. 良好的编码习惯 如果你仔细看过 PSR 的标准，可能也会注意到某些地方其实是标准无法涉及到的。比如一个超长的表达式在什么时候换行，如何缩进等。"/>
+<meta name="twitter:description" content="1. 统一的编码规范 编码规范往简单说其实就是三个方面： 换行 空格 变量命名 放在 PHP 里面，还有一些附加的地方，比如关键字大小写，语法糖的使用（array"/>
 
 
 
@@ -135,7 +117,7 @@
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        One minute
+        3 minutes
 
         
       </p>
@@ -248,7 +230,7 @@
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        148 Words
+        1264 Words
       </p>
 
       <p>

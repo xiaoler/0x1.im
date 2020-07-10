@@ -5,14 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="1. ?? 运算符（NULL 合并运算符） 把这个放在第一个说是因为我觉得它很有用。用法：
-$a = $_GET[&amp;#39;a&amp;#39;] ?? 1; 它相当于：
-&amp;lt;?php $a = isset($_GET[&amp;#39;a&amp;#39;]) ? $_GET[&amp;#39;a&amp;#39;] : 1; 我们知道三元运算符是可以这样用的：
-$a ?: 1 但是这是建立在 $a 已经定义了的前提上。新增的 ?? 运算符可以简化判断。
-2. 函数返回值类型声明 官方文档提供的例子（注意 ... 的边长参数语法在 PHP 5.6 以上的版本中才有）：
-&amp;lt;?php function arraysSum(array ...$arrays): array { return array_map(function(array $array): int { return array_sum($array); }, $arrays); } print_r(arraysSum([1,2,3], [4,5,6], [7,8,9])); 从这个例子中可以看出现在函数（包括匿名函数）都可以指定返回值的类型。
-这种声明的写法有些类似于 swift：
-func sayHello(personName: String) -&amp;gt; String { let greeting = &amp;#34;Hello, &amp;#34; &#43; personName &#43; &amp;#34;!" />
+<meta name="description" content="1. ?? 运算符（NULL 合并运算符） 把这个放在第一个说是因为我觉得它很有用。用法： $a = $_GET[&amp;#39;a&amp;#39;] ?? 1; 它相当于： &amp;lt;?php $a = isset($_GET[&amp;#39;a&amp;#39;]) ? $_GET[&amp;#39;a&amp;#39;] : 1; 我们知道三元运算符是可以这" />
 <meta name="keywords" content=", php" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -40,31 +33,17 @@ func sayHello(personName: String) -&amp;gt; String { let greeting = &amp;#34;Hel
 
 
 <meta itemprop="name" content="PHP 7 的几个新特性">
-<meta itemprop="description" content="1. ?? 运算符（NULL 合并运算符） 把这个放在第一个说是因为我觉得它很有用。用法：
-$a = $_GET[&#39;a&#39;] ?? 1; 它相当于：
-&lt;?php $a = isset($_GET[&#39;a&#39;]) ? $_GET[&#39;a&#39;] : 1; 我们知道三元运算符是可以这样用的：
-$a ?: 1 但是这是建立在 $a 已经定义了的前提上。新增的 ?? 运算符可以简化判断。
-2. 函数返回值类型声明 官方文档提供的例子（注意 ... 的边长参数语法在 PHP 5.6 以上的版本中才有）：
-&lt;?php function arraysSum(array ...$arrays): array { return array_map(function(array $array): int { return array_sum($array); }, $arrays); } print_r(arraysSum([1,2,3], [4,5,6], [7,8,9])); 从这个例子中可以看出现在函数（包括匿名函数）都可以指定返回值的类型。
-这种声明的写法有些类似于 swift：
-func sayHello(personName: String) -&gt; String { let greeting = &#34;Hello, &#34; &#43; personName &#43; &#34;!">
+<meta itemprop="description" content="1. ?? 运算符（NULL 合并运算符） 把这个放在第一个说是因为我觉得它很有用。用法： $a = $_GET[&#39;a&#39;] ?? 1; 它相当于： &lt;?php $a = isset($_GET[&#39;a&#39;]) ? $_GET[&#39;a&#39;] : 1; 我们知道三元运算符是可以这">
 <meta itemprop="datePublished" content="2015-10-18T15:29:42&#43;00:00" />
 <meta itemprop="dateModified" content="2015-10-18T15:29:42&#43;00:00" />
-<meta itemprop="wordCount" content="246">
+<meta itemprop="wordCount" content="1134">
 
 
 
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="PHP 7 的几个新特性"/>
-<meta name="twitter:description" content="1. ?? 运算符（NULL 合并运算符） 把这个放在第一个说是因为我觉得它很有用。用法：
-$a = $_GET[&#39;a&#39;] ?? 1; 它相当于：
-&lt;?php $a = isset($_GET[&#39;a&#39;]) ? $_GET[&#39;a&#39;] : 1; 我们知道三元运算符是可以这样用的：
-$a ?: 1 但是这是建立在 $a 已经定义了的前提上。新增的 ?? 运算符可以简化判断。
-2. 函数返回值类型声明 官方文档提供的例子（注意 ... 的边长参数语法在 PHP 5.6 以上的版本中才有）：
-&lt;?php function arraysSum(array ...$arrays): array { return array_map(function(array $array): int { return array_sum($array); }, $arrays); } print_r(arraysSum([1,2,3], [4,5,6], [7,8,9])); 从这个例子中可以看出现在函数（包括匿名函数）都可以指定返回值的类型。
-这种声明的写法有些类似于 swift：
-func sayHello(personName: String) -&gt; String { let greeting = &#34;Hello, &#34; &#43; personName &#43; &#34;!"/>
+<meta name="twitter:description" content="1. ?? 运算符（NULL 合并运算符） 把这个放在第一个说是因为我觉得它很有用。用法： $a = $_GET[&#39;a&#39;] ?? 1; 它相当于： &lt;?php $a = isset($_GET[&#39;a&#39;]) ? $_GET[&#39;a&#39;] : 1; 我们知道三元运算符是可以这"/>
 
 
 
@@ -138,7 +117,7 @@ func sayHello(personName: String) -&gt; String { let greeting = &#34;Hello, &#34
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        2 minutes
+        3 minutes
 
         
       </p>
@@ -256,7 +235,7 @@ func sayHello(personName: String) -&gt; String { let greeting = &#34;Hello, &#34
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        246 Words
+        1134 Words
       </p>
 
       <p>

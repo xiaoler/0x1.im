@@ -5,14 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="本文大部分内容参照 AST 的 RFC 文档而成：https://wiki.php.net/rfc/abstract_syntax_tree，为了易于理解从源文档中节选部分进行介绍。
-本文并不会告诉你抽象语法树是什么，这需要你自己去了解，这里只是描述 AST 给 PHP 带来的一些变化。
-新的执行过程 PHP7 的内核中有一个重要的变化是加入了 AST。在 PHP5中，从 php 脚本到 opcodes 的执行的过程是：
- Lexing：词法扫描分析，将源文件转换成 token 流； Parsing：语法分析，在此阶段生成 op arrays。  PHP7 中在语法分析阶段不再直接生成 op arrays，而是先生成 AST，所以过程多了一步：
- Lexing：词法扫描分析，将源文件转换成 token 流； Parsing：语法分析，从 token 流生成抽象语法树； Compilation：从抽象语法树生成 op arrays。  执行时间和内存消耗 从以上的步骤来看，这比之前的过程还多了一步，所以按常理来说这反而会增加程序的执行时间和内存的使用。但事实上内存的使用确实增加了，但是执行时间上却有所降低。
-以下结果是使用小（代码大约 100 行）、中（大约 700 行）、大（大约 2800 行）三个脚本分别进行测试得到的，测试脚本： https://gist.github.com/nikic/289b0c7538b46c2220bc.
-每个文件编译 100 次的执行时间（注意文章的测试结果时间是 14 年，PHP7 还叫 PHP-NG 的时候）：
-    php-ng php-ast diff     SMALL 0." />
+<meta name="description" content="本文大部分内容参照 AST 的 RFC 文档而成：https://wiki.php.net/rfc/abstract_syntax_tree，为了易于理解从" />
 <meta name="keywords" content=", php" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -40,31 +33,17 @@
 
 
 <meta itemprop="name" content="PHP7 的抽象语法树（AST）带来的变化">
-<meta itemprop="description" content="本文大部分内容参照 AST 的 RFC 文档而成：https://wiki.php.net/rfc/abstract_syntax_tree，为了易于理解从源文档中节选部分进行介绍。
-本文并不会告诉你抽象语法树是什么，这需要你自己去了解，这里只是描述 AST 给 PHP 带来的一些变化。
-新的执行过程 PHP7 的内核中有一个重要的变化是加入了 AST。在 PHP5中，从 php 脚本到 opcodes 的执行的过程是：
- Lexing：词法扫描分析，将源文件转换成 token 流； Parsing：语法分析，在此阶段生成 op arrays。  PHP7 中在语法分析阶段不再直接生成 op arrays，而是先生成 AST，所以过程多了一步：
- Lexing：词法扫描分析，将源文件转换成 token 流； Parsing：语法分析，从 token 流生成抽象语法树； Compilation：从抽象语法树生成 op arrays。  执行时间和内存消耗 从以上的步骤来看，这比之前的过程还多了一步，所以按常理来说这反而会增加程序的执行时间和内存的使用。但事实上内存的使用确实增加了，但是执行时间上却有所降低。
-以下结果是使用小（代码大约 100 行）、中（大约 700 行）、大（大约 2800 行）三个脚本分别进行测试得到的，测试脚本： https://gist.github.com/nikic/289b0c7538b46c2220bc.
-每个文件编译 100 次的执行时间（注意文章的测试结果时间是 14 年，PHP7 还叫 PHP-NG 的时候）：
-    php-ng php-ast diff     SMALL 0.">
+<meta itemprop="description" content="本文大部分内容参照 AST 的 RFC 文档而成：https://wiki.php.net/rfc/abstract_syntax_tree，为了易于理解从">
 <meta itemprop="datePublished" content="2015-11-20T12:58:25&#43;00:00" />
 <meta itemprop="dateModified" content="2015-11-20T12:58:25&#43;00:00" />
-<meta itemprop="wordCount" content="458">
+<meta itemprop="wordCount" content="1930">
 
 
 
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="PHP7 的抽象语法树（AST）带来的变化"/>
-<meta name="twitter:description" content="本文大部分内容参照 AST 的 RFC 文档而成：https://wiki.php.net/rfc/abstract_syntax_tree，为了易于理解从源文档中节选部分进行介绍。
-本文并不会告诉你抽象语法树是什么，这需要你自己去了解，这里只是描述 AST 给 PHP 带来的一些变化。
-新的执行过程 PHP7 的内核中有一个重要的变化是加入了 AST。在 PHP5中，从 php 脚本到 opcodes 的执行的过程是：
- Lexing：词法扫描分析，将源文件转换成 token 流； Parsing：语法分析，在此阶段生成 op arrays。  PHP7 中在语法分析阶段不再直接生成 op arrays，而是先生成 AST，所以过程多了一步：
- Lexing：词法扫描分析，将源文件转换成 token 流； Parsing：语法分析，从 token 流生成抽象语法树； Compilation：从抽象语法树生成 op arrays。  执行时间和内存消耗 从以上的步骤来看，这比之前的过程还多了一步，所以按常理来说这反而会增加程序的执行时间和内存的使用。但事实上内存的使用确实增加了，但是执行时间上却有所降低。
-以下结果是使用小（代码大约 100 行）、中（大约 700 行）、大（大约 2800 行）三个脚本分别进行测试得到的，测试脚本： https://gist.github.com/nikic/289b0c7538b46c2220bc.
-每个文件编译 100 次的执行时间（注意文章的测试结果时间是 14 年，PHP7 还叫 PHP-NG 的时候）：
-    php-ng php-ast diff     SMALL 0."/>
+<meta name="twitter:description" content="本文大部分内容参照 AST 的 RFC 文档而成：https://wiki.php.net/rfc/abstract_syntax_tree，为了易于理解从"/>
 
 
 
@@ -138,7 +117,7 @@
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        3 minutes
+        4 minutes
 
         
       </p>
@@ -406,7 +385,7 @@
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        458 Words
+        1930 Words
       </p>
 
       <p>

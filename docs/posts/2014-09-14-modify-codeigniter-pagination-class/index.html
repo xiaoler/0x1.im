@@ -5,10 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="本文中针对CodeIgniter的问题都是基于2.1.3的版本。
- 在使用CodeIgniter做项目的过程中，需要用到ajax来分页，但是CI集成的分页类只支持在URL后面跟分页参数的方式。如果想实现ajax的分页，通过一定的方法也可以实现。
-###使用原有实现示例
-&amp;lt;?php $config[&amp;#39;base_url&amp;#39;] = &amp;#39;javascript:pageAnchor(\&amp;#39;&amp;#39;; $config[&amp;#39;suffix&amp;#39;] = &amp;#39;\&amp;#39;);&amp;#39;; $config[&amp;#39;first_url&amp;#39;] = &amp;#39;javascript:pageAnchor(\&amp;#39;/0\&amp;#39;)&amp;#39;; $config[&amp;#39;anchor_class&amp;#39;] = &amp;#34;&amp;#34;; //添加你的样式  $config[&amp;#39;cur_tag_open&amp;#39;] = &amp;#39;&amp;lt;a href=&amp;#34;javascript:void(0);&amp;#34; class=&amp;#34;&amp;#34;&amp;gt;&amp;#39;; $config[&amp;#39;cur_tag_close&amp;#39;] = &amp;#39;&amp;lt;/a&amp;gt;&amp;#39;; $config[&amp;#39;prev_link&amp;#39;] = &amp;#39;&amp;amp;lt;&amp;#39;; $config[&amp;#39;next_link&amp;#39;] = &amp;#39;&amp;amp;gt;&amp;#39;; $config[&amp;#39;first_link&amp;#39;] = &amp;#39;&amp;amp;laquo;&amp;#39;; $config[&amp;#39;last_link&amp;#39;] = &amp;#39;&amp;amp;raquo;&amp;#39;; $config[&amp;#39;first_tag_close&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;last_tag_open&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;next_tag_open&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;next_tag_close&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;prev_tag_open&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;num_tag_open&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;total_rows&amp;#39;] = 100; //数据总条数  $config[&amp;#39;per_page&amp;#39;] = 10; // 这里原来是要配置$config[&amp;#39;uri_segment&amp;#39;] 默认为3  // 分页类中有一个地方  // $CI-&amp;gt;uri-&amp;gt;segment($this-&amp;gt;uri_segment) !" />
+<meta name="description" content="本文中针对CodeIgniter的问题都是基于2.1.3的版本。 在使用CodeIgniter做项目的过程中，需要用到ajax来分页，但是CI" />
 <meta name="keywords" content=", codeigniter" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -36,23 +33,17 @@
 
 
 <meta itemprop="name" content="修改CodeIgniter的Pagination类使其支持Ajax分页">
-<meta itemprop="description" content="本文中针对CodeIgniter的问题都是基于2.1.3的版本。
- 在使用CodeIgniter做项目的过程中，需要用到ajax来分页，但是CI集成的分页类只支持在URL后面跟分页参数的方式。如果想实现ajax的分页，通过一定的方法也可以实现。
-###使用原有实现示例
-&lt;?php $config[&#39;base_url&#39;] = &#39;javascript:pageAnchor(\&#39;&#39;; $config[&#39;suffix&#39;] = &#39;\&#39;);&#39;; $config[&#39;first_url&#39;] = &#39;javascript:pageAnchor(\&#39;/0\&#39;)&#39;; $config[&#39;anchor_class&#39;] = &#34;&#34;; //添加你的样式  $config[&#39;cur_tag_open&#39;] = &#39;&lt;a href=&#34;javascript:void(0);&#34; class=&#34;&#34;&gt;&#39;; $config[&#39;cur_tag_close&#39;] = &#39;&lt;/a&gt;&#39;; $config[&#39;prev_link&#39;] = &#39;&amp;lt;&#39;; $config[&#39;next_link&#39;] = &#39;&amp;gt;&#39;; $config[&#39;first_link&#39;] = &#39;&amp;laquo;&#39;; $config[&#39;last_link&#39;] = &#39;&amp;raquo;&#39;; $config[&#39;first_tag_close&#39;] = &#39;&#39;; $config[&#39;last_tag_open&#39;] = &#39;&#39;; $config[&#39;next_tag_open&#39;] = &#39;&#39;; $config[&#39;next_tag_close&#39;] = &#39;&#39;; $config[&#39;prev_tag_open&#39;] = &#39;&#39;; $config[&#39;num_tag_open&#39;] = &#39;&#39;; $config[&#39;total_rows&#39;] = 100; //数据总条数  $config[&#39;per_page&#39;] = 10; // 这里原来是要配置$config[&#39;uri_segment&#39;] 默认为3  // 分页类中有一个地方  // $CI-&gt;uri-&gt;segment($this-&gt;uri_segment) !">
+<meta itemprop="description" content="本文中针对CodeIgniter的问题都是基于2.1.3的版本。 在使用CodeIgniter做项目的过程中，需要用到ajax来分页，但是CI">
 <meta itemprop="datePublished" content="2014-09-14T23:37:54&#43;00:00" />
 <meta itemprop="dateModified" content="2014-09-14T23:37:54&#43;00:00" />
-<meta itemprop="wordCount" content="129">
+<meta itemprop="wordCount" content="848">
 
 
 
 <meta itemprop="keywords" content="codeigniter," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="修改CodeIgniter的Pagination类使其支持Ajax分页"/>
-<meta name="twitter:description" content="本文中针对CodeIgniter的问题都是基于2.1.3的版本。
- 在使用CodeIgniter做项目的过程中，需要用到ajax来分页，但是CI集成的分页类只支持在URL后面跟分页参数的方式。如果想实现ajax的分页，通过一定的方法也可以实现。
-###使用原有实现示例
-&lt;?php $config[&#39;base_url&#39;] = &#39;javascript:pageAnchor(\&#39;&#39;; $config[&#39;suffix&#39;] = &#39;\&#39;);&#39;; $config[&#39;first_url&#39;] = &#39;javascript:pageAnchor(\&#39;/0\&#39;)&#39;; $config[&#39;anchor_class&#39;] = &#34;&#34;; //添加你的样式  $config[&#39;cur_tag_open&#39;] = &#39;&lt;a href=&#34;javascript:void(0);&#34; class=&#34;&#34;&gt;&#39;; $config[&#39;cur_tag_close&#39;] = &#39;&lt;/a&gt;&#39;; $config[&#39;prev_link&#39;] = &#39;&amp;lt;&#39;; $config[&#39;next_link&#39;] = &#39;&amp;gt;&#39;; $config[&#39;first_link&#39;] = &#39;&amp;laquo;&#39;; $config[&#39;last_link&#39;] = &#39;&amp;raquo;&#39;; $config[&#39;first_tag_close&#39;] = &#39;&#39;; $config[&#39;last_tag_open&#39;] = &#39;&#39;; $config[&#39;next_tag_open&#39;] = &#39;&#39;; $config[&#39;next_tag_close&#39;] = &#39;&#39;; $config[&#39;prev_tag_open&#39;] = &#39;&#39;; $config[&#39;num_tag_open&#39;] = &#39;&#39;; $config[&#39;total_rows&#39;] = 100; //数据总条数  $config[&#39;per_page&#39;] = 10; // 这里原来是要配置$config[&#39;uri_segment&#39;] 默认为3  // 分页类中有一个地方  // $CI-&gt;uri-&gt;segment($this-&gt;uri_segment) !"/>
+<meta name="twitter:description" content="本文中针对CodeIgniter的问题都是基于2.1.3的版本。 在使用CodeIgniter做项目的过程中，需要用到ajax来分页，但是CI"/>
 
 
 
@@ -126,7 +117,7 @@
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        One minute
+        2 minutes
 
         
       </p>
@@ -222,7 +213,7 @@
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        129 Words
+        848 Words
       </p>
 
       <p>

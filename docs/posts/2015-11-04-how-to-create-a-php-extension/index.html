@@ -5,18 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="本文翻译自 PHP 源码中的 README.SELF-CONTAINED-EXTENSIONS。文中标记了 注 的内容均为自己添加。内容有点老，也挺啰嗦，没讲什么深入的内容，但是可以作为入门学习参考。
-独立的 PHP 扩展可以独立于 PHP 源码之外进行分发。要创建一个这样的扩展，需要准备好两样东西：
- 配置文件 (config.m4) 你的模块源码  接下来我们来描述一下如果创建这些文件并组合起来。
-准备好系统工具 想要扩展能够在系统上编译并成功运行，需要准备转以下工具：
- GNU autoconf GNU automake GNU libtool GNU m4  以上这些都可以从 ftp://ftp.gnu.org/pub/gnu/ 获取。
-注：以上这些都是类 Unix 环境下才能使用的工具。
-改装一个已经存在的扩展 为了显示出创建一个独立的扩展是很容易的事情，我们先将一个已经内嵌到 PHP 的扩展改成独立扩展。安装 PHP 并且执行以下命令：
-$ mkdir /tmp/newext $ cd /tmp/newext 现在你已经有了一个空目录。我们将 mysql 扩展目录下的文件复制过来：
-$ cp -rp php-4.0.X/ext/mysql/* . # 注：看来这篇 README 真的需要更新一下了 # PHP7 中已经移除了 mysql 扩展部分 到这里扩展就完成了，执行：
-$ phpize 现在你可以独立存放这个目录下的文件到任何地方，这个扩展可以完全独立存在了。
-用户在编译时需要使用以下命令：
-$ ." />
+<meta name="description" content="本文翻译自 PHP 源码中的 README.SELF-CONTAINED-EXTENSIONS。文中标记了 注 的内容均为自己添加。内容有点老，也挺啰嗦，" />
 <meta name="keywords" content=", php" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -44,39 +33,17 @@ $ ." />
 
 
 <meta itemprop="name" content="如何编写一个独立的 PHP 扩展（译）">
-<meta itemprop="description" content="本文翻译自 PHP 源码中的 README.SELF-CONTAINED-EXTENSIONS。文中标记了 注 的内容均为自己添加。内容有点老，也挺啰嗦，没讲什么深入的内容，但是可以作为入门学习参考。
-独立的 PHP 扩展可以独立于 PHP 源码之外进行分发。要创建一个这样的扩展，需要准备好两样东西：
- 配置文件 (config.m4) 你的模块源码  接下来我们来描述一下如果创建这些文件并组合起来。
-准备好系统工具 想要扩展能够在系统上编译并成功运行，需要准备转以下工具：
- GNU autoconf GNU automake GNU libtool GNU m4  以上这些都可以从 ftp://ftp.gnu.org/pub/gnu/ 获取。
-注：以上这些都是类 Unix 环境下才能使用的工具。
-改装一个已经存在的扩展 为了显示出创建一个独立的扩展是很容易的事情，我们先将一个已经内嵌到 PHP 的扩展改成独立扩展。安装 PHP 并且执行以下命令：
-$ mkdir /tmp/newext $ cd /tmp/newext 现在你已经有了一个空目录。我们将 mysql 扩展目录下的文件复制过来：
-$ cp -rp php-4.0.X/ext/mysql/* . # 注：看来这篇 README 真的需要更新一下了 # PHP7 中已经移除了 mysql 扩展部分 到这里扩展就完成了，执行：
-$ phpize 现在你可以独立存放这个目录下的文件到任何地方，这个扩展可以完全独立存在了。
-用户在编译时需要使用以下命令：
-$ .">
+<meta itemprop="description" content="本文翻译自 PHP 源码中的 README.SELF-CONTAINED-EXTENSIONS。文中标记了 注 的内容均为自己添加。内容有点老，也挺啰嗦，">
 <meta itemprop="datePublished" content="2015-11-04T23:43:58&#43;00:00" />
 <meta itemprop="dateModified" content="2015-11-04T23:43:58&#43;00:00" />
-<meta itemprop="wordCount" content="243">
+<meta itemprop="wordCount" content="1515">
 
 
 
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="如何编写一个独立的 PHP 扩展（译）"/>
-<meta name="twitter:description" content="本文翻译自 PHP 源码中的 README.SELF-CONTAINED-EXTENSIONS。文中标记了 注 的内容均为自己添加。内容有点老，也挺啰嗦，没讲什么深入的内容，但是可以作为入门学习参考。
-独立的 PHP 扩展可以独立于 PHP 源码之外进行分发。要创建一个这样的扩展，需要准备好两样东西：
- 配置文件 (config.m4) 你的模块源码  接下来我们来描述一下如果创建这些文件并组合起来。
-准备好系统工具 想要扩展能够在系统上编译并成功运行，需要准备转以下工具：
- GNU autoconf GNU automake GNU libtool GNU m4  以上这些都可以从 ftp://ftp.gnu.org/pub/gnu/ 获取。
-注：以上这些都是类 Unix 环境下才能使用的工具。
-改装一个已经存在的扩展 为了显示出创建一个独立的扩展是很容易的事情，我们先将一个已经内嵌到 PHP 的扩展改成独立扩展。安装 PHP 并且执行以下命令：
-$ mkdir /tmp/newext $ cd /tmp/newext 现在你已经有了一个空目录。我们将 mysql 扩展目录下的文件复制过来：
-$ cp -rp php-4.0.X/ext/mysql/* . # 注：看来这篇 README 真的需要更新一下了 # PHP7 中已经移除了 mysql 扩展部分 到这里扩展就完成了，执行：
-$ phpize 现在你可以独立存放这个目录下的文件到任何地方，这个扩展可以完全独立存在了。
-用户在编译时需要使用以下命令：
-$ ."/>
+<meta name="twitter:description" content="本文翻译自 PHP 源码中的 README.SELF-CONTAINED-EXTENSIONS。文中标记了 注 的内容均为自己添加。内容有点老，也挺啰嗦，"/>
 
 
 
@@ -150,7 +117,7 @@ $ ."/>
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        2 minutes
+        4 minutes
 
         
       </p>
@@ -282,7 +249,7 @@ $ make install
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        243 Words
+        1515 Words
       </p>
 
       <p>

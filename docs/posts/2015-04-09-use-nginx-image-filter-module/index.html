@@ -5,16 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="背景 项目中有个地方需要根据客户端的要求缩放图片。最开始想用PHP来实现这个功能。设想中如果已经存在图片a.jpg，则可以通过类似a_400x400.jpg的方式来获取图片特定尺寸的缩略图。
-要实现此功能可以在图片上传的时候就事先裁好指定尺寸的图片，或者在获取的时候拦截请求来实现。
-如果使用第一种方法，则只能实现裁剪好预设尺寸的图片，而且会影响到上传图片的效率，如果裁剪失败，也无法后续处理。
-使用第二种方式的问题是图片资源存储在一个静态资源的目录，需要在没有图片的情况下将请求转发给PHP去处理。
-于是我设想能否在Nginx这一层去做这件事情，恰好Nginx有一个image filter的模块，只不过在编译的时候默认没有编译进去。
-手动添加参数编译此模块，开始修改nginx的配置文件。
-配置 第一个版本的配置如下：
-# 我使用16进制数的方式给图片重命名 location ~* /(.*)\/([0-9a-f]&#43;)_(\d&#43;)x(\d&#43;)\.(jpg|png|jpeg|gif)$ { # 如果存在文件就终止规则 if (-f $request_filename) { break; } # 设定一些参数 set $filepath $1; set $filename &amp;#34;$2.$5&amp;#34;; set $thumb &amp;#34;$2_$3x$4.$5&amp;#34;; set $width $3; set $height $4; # 如果原文件不存在可以直接返回404 if (!-f $document_root/$filepath/$filename) { return 404; } # 重写URL rewrite /(.*)\/([0-9a-f]&#43;)_([0-9x]&#43;)\.(jpg|png|jpeg|gif) /$1/$2.$4 break; # 执行图片缩放 image_filter test; image_filter resize $width $height; image_filter_jpeg_quality 75; } 但是在这个版本的配置中，如果配置原文件不存在，实际上没法正确返回404，而是返回415。过滤还是执行了。
-还有一个问题就是在每次访问缩略图的时候都会重新生成，如果访问量比较大的情况下，效率并不高。
-进过一系列的实践后，我又改好了一个版本：" />
+<meta name="description" content="背景 项目中有个地方需要根据客户端的要求缩放图片。最开始想用PHP来实现这个功能。设想中如果已经存在图片a.jpg，则可以通过类似a_400x" />
 <meta name="keywords" content=", nginx" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -42,35 +33,17 @@
 
 
 <meta itemprop="name" content="使用Nginx 的 image filter 模块裁剪图片">
-<meta itemprop="description" content="背景 项目中有个地方需要根据客户端的要求缩放图片。最开始想用PHP来实现这个功能。设想中如果已经存在图片a.jpg，则可以通过类似a_400x400.jpg的方式来获取图片特定尺寸的缩略图。
-要实现此功能可以在图片上传的时候就事先裁好指定尺寸的图片，或者在获取的时候拦截请求来实现。
-如果使用第一种方法，则只能实现裁剪好预设尺寸的图片，而且会影响到上传图片的效率，如果裁剪失败，也无法后续处理。
-使用第二种方式的问题是图片资源存储在一个静态资源的目录，需要在没有图片的情况下将请求转发给PHP去处理。
-于是我设想能否在Nginx这一层去做这件事情，恰好Nginx有一个image filter的模块，只不过在编译的时候默认没有编译进去。
-手动添加参数编译此模块，开始修改nginx的配置文件。
-配置 第一个版本的配置如下：
-# 我使用16进制数的方式给图片重命名 location ~* /(.*)\/([0-9a-f]&#43;)_(\d&#43;)x(\d&#43;)\.(jpg|png|jpeg|gif)$ { # 如果存在文件就终止规则 if (-f $request_filename) { break; } # 设定一些参数 set $filepath $1; set $filename &#34;$2.$5&#34;; set $thumb &#34;$2_$3x$4.$5&#34;; set $width $3; set $height $4; # 如果原文件不存在可以直接返回404 if (!-f $document_root/$filepath/$filename) { return 404; } # 重写URL rewrite /(.*)\/([0-9a-f]&#43;)_([0-9x]&#43;)\.(jpg|png|jpeg|gif) /$1/$2.$4 break; # 执行图片缩放 image_filter test; image_filter resize $width $height; image_filter_jpeg_quality 75; } 但是在这个版本的配置中，如果配置原文件不存在，实际上没法正确返回404，而是返回415。过滤还是执行了。
-还有一个问题就是在每次访问缩略图的时候都会重新生成，如果访问量比较大的情况下，效率并不高。
-进过一系列的实践后，我又改好了一个版本：">
+<meta itemprop="description" content="背景 项目中有个地方需要根据客户端的要求缩放图片。最开始想用PHP来实现这个功能。设想中如果已经存在图片a.jpg，则可以通过类似a_400x">
 <meta itemprop="datePublished" content="2015-04-09T15:36:35&#43;00:00" />
 <meta itemprop="dateModified" content="2015-04-09T15:36:35&#43;00:00" />
-<meta itemprop="wordCount" content="142">
+<meta itemprop="wordCount" content="728">
 
 
 
 <meta itemprop="keywords" content="nginx," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用Nginx 的 image filter 模块裁剪图片"/>
-<meta name="twitter:description" content="背景 项目中有个地方需要根据客户端的要求缩放图片。最开始想用PHP来实现这个功能。设想中如果已经存在图片a.jpg，则可以通过类似a_400x400.jpg的方式来获取图片特定尺寸的缩略图。
-要实现此功能可以在图片上传的时候就事先裁好指定尺寸的图片，或者在获取的时候拦截请求来实现。
-如果使用第一种方法，则只能实现裁剪好预设尺寸的图片，而且会影响到上传图片的效率，如果裁剪失败，也无法后续处理。
-使用第二种方式的问题是图片资源存储在一个静态资源的目录，需要在没有图片的情况下将请求转发给PHP去处理。
-于是我设想能否在Nginx这一层去做这件事情，恰好Nginx有一个image filter的模块，只不过在编译的时候默认没有编译进去。
-手动添加参数编译此模块，开始修改nginx的配置文件。
-配置 第一个版本的配置如下：
-# 我使用16进制数的方式给图片重命名 location ~* /(.*)\/([0-9a-f]&#43;)_(\d&#43;)x(\d&#43;)\.(jpg|png|jpeg|gif)$ { # 如果存在文件就终止规则 if (-f $request_filename) { break; } # 设定一些参数 set $filepath $1; set $filename &#34;$2.$5&#34;; set $thumb &#34;$2_$3x$4.$5&#34;; set $width $3; set $height $4; # 如果原文件不存在可以直接返回404 if (!-f $document_root/$filepath/$filename) { return 404; } # 重写URL rewrite /(.*)\/([0-9a-f]&#43;)_([0-9x]&#43;)\.(jpg|png|jpeg|gif) /$1/$2.$4 break; # 执行图片缩放 image_filter test; image_filter resize $width $height; image_filter_jpeg_quality 75; } 但是在这个版本的配置中，如果配置原文件不存在，实际上没法正确返回404，而是返回415。过滤还是执行了。
-还有一个问题就是在每次访问缩略图的时候都会重新生成，如果访问量比较大的情况下，效率并不高。
-进过一系列的实践后，我又改好了一个版本："/>
+<meta name="twitter:description" content="背景 项目中有个地方需要根据客户端的要求缩放图片。最开始想用PHP来实现这个功能。设想中如果已经存在图片a.jpg，则可以通过类似a_400x"/>
 
 
 
@@ -144,7 +117,7 @@
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        One minute
+        2 minutes
 
         
       </p>
@@ -255,7 +228,7 @@ location /image-resize <span class="o">{</span>
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        142 Words
+        728 Words
       </p>
 
       <p>

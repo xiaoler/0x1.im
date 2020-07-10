@@ -2,6 +2,7 @@
 baseURL: http://0x1.im
 disablePathToLower: true
 languageCode: zh-hans
+hasCJKLanguage: true
 title: Scholer's Pages
 pygmentsCodefences: true
 pygmentsUseClasses: true

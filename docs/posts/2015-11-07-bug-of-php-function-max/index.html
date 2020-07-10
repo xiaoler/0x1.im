@@ -5,13 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="先直接来看一段展示：
-# Psy Shell v0.3.3 (PHP 5.5.30 — cli) by Justin Hileman &amp;gt;&amp;gt;&amp;gt; ceil(-0.5) =&amp;gt; -0.0 &amp;gt;&amp;gt;&amp;gt; max(-0.0, 0) =&amp;gt; 0.0 &amp;gt;&amp;gt;&amp;gt; max(ceil(-0.5), 0) =&amp;gt; -0.0 上面的演示中，ceil 函数返回的是 -0.0，max 在将 ceil 函数调用的结果作为参数传入的时候，返回的也是一个 -0.0。
-如果给 ceil 的结果赋值给变量，还是能得到 -0.0 的结果：
-&amp;gt;&amp;gt;&amp;gt; $a = ceil(-0.5) =&amp;gt; -0.0 &amp;gt;&amp;gt;&amp;gt; max($a, 0) =&amp;gt; -0.0 下面就来一一分析是哪些原因导致了这些结果的产生。
-ceil 会返回 -0.0 首先我们来看一下为什么 ceil 函数会返回 -0.0。
-ceil 函数的实现在 $PHP-SRC/ext/stardands/math.c （$PHP-SRC 指的是 PHP 解释器源码根目录）中，为了展示清楚我去掉了一些细节：
-PHP_FUNCTION(ceil) { ... if (Z_TYPE_PP(value) == IS_DOUBLE) { RETURN_DOUBLE(ceil(Z_DVAL_PP(value))); } else if (Z_TYPE_PP(value) == IS_LONG) { convert_to_double_ex(value); RETURN_DOUBLE(Z_DVAL_PP(value)); } ." />
+<meta name="description" content="先直接来看一段展示： # Psy Shell v0.3.3 (PHP 5.5.30 — cli) by Justin Hileman &amp;gt;&amp;gt;&amp;gt; ceil(-0.5) =&amp;gt; -0.0 &amp;gt;&amp;gt;&amp;gt; max(-0.0, 0) =&amp;gt; 0.0 &amp;gt;&amp;gt;&amp;gt; max(ceil(-0.5), 0) =&amp;gt; -0.0 上面的演示中，ceil 函数返回的是 -0.0，max 在将 ceil 函数调用的结果" />
 <meta name="keywords" content=", php" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -39,29 +33,17 @@ PHP_FUNCTION(ceil) { ... if (Z_TYPE_PP(value) == IS_DOUBLE) { RETURN_DOUBLE(ceil
 
 
 <meta itemprop="name" content="max/min 函数（PHP）的一个小 BUG">
-<meta itemprop="description" content="先直接来看一段展示：
-# Psy Shell v0.3.3 (PHP 5.5.30 — cli) by Justin Hileman &gt;&gt;&gt; ceil(-0.5) =&gt; -0.0 &gt;&gt;&gt; max(-0.0, 0) =&gt; 0.0 &gt;&gt;&gt; max(ceil(-0.5), 0) =&gt; -0.0 上面的演示中，ceil 函数返回的是 -0.0，max 在将 ceil 函数调用的结果作为参数传入的时候，返回的也是一个 -0.0。
-如果给 ceil 的结果赋值给变量，还是能得到 -0.0 的结果：
-&gt;&gt;&gt; $a = ceil(-0.5) =&gt; -0.0 &gt;&gt;&gt; max($a, 0) =&gt; -0.0 下面就来一一分析是哪些原因导致了这些结果的产生。
-ceil 会返回 -0.0 首先我们来看一下为什么 ceil 函数会返回 -0.0。
-ceil 函数的实现在 $PHP-SRC/ext/stardands/math.c （$PHP-SRC 指的是 PHP 解释器源码根目录）中，为了展示清楚我去掉了一些细节：
-PHP_FUNCTION(ceil) { ... if (Z_TYPE_PP(value) == IS_DOUBLE) { RETURN_DOUBLE(ceil(Z_DVAL_PP(value))); } else if (Z_TYPE_PP(value) == IS_LONG) { convert_to_double_ex(value); RETURN_DOUBLE(Z_DVAL_PP(value)); } .">
+<meta itemprop="description" content="先直接来看一段展示： # Psy Shell v0.3.3 (PHP 5.5.30 — cli) by Justin Hileman &gt;&gt;&gt; ceil(-0.5) =&gt; -0.0 &gt;&gt;&gt; max(-0.0, 0) =&gt; 0.0 &gt;&gt;&gt; max(ceil(-0.5), 0) =&gt; -0.0 上面的演示中，ceil 函数返回的是 -0.0，max 在将 ceil 函数调用的结果">
 <meta itemprop="datePublished" content="2015-11-07T13:30:22&#43;00:00" />
 <meta itemprop="dateModified" content="2015-11-07T13:30:22&#43;00:00" />
-<meta itemprop="wordCount" content="592">
+<meta itemprop="wordCount" content="2145">
 
 
 
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="max/min 函数（PHP）的一个小 BUG"/>
-<meta name="twitter:description" content="先直接来看一段展示：
-# Psy Shell v0.3.3 (PHP 5.5.30 — cli) by Justin Hileman &gt;&gt;&gt; ceil(-0.5) =&gt; -0.0 &gt;&gt;&gt; max(-0.0, 0) =&gt; 0.0 &gt;&gt;&gt; max(ceil(-0.5), 0) =&gt; -0.0 上面的演示中，ceil 函数返回的是 -0.0，max 在将 ceil 函数调用的结果作为参数传入的时候，返回的也是一个 -0.0。
-如果给 ceil 的结果赋值给变量，还是能得到 -0.0 的结果：
-&gt;&gt;&gt; $a = ceil(-0.5) =&gt; -0.0 &gt;&gt;&gt; max($a, 0) =&gt; -0.0 下面就来一一分析是哪些原因导致了这些结果的产生。
-ceil 会返回 -0.0 首先我们来看一下为什么 ceil 函数会返回 -0.0。
-ceil 函数的实现在 $PHP-SRC/ext/stardands/math.c （$PHP-SRC 指的是 PHP 解释器源码根目录）中，为了展示清楚我去掉了一些细节：
-PHP_FUNCTION(ceil) { ... if (Z_TYPE_PP(value) == IS_DOUBLE) { RETURN_DOUBLE(ceil(Z_DVAL_PP(value))); } else if (Z_TYPE_PP(value) == IS_LONG) { convert_to_double_ex(value); RETURN_DOUBLE(Z_DVAL_PP(value)); } ."/>
+<meta name="twitter:description" content="先直接来看一段展示： # Psy Shell v0.3.3 (PHP 5.5.30 — cli) by Justin Hileman &gt;&gt;&gt; ceil(-0.5) =&gt; -0.0 &gt;&gt;&gt; max(-0.0, 0) =&gt; 0.0 &gt;&gt;&gt; max(ceil(-0.5), 0) =&gt; -0.0 上面的演示中，ceil 函数返回的是 -0.0，max 在将 ceil 函数调用的结果"/>
 
 
 
@@ -135,7 +117,7 @@ PHP_FUNCTION(ceil) { ... if (Z_TYPE_PP(value) == IS_DOUBLE) { RETURN_DOUBLE(ceil
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        3 minutes
+        5 minutes
 
         
       </p>
@@ -332,7 +314,7 @@ PHP_FUNCTION(ceil) { ... if (Z_TYPE_PP(value) == IS_DOUBLE) { RETURN_DOUBLE(ceil
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        592 Words
+        2145 Words
       </p>
 
       <p>

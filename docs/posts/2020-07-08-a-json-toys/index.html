@@ -5,20 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="首先先提一个问题，&amp;quot;abc&amp;quot; 、123 或者 [1, 2, 3] 是不是一个合法的 json ？
-之前一直有在使用一个 json 的命令行工具 jq，这个工具是基于 flex 和 bison 来实现的（去了解这些是基于当年学习 php 的经历）。后来有段时间我又发现一个不错的词法和语法分析工具 antlr，它支持多种语言的生成，并且本身也提供了多种语言的基本语法文件。所以我就想能不用基于它实现一个 go 语言版的 json 命令行工具。
-下面就开始一步一步行动吧（如果想直接看代码可以直接拉到底部），我将这个项目命名为 jtlr。
-提供的功能 根据我自己常使用的场景，我要实现以下几个功能：
-基本用法：
- jtlr &amp;lsquo;{&amp;ldquo;a&amp;rdquo;: 1}&amp;rsquo;
- 交互模式，可以多次输入，并且最好能支持上下切换：
- jtlr -a
- 从标准输入中读取内容，可以格式化实时输出的日志：
- tail -f xxx.log | jtlr -s
- 从文件中读取：
- jtlr -f xxx.log
- 什么是 json 在动手之前，先要对 json 有一个全面的认识。先来大致看一下官网提供的 json 的 BNF 范式的起始部分：
-json element value object array string number &amp;quot;true&amp;quot; &amp;quot;false&amp;quot; &amp;quot;null&amp;quot; ." />
+<meta name="description" content="首先先提一个问题，&amp;quot;abc&amp;quot; 、123 或者 [1, 2, 3] 是不是一个合法的 json ？ 之前一直有在使用一个 json 的命令行工具 jq，这个工具是基于" />
 <meta name="keywords" content=", go" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -46,43 +33,17 @@ json element value object array string number &amp;quot;true&amp;quot; &amp;quot
 
 
 <meta itemprop="name" content="使用 Golang 实现一个 JSON 命令行工具">
-<meta itemprop="description" content="首先先提一个问题，&quot;abc&quot; 、123 或者 [1, 2, 3] 是不是一个合法的 json ？
-之前一直有在使用一个 json 的命令行工具 jq，这个工具是基于 flex 和 bison 来实现的（去了解这些是基于当年学习 php 的经历）。后来有段时间我又发现一个不错的词法和语法分析工具 antlr，它支持多种语言的生成，并且本身也提供了多种语言的基本语法文件。所以我就想能不用基于它实现一个 go 语言版的 json 命令行工具。
-下面就开始一步一步行动吧（如果想直接看代码可以直接拉到底部），我将这个项目命名为 jtlr。
-提供的功能 根据我自己常使用的场景，我要实现以下几个功能：
-基本用法：
- jtlr &lsquo;{&ldquo;a&rdquo;: 1}&rsquo;
- 交互模式，可以多次输入，并且最好能支持上下切换：
- jtlr -a
- 从标准输入中读取内容，可以格式化实时输出的日志：
- tail -f xxx.log | jtlr -s
- 从文件中读取：
- jtlr -f xxx.log
- 什么是 json 在动手之前，先要对 json 有一个全面的认识。先来大致看一下官网提供的 json 的 BNF 范式的起始部分：
-json element value object array string number &quot;true&quot; &quot;false&quot; &quot;null&quot; .">
+<meta itemprop="description" content="首先先提一个问题，&quot;abc&quot; 、123 或者 [1, 2, 3] 是不是一个合法的 json ？ 之前一直有在使用一个 json 的命令行工具 jq，这个工具是基于">
 <meta itemprop="datePublished" content="2020-07-08T09:39:40&#43;00:00" />
 <meta itemprop="dateModified" content="2020-07-08T09:39:40&#43;00:00" />
-<meta itemprop="wordCount" content="274">
+<meta itemprop="wordCount" content="1539">
 
 
 
 <meta itemprop="keywords" content="go," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 Golang 实现一个 JSON 命令行工具"/>
-<meta name="twitter:description" content="首先先提一个问题，&quot;abc&quot; 、123 或者 [1, 2, 3] 是不是一个合法的 json ？
-之前一直有在使用一个 json 的命令行工具 jq，这个工具是基于 flex 和 bison 来实现的（去了解这些是基于当年学习 php 的经历）。后来有段时间我又发现一个不错的词法和语法分析工具 antlr，它支持多种语言的生成，并且本身也提供了多种语言的基本语法文件。所以我就想能不用基于它实现一个 go 语言版的 json 命令行工具。
-下面就开始一步一步行动吧（如果想直接看代码可以直接拉到底部），我将这个项目命名为 jtlr。
-提供的功能 根据我自己常使用的场景，我要实现以下几个功能：
-基本用法：
- jtlr &lsquo;{&ldquo;a&rdquo;: 1}&rsquo;
- 交互模式，可以多次输入，并且最好能支持上下切换：
- jtlr -a
- 从标准输入中读取内容，可以格式化实时输出的日志：
- tail -f xxx.log | jtlr -s
- 从文件中读取：
- jtlr -f xxx.log
- 什么是 json 在动手之前，先要对 json 有一个全面的认识。先来大致看一下官网提供的 json 的 BNF 范式的起始部分：
-json element value object array string number &quot;true&quot; &quot;false&quot; &quot;null&quot; ."/>
+<meta name="twitter:description" content="首先先提一个问题，&quot;abc&quot; 、123 或者 [1, 2, 3] 是不是一个合法的 json ？ 之前一直有在使用一个 json 的命令行工具 jq，这个工具是基于"/>
 
 
 
@@ -156,7 +117,7 @@ json element value object array string number &quot;true&quot; &quot;false&quot;
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        2 minutes
+        4 minutes
 
         
       </p>
@@ -291,7 +252,7 @@ element
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        274 Words
+        1539 Words
       </p>
 
       <p>

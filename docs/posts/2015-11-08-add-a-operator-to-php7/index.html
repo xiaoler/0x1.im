@@ -5,10 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="我们知道从 PHP 5.3 起三元运算符 ? : 有一个写法简洁写法是这样的：
-&amp;lt;?php $a = 0; $b = $a ?: 1; # $b === 1 这实际上相当于：
-&amp;lt;?php $a = 0; $b = $a ? $a : 1; # $b === 1 在 PHP5 中，语法分析是这样写的：
-| expr &amp;#39;?&amp;#39; { zend_do_begin_qm_op(&amp;amp;$1, &amp;amp;$2 TSRMLS_CC); } expr &amp;#39;:&amp;#39; { zend_do_qm_true(&amp;amp;$4, &amp;amp;$2, &amp;amp;$5 TSRMLS_CC); } expr { zend_do_qm_false(&amp;amp;$$, &amp;amp;$7, &amp;amp;$2, &amp;amp;$5 TSRMLS_CC); } | expr &amp;#39;?&amp;#39; &amp;#39;:&amp;#39; { zend_do_jmp_set(&amp;amp;$1, &amp;amp;$2, &amp;amp;$3 TSRMLS_CC); } expr { zend_do_jmp_set_else(&amp;amp;$$, &amp;amp;$5, &amp;amp;$2, &amp;amp;$3 TSRMLS_CC); } 在 PHP7 中，由于 AST（抽象语法树）的引入，语法分析有些简化：" />
+<meta name="description" content="我们知道从 PHP 5.3 起三元运算符 ? : 有一个写法简洁写法是这样的： &amp;lt;?php $a = 0; $b = $a ?: 1; # $b === 1 这实际上相当于： &amp;lt;?php $a = 0; $b = $a ? $a : 1; # $b === 1 在 PHP5 中，语" />
 <meta name="keywords" content=", php" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -36,23 +33,17 @@
 
 
 <meta itemprop="name" content="两行代码给 PHP7 添加一个“非空合并”语法糖">
-<meta itemprop="description" content="我们知道从 PHP 5.3 起三元运算符 ? : 有一个写法简洁写法是这样的：
-&lt;?php $a = 0; $b = $a ?: 1; # $b === 1 这实际上相当于：
-&lt;?php $a = 0; $b = $a ? $a : 1; # $b === 1 在 PHP5 中，语法分析是这样写的：
-| expr &#39;?&#39; { zend_do_begin_qm_op(&amp;$1, &amp;$2 TSRMLS_CC); } expr &#39;:&#39; { zend_do_qm_true(&amp;$4, &amp;$2, &amp;$5 TSRMLS_CC); } expr { zend_do_qm_false(&amp;$$, &amp;$7, &amp;$2, &amp;$5 TSRMLS_CC); } | expr &#39;?&#39; &#39;:&#39; { zend_do_jmp_set(&amp;$1, &amp;$2, &amp;$3 TSRMLS_CC); } expr { zend_do_jmp_set_else(&amp;$$, &amp;$5, &amp;$2, &amp;$3 TSRMLS_CC); } 在 PHP7 中，由于 AST（抽象语法树）的引入，语法分析有些简化：">
+<meta itemprop="description" content="我们知道从 PHP 5.3 起三元运算符 ? : 有一个写法简洁写法是这样的： &lt;?php $a = 0; $b = $a ?: 1; # $b === 1 这实际上相当于： &lt;?php $a = 0; $b = $a ? $a : 1; # $b === 1 在 PHP5 中，语">
 <meta itemprop="datePublished" content="2015-11-08T18:22:26&#43;00:00" />
 <meta itemprop="dateModified" content="2015-11-08T18:22:26&#43;00:00" />
-<meta itemprop="wordCount" content="248">
+<meta itemprop="wordCount" content="628">
 
 
 
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="两行代码给 PHP7 添加一个“非空合并”语法糖"/>
-<meta name="twitter:description" content="我们知道从 PHP 5.3 起三元运算符 ? : 有一个写法简洁写法是这样的：
-&lt;?php $a = 0; $b = $a ?: 1; # $b === 1 这实际上相当于：
-&lt;?php $a = 0; $b = $a ? $a : 1; # $b === 1 在 PHP5 中，语法分析是这样写的：
-| expr &#39;?&#39; { zend_do_begin_qm_op(&amp;$1, &amp;$2 TSRMLS_CC); } expr &#39;:&#39; { zend_do_qm_true(&amp;$4, &amp;$2, &amp;$5 TSRMLS_CC); } expr { zend_do_qm_false(&amp;$$, &amp;$7, &amp;$2, &amp;$5 TSRMLS_CC); } | expr &#39;?&#39; &#39;:&#39; { zend_do_jmp_set(&amp;$1, &amp;$2, &amp;$3 TSRMLS_CC); } expr { zend_do_jmp_set_else(&amp;$$, &amp;$5, &amp;$2, &amp;$3 TSRMLS_CC); } 在 PHP7 中，由于 AST（抽象语法树）的引入，语法分析有些简化："/>
+<meta name="twitter:description" content="我们知道从 PHP 5.3 起三元运算符 ? : 有一个写法简洁写法是这样的： &lt;?php $a = 0; $b = $a ?: 1; # $b === 1 这实际上相当于： &lt;?php $a = 0; $b = $a ? $a : 1; # $b === 1 在 PHP5 中，语"/>
 
 
 
@@ -210,7 +201,7 @@ $ /usr/local/php/bin/php -r <span class="s2">&#34;\$a = 0; echo \$a ??: 1, PHP_E
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        248 Words
+        628 Words
       </p>
 
       <p>

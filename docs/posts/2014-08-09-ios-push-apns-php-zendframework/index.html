@@ -5,11 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="1. 基础部署  后端：PHP 依赖：zendframework/zendservice-apple-apns 本文中使用的PHP框架：laravel  2. 实现目标  实现中等规模批量设备的推送（1w设备以上），并且有可扩展的余地（十万到百万级） 推送的整体发送时间可控（半小时内，最好数分钟内） 保证推送的到达率能够达到**90%**以上 可以从设备列表中及时剔除无效的设备，并能够从APNs的服务器中及时获取反馈 可以获取到已经卸载的设备信息  3. 基础知识 关于APNs，我们首选需要知道：
- iOS的推送是通过socket链接将详细发送到苹果的服务器，然后由苹果像设备推送来实现的； 在服务的我们需要自己维护一个token的列表用于记录要向哪些设备发送推送； token是由系统提供的，但是有可能会失效，用户也可能会已经卸载应用； 苹果提供有获取feedback的服务器接口用于获取已经卸载应用的的设备token；  在实际操作中发现关于推送的部分：
- 向一个已经打开的socket连接写入token和推送消息时，如果有一个token是无效的，socket会断开； 已经卸载应用的设备token不算是无效的token（不会导致连接断开），但是像它发送消息是没有意义的且会增加负担； socket断开之前会向连接中写入一个错误信息，可以捕捉错误的方式知道socket是在什么时候断开的，但是这个消息会有延时，无法保证100%接收到； 错误信息不会直接返回是哪个token，而是返回发送时设定的identifier； socket也会存在其它异常断开的情况； iOS6以下的设备无法通过feedback的接口获取到已卸载的token（测试结果，没有在文档中验证）； feedback的接口取到的是上次推送的过程中出现的已卸载应用的设备token，而且获取一次之后就会清空； 如果想获得卸载应用的feedback，该应用不能是卸载的设备上的仅有的推送应用（如果是最后一个，设备和苹果的推送服务连接会断开）；  4. 实际部署 实际部署中，需要对使用的库做出一些改动。
-1.在ZendService\Apple\Apns\Client\Message中增加一个方法用于每次推送结束之后获取反馈：
-&amp;lt;?php /** * Get Response * * @return ZendService\Apple\Apns\Response\Message */ public function getResponse(){ if (!$this-&amp;gt;isConnected()) { throw new Exception\RuntimeException(&amp;#39;You must first open the connection by calling open()&amp;#39;); } return new MessageResponse($this-&amp;gt;read()); } ?" />
+<meta name="description" content="1. 基础部署 后端：PHP 依赖：zendframework/zendservice-apple-apns 本文中使用的PHP框架：laravel 2." />
 <meta name="keywords" content=", mobile" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -37,25 +33,17 @@
 
 
 <meta itemprop="name" content="iOS推送（Apple Push Notification Service）部署总结">
-<meta itemprop="description" content="1. 基础部署  后端：PHP 依赖：zendframework/zendservice-apple-apns 本文中使用的PHP框架：laravel  2. 实现目标  实现中等规模批量设备的推送（1w设备以上），并且有可扩展的余地（十万到百万级） 推送的整体发送时间可控（半小时内，最好数分钟内） 保证推送的到达率能够达到**90%**以上 可以从设备列表中及时剔除无效的设备，并能够从APNs的服务器中及时获取反馈 可以获取到已经卸载的设备信息  3. 基础知识 关于APNs，我们首选需要知道：
- iOS的推送是通过socket链接将详细发送到苹果的服务器，然后由苹果像设备推送来实现的； 在服务的我们需要自己维护一个token的列表用于记录要向哪些设备发送推送； token是由系统提供的，但是有可能会失效，用户也可能会已经卸载应用； 苹果提供有获取feedback的服务器接口用于获取已经卸载应用的的设备token；  在实际操作中发现关于推送的部分：
- 向一个已经打开的socket连接写入token和推送消息时，如果有一个token是无效的，socket会断开； 已经卸载应用的设备token不算是无效的token（不会导致连接断开），但是像它发送消息是没有意义的且会增加负担； socket断开之前会向连接中写入一个错误信息，可以捕捉错误的方式知道socket是在什么时候断开的，但是这个消息会有延时，无法保证100%接收到； 错误信息不会直接返回是哪个token，而是返回发送时设定的identifier； socket也会存在其它异常断开的情况； iOS6以下的设备无法通过feedback的接口获取到已卸载的token（测试结果，没有在文档中验证）； feedback的接口取到的是上次推送的过程中出现的已卸载应用的设备token，而且获取一次之后就会清空； 如果想获得卸载应用的feedback，该应用不能是卸载的设备上的仅有的推送应用（如果是最后一个，设备和苹果的推送服务连接会断开）；  4. 实际部署 实际部署中，需要对使用的库做出一些改动。
-1.在ZendService\Apple\Apns\Client\Message中增加一个方法用于每次推送结束之后获取反馈：
-&lt;?php /** * Get Response * * @return ZendService\Apple\Apns\Response\Message */ public function getResponse(){ if (!$this-&gt;isConnected()) { throw new Exception\RuntimeException(&#39;You must first open the connection by calling open()&#39;); } return new MessageResponse($this-&gt;read()); } ?">
+<meta itemprop="description" content="1. 基础部署 后端：PHP 依赖：zendframework/zendservice-apple-apns 本文中使用的PHP框架：laravel 2.">
 <meta itemprop="datePublished" content="2014-08-09T15:50:00&#43;00:00" />
 <meta itemprop="dateModified" content="2014-08-09T15:50:00&#43;00:00" />
-<meta itemprop="wordCount" content="435">
+<meta itemprop="wordCount" content="1779">
 
 
 
 <meta itemprop="keywords" content="mobile," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="iOS推送（Apple Push Notification Service）部署总结"/>
-<meta name="twitter:description" content="1. 基础部署  后端：PHP 依赖：zendframework/zendservice-apple-apns 本文中使用的PHP框架：laravel  2. 实现目标  实现中等规模批量设备的推送（1w设备以上），并且有可扩展的余地（十万到百万级） 推送的整体发送时间可控（半小时内，最好数分钟内） 保证推送的到达率能够达到**90%**以上 可以从设备列表中及时剔除无效的设备，并能够从APNs的服务器中及时获取反馈 可以获取到已经卸载的设备信息  3. 基础知识 关于APNs，我们首选需要知道：
- iOS的推送是通过socket链接将详细发送到苹果的服务器，然后由苹果像设备推送来实现的； 在服务的我们需要自己维护一个token的列表用于记录要向哪些设备发送推送； token是由系统提供的，但是有可能会失效，用户也可能会已经卸载应用； 苹果提供有获取feedback的服务器接口用于获取已经卸载应用的的设备token；  在实际操作中发现关于推送的部分：
- 向一个已经打开的socket连接写入token和推送消息时，如果有一个token是无效的，socket会断开； 已经卸载应用的设备token不算是无效的token（不会导致连接断开），但是像它发送消息是没有意义的且会增加负担； socket断开之前会向连接中写入一个错误信息，可以捕捉错误的方式知道socket是在什么时候断开的，但是这个消息会有延时，无法保证100%接收到； 错误信息不会直接返回是哪个token，而是返回发送时设定的identifier； socket也会存在其它异常断开的情况； iOS6以下的设备无法通过feedback的接口获取到已卸载的token（测试结果，没有在文档中验证）； feedback的接口取到的是上次推送的过程中出现的已卸载应用的设备token，而且获取一次之后就会清空； 如果想获得卸载应用的feedback，该应用不能是卸载的设备上的仅有的推送应用（如果是最后一个，设备和苹果的推送服务连接会断开）；  4. 实际部署 实际部署中，需要对使用的库做出一些改动。
-1.在ZendService\Apple\Apns\Client\Message中增加一个方法用于每次推送结束之后获取反馈：
-&lt;?php /** * Get Response * * @return ZendService\Apple\Apns\Response\Message */ public function getResponse(){ if (!$this-&gt;isConnected()) { throw new Exception\RuntimeException(&#39;You must first open the connection by calling open()&#39;); } return new MessageResponse($this-&gt;read()); } ?"/>
+<meta name="twitter:description" content="1. 基础部署 后端：PHP 依赖：zendframework/zendservice-apple-apns 本文中使用的PHP框架：laravel 2."/>
 
 
 
@@ -129,7 +117,7 @@
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        3 minutes
+        4 minutes
 
         
       </p>
@@ -384,7 +372,7 @@
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        435 Words
+        1779 Words
       </p>
 
       <p>

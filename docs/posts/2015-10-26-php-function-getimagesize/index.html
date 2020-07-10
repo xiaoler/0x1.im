@@ -5,11 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="getimagesize 函数并不属于 GD 扩展的部分，标准安装的 PHP 都可以使用这个函数。可以先看看这个函数的文档描述：http://php.net/manual/zh/function.getimagesize.php
-如果指定的文件如果不是有效的图像，会返回 false，返回数据中也有表示文档类型的字段。如果不用来获取文件的大小而是使用它来判断上传文件是否是图片文件，看起来似乎是个很不错的方案，当然这需要屏蔽掉可能产生的警告，比如代码这样写：
-&amp;lt;?php $filesize = @getimagesize(&amp;#39;/path/to/image.png&amp;#39;); if ($filesize) { do_upload(); } # 另外需要注意的是，你不可以像下面这样写： # if ($filesize[2] == 0) # 因为 $filesize[2] 可能是 1 到 16 之间的整数，但却绝对不对是0。 但是如果你仅仅是做了这样的验证，那么很不幸，你成功的在代码里种下了一个 webshell 的隐患。
-要分析这个问题，我们先来看一下这个函数的原型：
-static void php_getimagesize_from_stream(php_stream *stream, zval **info, INTERNAL_FUNCTION_PARAMETERS) { ... itype = php_getimagetype(stream, NULL TSRMLS_CC); switch( itype) { ... } ... } static void php_getimagesize_from_any(INTERNAL_FUNCTION_PARAMETERS, int mode) { ... php_getimagesize_from_stream(stream, info, INTERNAL_FUNCTION_PARAM_PASSTHRU); php_stream_close(stream); } PHP_FUNCTION(getimagesize) { php_getimagesize_from_any(INTERNAL_FUNCTION_PARAM_PASSTHRU, FROM_PATH); } 限于篇幅上面隐藏了一些细节，现在从上面的代码中我们知道两件事情就够了：" />
+<meta name="description" content="getimagesize 函数并不属于 GD 扩展的部分，标准安装的 PHP 都可以使用这个函数。可以先看看这个函数的文档描述：http://php.net/manual/zh/" />
 <meta name="keywords" content=", php" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -37,25 +33,17 @@ static void php_getimagesize_from_stream(php_stream *stream, zval **info, INTERN
 
 
 <meta itemprop="name" content="getimagesize 函数不是完全可靠的">
-<meta itemprop="description" content="getimagesize 函数并不属于 GD 扩展的部分，标准安装的 PHP 都可以使用这个函数。可以先看看这个函数的文档描述：http://php.net/manual/zh/function.getimagesize.php
-如果指定的文件如果不是有效的图像，会返回 false，返回数据中也有表示文档类型的字段。如果不用来获取文件的大小而是使用它来判断上传文件是否是图片文件，看起来似乎是个很不错的方案，当然这需要屏蔽掉可能产生的警告，比如代码这样写：
-&lt;?php $filesize = @getimagesize(&#39;/path/to/image.png&#39;); if ($filesize) { do_upload(); } # 另外需要注意的是，你不可以像下面这样写： # if ($filesize[2] == 0) # 因为 $filesize[2] 可能是 1 到 16 之间的整数，但却绝对不对是0。 但是如果你仅仅是做了这样的验证，那么很不幸，你成功的在代码里种下了一个 webshell 的隐患。
-要分析这个问题，我们先来看一下这个函数的原型：
-static void php_getimagesize_from_stream(php_stream *stream, zval **info, INTERNAL_FUNCTION_PARAMETERS) { ... itype = php_getimagetype(stream, NULL TSRMLS_CC); switch( itype) { ... } ... } static void php_getimagesize_from_any(INTERNAL_FUNCTION_PARAMETERS, int mode) { ... php_getimagesize_from_stream(stream, info, INTERNAL_FUNCTION_PARAM_PASSTHRU); php_stream_close(stream); } PHP_FUNCTION(getimagesize) { php_getimagesize_from_any(INTERNAL_FUNCTION_PARAM_PASSTHRU, FROM_PATH); } 限于篇幅上面隐藏了一些细节，现在从上面的代码中我们知道两件事情就够了：">
+<meta itemprop="description" content="getimagesize 函数并不属于 GD 扩展的部分，标准安装的 PHP 都可以使用这个函数。可以先看看这个函数的文档描述：http://php.net/manual/zh/">
 <meta itemprop="datePublished" content="2015-10-26T23:12:53&#43;00:00" />
 <meta itemprop="dateModified" content="2015-10-26T23:12:53&#43;00:00" />
-<meta itemprop="wordCount" content="255">
+<meta itemprop="wordCount" content="1240">
 
 
 
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="getimagesize 函数不是完全可靠的"/>
-<meta name="twitter:description" content="getimagesize 函数并不属于 GD 扩展的部分，标准安装的 PHP 都可以使用这个函数。可以先看看这个函数的文档描述：http://php.net/manual/zh/function.getimagesize.php
-如果指定的文件如果不是有效的图像，会返回 false，返回数据中也有表示文档类型的字段。如果不用来获取文件的大小而是使用它来判断上传文件是否是图片文件，看起来似乎是个很不错的方案，当然这需要屏蔽掉可能产生的警告，比如代码这样写：
-&lt;?php $filesize = @getimagesize(&#39;/path/to/image.png&#39;); if ($filesize) { do_upload(); } # 另外需要注意的是，你不可以像下面这样写： # if ($filesize[2] == 0) # 因为 $filesize[2] 可能是 1 到 16 之间的整数，但却绝对不对是0。 但是如果你仅仅是做了这样的验证，那么很不幸，你成功的在代码里种下了一个 webshell 的隐患。
-要分析这个问题，我们先来看一下这个函数的原型：
-static void php_getimagesize_from_stream(php_stream *stream, zval **info, INTERNAL_FUNCTION_PARAMETERS) { ... itype = php_getimagetype(stream, NULL TSRMLS_CC); switch( itype) { ... } ... } static void php_getimagesize_from_any(INTERNAL_FUNCTION_PARAMETERS, int mode) { ... php_getimagesize_from_stream(stream, info, INTERNAL_FUNCTION_PARAM_PASSTHRU); php_stream_close(stream); } PHP_FUNCTION(getimagesize) { php_getimagesize_from_any(INTERNAL_FUNCTION_PARAM_PASSTHRU, FROM_PATH); } 限于篇幅上面隐藏了一些细节，现在从上面的代码中我们知道两件事情就够了："/>
+<meta name="twitter:description" content="getimagesize 函数并不属于 GD 扩展的部分，标准安装的 PHP 都可以使用这个函数。可以先看看这个函数的文档描述：http://php.net/manual/zh/"/>
 
 
 
@@ -129,7 +117,7 @@ static void php_getimagesize_from_stream(php_stream *stream, zval **info, INTERN
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        2 minutes
+        3 minutes
 
         
       </p>
@@ -249,7 +237,7 @@ static void php_getimagesize_from_stream(php_stream *stream, zval **info, INTERN
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        255 Words
+        1240 Words
       </p>
 
       <p>

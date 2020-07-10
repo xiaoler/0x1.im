@@ -5,13 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="提到 Nginx &#43; PHP 服务的错误日志，我们通常能想到的有 Nginx 的 access 日志、error 日志以及 PHP 的 error 日志。虽然看起来是个很简单的问题，但里面其实又牵扯到应用配置以及日志记录位置的问题，如果是在 ubuntu 等系统下使用 apt-get 的方式来安装，其自有一套较为合理的的配置文件可用。再者运行的应用程序中的配置也会影响到日志记录的方式及内容。
-错误与异常的区别 关于错误与异常，我们可以用一个简单的例子来理解：
-&amp;lt;?php try { 1 / 0; } catch (Exception $e) { echo &amp;#34;catched&amp;#34;, PHP_EOL; } 执行这个小示例会直接得到一个『PHP Warning: Division by zero …』错误。原因很简单：这是逻辑错误，并不是异常，所以不能被 try 捕获。同样，对于变量使用前未定义这种问题，也是同样的会产生 warning 而不是被捕获。
-但是这个问题在 PHP7 中却有了一些改动，比如上面的例子中我把 / 改成 %，在 PHP7 的环境中执行会得到一个不一样的提示：
- PHP Fatal error: Uncaught DivisionByZeroError &amp;hellip;
- 根据这个提示，如果我把 catch 中的条件修改一下：
-&amp;lt;?php try { 1 / 0; } catch (DivisionByZeroError $e) { echo &amp;#34;catched&amp;#34;, PHP_EOL; } 这样就可以正常捕获到错误并输出 catched 了。" />
+<meta name="description" content="提到 Nginx &#43; PHP 服务的错误日志，我们通常能想到的有 Nginx 的 access 日志、error 日志以及 PHP 的 error 日志。虽然看起来是个很简单的问题，但里面其实又牵扯到应用配置" />
 <meta name="keywords" content=", php" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -39,29 +33,17 @@
 
 
 <meta itemprop="name" content="PHP 错误与异常的日志记录">
-<meta itemprop="description" content="提到 Nginx &#43; PHP 服务的错误日志，我们通常能想到的有 Nginx 的 access 日志、error 日志以及 PHP 的 error 日志。虽然看起来是个很简单的问题，但里面其实又牵扯到应用配置以及日志记录位置的问题，如果是在 ubuntu 等系统下使用 apt-get 的方式来安装，其自有一套较为合理的的配置文件可用。再者运行的应用程序中的配置也会影响到日志记录的方式及内容。
-错误与异常的区别 关于错误与异常，我们可以用一个简单的例子来理解：
-&lt;?php try { 1 / 0; } catch (Exception $e) { echo &#34;catched&#34;, PHP_EOL; } 执行这个小示例会直接得到一个『PHP Warning: Division by zero …』错误。原因很简单：这是逻辑错误，并不是异常，所以不能被 try 捕获。同样，对于变量使用前未定义这种问题，也是同样的会产生 warning 而不是被捕获。
-但是这个问题在 PHP7 中却有了一些改动，比如上面的例子中我把 / 改成 %，在 PHP7 的环境中执行会得到一个不一样的提示：
- PHP Fatal error: Uncaught DivisionByZeroError &hellip;
- 根据这个提示，如果我把 catch 中的条件修改一下：
-&lt;?php try { 1 / 0; } catch (DivisionByZeroError $e) { echo &#34;catched&#34;, PHP_EOL; } 这样就可以正常捕获到错误并输出 catched 了。">
+<meta itemprop="description" content="提到 Nginx &#43; PHP 服务的错误日志，我们通常能想到的有 Nginx 的 access 日志、error 日志以及 PHP 的 error 日志。虽然看起来是个很简单的问题，但里面其实又牵扯到应用配置">
 <meta itemprop="datePublished" content="2016-07-31T20:59:51&#43;00:00" />
 <meta itemprop="dateModified" content="2016-07-31T20:59:51&#43;00:00" />
-<meta itemprop="wordCount" content="167">
+<meta itemprop="wordCount" content="1078">
 
 
 
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="PHP 错误与异常的日志记录"/>
-<meta name="twitter:description" content="提到 Nginx &#43; PHP 服务的错误日志，我们通常能想到的有 Nginx 的 access 日志、error 日志以及 PHP 的 error 日志。虽然看起来是个很简单的问题，但里面其实又牵扯到应用配置以及日志记录位置的问题，如果是在 ubuntu 等系统下使用 apt-get 的方式来安装，其自有一套较为合理的的配置文件可用。再者运行的应用程序中的配置也会影响到日志记录的方式及内容。
-错误与异常的区别 关于错误与异常，我们可以用一个简单的例子来理解：
-&lt;?php try { 1 / 0; } catch (Exception $e) { echo &#34;catched&#34;, PHP_EOL; } 执行这个小示例会直接得到一个『PHP Warning: Division by zero …』错误。原因很简单：这是逻辑错误，并不是异常，所以不能被 try 捕获。同样，对于变量使用前未定义这种问题，也是同样的会产生 warning 而不是被捕获。
-但是这个问题在 PHP7 中却有了一些改动，比如上面的例子中我把 / 改成 %，在 PHP7 的环境中执行会得到一个不一样的提示：
- PHP Fatal error: Uncaught DivisionByZeroError &hellip;
- 根据这个提示，如果我把 catch 中的条件修改一下：
-&lt;?php try { 1 / 0; } catch (DivisionByZeroError $e) { echo &#34;catched&#34;, PHP_EOL; } 这样就可以正常捕获到错误并输出 catched 了。"/>
+<meta name="twitter:description" content="提到 Nginx &#43; PHP 服务的错误日志，我们通常能想到的有 Nginx 的 access 日志、error 日志以及 PHP 的 error 日志。虽然看起来是个很简单的问题，但里面其实又牵扯到应用配置"/>
 
 
 
@@ -135,7 +117,7 @@
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        One minute
+        3 minutes
 
         
       </p>
@@ -219,7 +201,7 @@
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        167 Words
+        1078 Words
       </p>
 
       <p>

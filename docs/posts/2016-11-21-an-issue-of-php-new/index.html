@@ -5,12 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="问题起因 前两天有人在群里说了一个关于 new 和 stdClass 的问题，具体表现如下：
-&amp;lt;?php $a = new stdClass; $b = new $a; var_dump($a, $b); 这段代码是可以正确运行的，并且 $a 和 $b 是两个不同的空对象。即使在 new $a 之前给 $a 添加属性并赋值，$b 也始终是一个的空对象。
-所以问题就是：为什么空对象还可以跟在 new 后面，stdClass 有什么特殊的地方吗？
-实际表现 其实主要稍加验证就能知道，其实这和 stdClass 并没有什么关系，完全是 new 的行为决定的，比如在 psysh 上做一下简单的测试：
-&amp;gt;&amp;gt;&amp;gt; $a = new Reflection; =&amp;gt; Reflection {#174} &amp;gt;&amp;gt;&amp;gt; $b = new $a; =&amp;gt; Reflection {#177} 这里我是 new 了一个 Reflection 类的实例，和 stdClass 的表现没有区别。当然也可以自定义一个类：
-&amp;gt;&amp;gt;&amp;gt; class Test { public $foo = 1; } =&amp;gt; null &amp;gt;&amp;gt;&amp;gt; $a = new Test =&amp;gt; Test {#178 &#43;foo: 1, } &amp;gt;&amp;gt;&amp;gt; $a-&amp;gt;foo = 2; =&amp;gt; 2 &amp;gt;&amp;gt;&amp;gt; $b = new $a; =&amp;gt; Test {#180 &#43;foo: 1, } 从这个例子中我们可以清楚的看到，改变 $a 的属性对 $b 没有任何影响（到这里也可以顺便思考一下 PHP 的一个关键字：clone）。" />
+<meta name="description" content="问题起因 前两天有人在群里说了一个关于 new 和 stdClass 的问题，具体表现如下： &amp;lt;?php $a = new stdClass; $b = new $a; var_dump($a, $b); 这段代码是可以正确运行的，并且 $a 和 $b 是两个不同的空对象" />
 <meta name="keywords" content=", php" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -38,27 +33,17 @@
 
 
 <meta itemprop="name" content="一个关于 PHP 的 new 的小问题的探究">
-<meta itemprop="description" content="问题起因 前两天有人在群里说了一个关于 new 和 stdClass 的问题，具体表现如下：
-&lt;?php $a = new stdClass; $b = new $a; var_dump($a, $b); 这段代码是可以正确运行的，并且 $a 和 $b 是两个不同的空对象。即使在 new $a 之前给 $a 添加属性并赋值，$b 也始终是一个的空对象。
-所以问题就是：为什么空对象还可以跟在 new 后面，stdClass 有什么特殊的地方吗？
-实际表现 其实主要稍加验证就能知道，其实这和 stdClass 并没有什么关系，完全是 new 的行为决定的，比如在 psysh 上做一下简单的测试：
-&gt;&gt;&gt; $a = new Reflection; =&gt; Reflection {#174} &gt;&gt;&gt; $b = new $a; =&gt; Reflection {#177} 这里我是 new 了一个 Reflection 类的实例，和 stdClass 的表现没有区别。当然也可以自定义一个类：
-&gt;&gt;&gt; class Test { public $foo = 1; } =&gt; null &gt;&gt;&gt; $a = new Test =&gt; Test {#178 &#43;foo: 1, } &gt;&gt;&gt; $a-&gt;foo = 2; =&gt; 2 &gt;&gt;&gt; $b = new $a; =&gt; Test {#180 &#43;foo: 1, } 从这个例子中我们可以清楚的看到，改变 $a 的属性对 $b 没有任何影响（到这里也可以顺便思考一下 PHP 的一个关键字：clone）。">
+<meta itemprop="description" content="问题起因 前两天有人在群里说了一个关于 new 和 stdClass 的问题，具体表现如下： &lt;?php $a = new stdClass; $b = new $a; var_dump($a, $b); 这段代码是可以正确运行的，并且 $a 和 $b 是两个不同的空对象">
 <meta itemprop="datePublished" content="2016-11-21T12:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2016-11-21T12:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="163">
+<meta itemprop="wordCount" content="612">
 
 
 
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="一个关于 PHP 的 new 的小问题的探究"/>
-<meta name="twitter:description" content="问题起因 前两天有人在群里说了一个关于 new 和 stdClass 的问题，具体表现如下：
-&lt;?php $a = new stdClass; $b = new $a; var_dump($a, $b); 这段代码是可以正确运行的，并且 $a 和 $b 是两个不同的空对象。即使在 new $a 之前给 $a 添加属性并赋值，$b 也始终是一个的空对象。
-所以问题就是：为什么空对象还可以跟在 new 后面，stdClass 有什么特殊的地方吗？
-实际表现 其实主要稍加验证就能知道，其实这和 stdClass 并没有什么关系，完全是 new 的行为决定的，比如在 psysh 上做一下简单的测试：
-&gt;&gt;&gt; $a = new Reflection; =&gt; Reflection {#174} &gt;&gt;&gt; $b = new $a; =&gt; Reflection {#177} 这里我是 new 了一个 Reflection 类的实例，和 stdClass 的表现没有区别。当然也可以自定义一个类：
-&gt;&gt;&gt; class Test { public $foo = 1; } =&gt; null &gt;&gt;&gt; $a = new Test =&gt; Test {#178 &#43;foo: 1, } &gt;&gt;&gt; $a-&gt;foo = 2; =&gt; 2 &gt;&gt;&gt; $b = new $a; =&gt; Test {#180 &#43;foo: 1, } 从这个例子中我们可以清楚的看到，改变 $a 的属性对 $b 没有任何影响（到这里也可以顺便思考一下 PHP 的一个关键字：clone）。"/>
+<meta name="twitter:description" content="问题起因 前两天有人在群里说了一个关于 new 和 stdClass 的问题，具体表现如下： &lt;?php $a = new stdClass; $b = new $a; var_dump($a, $b); 这段代码是可以正确运行的，并且 $a 和 $b 是两个不同的空对象"/>
 
 
 
@@ -132,7 +117,7 @@
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        One minute
+        2 minutes
 
         
       </p>
@@ -212,7 +197,7 @@
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        163 Words
+        612 Words
       </p>
 
       <p>

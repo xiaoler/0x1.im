@@ -5,17 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="今天有小伙伴说 exit 和 die 有一点差别。我说 die 不就是 exit 的别名吗？为了证明我的观点，翻了翻 PHP 的源码，在 zend_language_scanner.l 中，很容易就能发现这关键字是同一个 token：
-&amp;lt;ST_IN_SCRIPTING&amp;gt;&amp;#34;exit&amp;#34; { return T_EXIT; } &amp;lt;ST_IN_SCRIPTING&amp;gt;&amp;#34;die&amp;#34; { return T_EXIT; } 所以最终也是同一个 Opcode：ZEND_EXIT。所以这两个关键字没有任何差别，这其实也没什么好说的。
-我顺便提醒了小伙伴们一句：不要用 exit 输出整数。原因也很简单，在 PHP 官网的文档里就能看到：
- void exit ([ string $status ] )
-void exit ( int $status )
-如果 status 是一个字符串，在退出之前该函数会打印 status 。
-如果 status 是一个 integer，该值会作为退出状态码，并且不会被打印输出。 退出状态码应该在范围0至254，不应使用被PHP保留的退出状态码255。 状态码0用于成功中止程序。
- 所以如果 status 是一个整数，会被当成状态码输出，而不是打印，所以如果想返回给前端是不可能的。
-那么这个状态码有什么用呢？
-大家都知道 shell 脚本执行可以返回一个状态码，PHP 的脚本的执行返回的状态码是一样的，可以在环境变量中被捕捉到：
-Scholer: ~ $ php -r &amp;#39;exit(254);&amp;#39; Scholer: ~ $ echo $?" />
+<meta name="description" content="今天有小伙伴说 exit 和 die 有一点差别。我说 die 不就是 exit 的别名吗？为了证明我的观点，翻了翻 PHP 的源码，在 zend_language_scanner.l 中，很容易就能发现这关键字是同一个 token：" />
 <meta name="keywords" content=", php" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -43,37 +33,17 @@ Scholer: ~ $ php -r &amp;#39;exit(254);&amp;#39; Scholer: ~ $ echo $?" />
 
 
 <meta itemprop="name" content="说说 PHP 的 die 和 exit">
-<meta itemprop="description" content="今天有小伙伴说 exit 和 die 有一点差别。我说 die 不就是 exit 的别名吗？为了证明我的观点，翻了翻 PHP 的源码，在 zend_language_scanner.l 中，很容易就能发现这关键字是同一个 token：
-&lt;ST_IN_SCRIPTING&gt;&#34;exit&#34; { return T_EXIT; } &lt;ST_IN_SCRIPTING&gt;&#34;die&#34; { return T_EXIT; } 所以最终也是同一个 Opcode：ZEND_EXIT。所以这两个关键字没有任何差别，这其实也没什么好说的。
-我顺便提醒了小伙伴们一句：不要用 exit 输出整数。原因也很简单，在 PHP 官网的文档里就能看到：
- void exit ([ string $status ] )
-void exit ( int $status )
-如果 status 是一个字符串，在退出之前该函数会打印 status 。
-如果 status 是一个 integer，该值会作为退出状态码，并且不会被打印输出。 退出状态码应该在范围0至254，不应使用被PHP保留的退出状态码255。 状态码0用于成功中止程序。
- 所以如果 status 是一个整数，会被当成状态码输出，而不是打印，所以如果想返回给前端是不可能的。
-那么这个状态码有什么用呢？
-大家都知道 shell 脚本执行可以返回一个状态码，PHP 的脚本的执行返回的状态码是一样的，可以在环境变量中被捕捉到：
-Scholer: ~ $ php -r &#39;exit(254);&#39; Scholer: ~ $ echo $?">
+<meta itemprop="description" content="今天有小伙伴说 exit 和 die 有一点差别。我说 die 不就是 exit 的别名吗？为了证明我的观点，翻了翻 PHP 的源码，在 zend_language_scanner.l 中，很容易就能发现这关键字是同一个 token：">
 <meta itemprop="datePublished" content="2015-09-24T00:25:44&#43;00:00" />
 <meta itemprop="dateModified" content="2015-09-24T00:25:44&#43;00:00" />
-<meta itemprop="wordCount" content="302">
+<meta itemprop="wordCount" content="1088">
 
 
 
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="说说 PHP 的 die 和 exit"/>
-<meta name="twitter:description" content="今天有小伙伴说 exit 和 die 有一点差别。我说 die 不就是 exit 的别名吗？为了证明我的观点，翻了翻 PHP 的源码，在 zend_language_scanner.l 中，很容易就能发现这关键字是同一个 token：
-&lt;ST_IN_SCRIPTING&gt;&#34;exit&#34; { return T_EXIT; } &lt;ST_IN_SCRIPTING&gt;&#34;die&#34; { return T_EXIT; } 所以最终也是同一个 Opcode：ZEND_EXIT。所以这两个关键字没有任何差别，这其实也没什么好说的。
-我顺便提醒了小伙伴们一句：不要用 exit 输出整数。原因也很简单，在 PHP 官网的文档里就能看到：
- void exit ([ string $status ] )
-void exit ( int $status )
-如果 status 是一个字符串，在退出之前该函数会打印 status 。
-如果 status 是一个 integer，该值会作为退出状态码，并且不会被打印输出。 退出状态码应该在范围0至254，不应使用被PHP保留的退出状态码255。 状态码0用于成功中止程序。
- 所以如果 status 是一个整数，会被当成状态码输出，而不是打印，所以如果想返回给前端是不可能的。
-那么这个状态码有什么用呢？
-大家都知道 shell 脚本执行可以返回一个状态码，PHP 的脚本的执行返回的状态码是一样的，可以在环境变量中被捕捉到：
-Scholer: ~ $ php -r &#39;exit(254);&#39; Scholer: ~ $ echo $?"/>
+<meta name="twitter:description" content="今天有小伙伴说 exit 和 die 有一点差别。我说 die 不就是 exit 的别名吗？为了证明我的观点，翻了翻 PHP 的源码，在 zend_language_scanner.l 中，很容易就能发现这关键字是同一个 token："/>
 
 
 
@@ -147,7 +117,7 @@ Scholer: ~ $ php -r &#39;exit(254);&#39; Scholer: ~ $ echo $?"/>
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        2 minutes
+        3 minutes
 
         
       </p>
@@ -270,7 +240,7 @@ Scholer: ~ $ <span class="nb">echo</span> <span class="nv">$?</span>
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        302 Words
+        1088 Words
       </p>
 
       <p>

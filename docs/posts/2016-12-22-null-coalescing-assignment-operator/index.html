@@ -5,14 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="我在翻看 PHP 的 RFC 列表的时候发现了一篇不算新的，但很有意思的 rfc：空合并赋值操作符 （姑且就这么翻译吧）。
-它会引起我的注意的还有一个原因是我之前写过这样一篇文章：两行代码给 PHP7 添加一个“非空合并”语法糖，里面讲的是添加一个 ??: 操作符的方法， 而现在要讲的这个，已经被接受的 rfc 里添加的操作符是： ??=。
-由于这个事情本身可说的不多，这里就根据 rfc 简单描述一下吧。以下部分是 rfc 的翻译。
- 合并赋值操作符在上世纪七十年代就出现了，最早是在 C 语言里，比如 $x = $x &#43; 3 可以被简写为 $x &#43;= 3。随着 PHP 成为一门专注于 Web 的语言，?? 操作符经常会被用去检查变量是否存在：比如：
-$username = $_GET[&amp;#39;user&amp;#39;] ?? &amp;#39;nobody&amp;#39;; 但是由于大部分情况下变量的名称回避 $username 长很多，所以在使用 ?? 检查后讲变量本身赋值给自己的时候会需要些一些重复的代码，形如以下形式：
-$this-&amp;gt;request-&amp;gt;data[&amp;#39;comments&amp;#39;][&amp;#39;user_id&amp;#39;] = $this-&amp;gt;request-&amp;gt;data[&amp;#39;comments&amp;#39;][&amp;#39;user_id&amp;#39;] ?? ‘value’; 这就是为什么需要一个能在自我赋值的时候进行空合并检查的赋值操作符的原因。
-虽然 ?? 是一个比较操作符，??= 确实一个赋值操作符号。如果左值为 null，右值会被赋给左值，否则不做任何操作。
-// 下面这一行有相同的效果 $this-&amp;gt;request-&amp;gt;data[&amp;#39;comments&amp;#39;][&amp;#39;user_id&amp;#39;] = $this-&amp;gt;request-&amp;gt;data[&amp;#39;comments&amp;#39;][&amp;#39;user_id&amp;#39;] ?? &amp;#39;value&amp;#39;; // 使用新操作符替代重复的代码 $this-&amp;gt;request-&amp;gt;data[&amp;#39;comments&amp;#39;][&amp;#39;user_id&amp;#39;] ?" />
+<meta name="description" content="我在翻看 PHP 的 RFC 列表的时候发现了一篇不算新的，但很有意思的 rfc：空合并赋值操作符 （姑且就这么翻译吧）。 它会引起我的注意的还有一个原因是我之前" />
 <meta name="keywords" content=", php" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -40,31 +33,17 @@ $this-&amp;gt;request-&amp;gt;data[&amp;#39;comments&amp;#39;][&amp;#39;user_id&
 
 
 <meta itemprop="name" content="一个神奇的操作符即将加入PHP">
-<meta itemprop="description" content="我在翻看 PHP 的 RFC 列表的时候发现了一篇不算新的，但很有意思的 rfc：空合并赋值操作符 （姑且就这么翻译吧）。
-它会引起我的注意的还有一个原因是我之前写过这样一篇文章：两行代码给 PHP7 添加一个“非空合并”语法糖，里面讲的是添加一个 ??: 操作符的方法， 而现在要讲的这个，已经被接受的 rfc 里添加的操作符是： ??=。
-由于这个事情本身可说的不多，这里就根据 rfc 简单描述一下吧。以下部分是 rfc 的翻译。
- 合并赋值操作符在上世纪七十年代就出现了，最早是在 C 语言里，比如 $x = $x &#43; 3 可以被简写为 $x &#43;= 3。随着 PHP 成为一门专注于 Web 的语言，?? 操作符经常会被用去检查变量是否存在：比如：
-$username = $_GET[&#39;user&#39;] ?? &#39;nobody&#39;; 但是由于大部分情况下变量的名称回避 $username 长很多，所以在使用 ?? 检查后讲变量本身赋值给自己的时候会需要些一些重复的代码，形如以下形式：
-$this-&gt;request-&gt;data[&#39;comments&#39;][&#39;user_id&#39;] = $this-&gt;request-&gt;data[&#39;comments&#39;][&#39;user_id&#39;] ?? ‘value’; 这就是为什么需要一个能在自我赋值的时候进行空合并检查的赋值操作符的原因。
-虽然 ?? 是一个比较操作符，??= 确实一个赋值操作符号。如果左值为 null，右值会被赋给左值，否则不做任何操作。
-// 下面这一行有相同的效果 $this-&gt;request-&gt;data[&#39;comments&#39;][&#39;user_id&#39;] = $this-&gt;request-&gt;data[&#39;comments&#39;][&#39;user_id&#39;] ?? &#39;value&#39;; // 使用新操作符替代重复的代码 $this-&gt;request-&gt;data[&#39;comments&#39;][&#39;user_id&#39;] ?">
+<meta itemprop="description" content="我在翻看 PHP 的 RFC 列表的时候发现了一篇不算新的，但很有意思的 rfc：空合并赋值操作符 （姑且就这么翻译吧）。 它会引起我的注意的还有一个原因是我之前">
 <meta itemprop="datePublished" content="2016-12-22T12:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2016-12-22T12:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="92">
+<meta itemprop="wordCount" content="657">
 
 
 
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="一个神奇的操作符即将加入PHP"/>
-<meta name="twitter:description" content="我在翻看 PHP 的 RFC 列表的时候发现了一篇不算新的，但很有意思的 rfc：空合并赋值操作符 （姑且就这么翻译吧）。
-它会引起我的注意的还有一个原因是我之前写过这样一篇文章：两行代码给 PHP7 添加一个“非空合并”语法糖，里面讲的是添加一个 ??: 操作符的方法， 而现在要讲的这个，已经被接受的 rfc 里添加的操作符是： ??=。
-由于这个事情本身可说的不多，这里就根据 rfc 简单描述一下吧。以下部分是 rfc 的翻译。
- 合并赋值操作符在上世纪七十年代就出现了，最早是在 C 语言里，比如 $x = $x &#43; 3 可以被简写为 $x &#43;= 3。随着 PHP 成为一门专注于 Web 的语言，?? 操作符经常会被用去检查变量是否存在：比如：
-$username = $_GET[&#39;user&#39;] ?? &#39;nobody&#39;; 但是由于大部分情况下变量的名称回避 $username 长很多，所以在使用 ?? 检查后讲变量本身赋值给自己的时候会需要些一些重复的代码，形如以下形式：
-$this-&gt;request-&gt;data[&#39;comments&#39;][&#39;user_id&#39;] = $this-&gt;request-&gt;data[&#39;comments&#39;][&#39;user_id&#39;] ?? ‘value’; 这就是为什么需要一个能在自我赋值的时候进行空合并检查的赋值操作符的原因。
-虽然 ?? 是一个比较操作符，??= 确实一个赋值操作符号。如果左值为 null，右值会被赋给左值，否则不做任何操作。
-// 下面这一行有相同的效果 $this-&gt;request-&gt;data[&#39;comments&#39;][&#39;user_id&#39;] = $this-&gt;request-&gt;data[&#39;comments&#39;][&#39;user_id&#39;] ?? &#39;value&#39;; // 使用新操作符替代重复的代码 $this-&gt;request-&gt;data[&#39;comments&#39;][&#39;user_id&#39;] ?"/>
+<meta name="twitter:description" content="我在翻看 PHP 的 RFC 列表的时候发现了一篇不算新的，但很有意思的 rfc：空合并赋值操作符 （姑且就这么翻译吧）。 它会引起我的注意的还有一个原因是我之前"/>
 
 
 
@@ -138,7 +117,7 @@ $this-&gt;request-&gt;data[&#39;comments&#39;][&#39;user_id&#39;] = $this-&gt;re
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        One minute
+        2 minutes
 
         
       </p>
@@ -193,7 +172,7 @@ $this-&gt;request-&gt;data[&#39;comments&#39;][&#39;user_id&#39;] ??= &#39;value
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        92 Words
+        657 Words
       </p>
 
       <p>
