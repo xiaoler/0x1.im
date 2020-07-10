@@ -22,7 +22,7 @@ params:
   homeSubtitle: 深漂码农，主要从事 PHP/Golang 应用开发，兴趣爱好广泛。
   defaultTheme: dark
   logo:
-    logoText: "$ echo 0x1.im"
+    logoText: "echo 0x1.im"
   social:
     - name: github
       url: 'https://github.com/'
