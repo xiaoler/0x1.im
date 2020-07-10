@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://0x1.im/categories/</loc>
+    <lastmod>2020-07-08T09:39:40+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/categories/go/</loc>
+    <lastmod>2020-07-08T09:39:40+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/</loc>
+    <lastmod>2020-07-08T09:39:40+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/</loc>
+    <lastmod>2020-07-08T09:39:40+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2020-07-08-a-json-toys/</loc>
+    <lastmod>2020-07-08T09:39:40+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2020-05-26-way-from-php-to-go/</loc>
+    <lastmod>2020-05-26T10:41:41+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/categories/php/</loc>
+    <lastmod>2018-01-06T14:04:11+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2018-01-06-redis-websocket-push/</loc>
+    <lastmod>2018-01-06T14:04:11+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2017-09-23-use-deployer/</loc>
+    <lastmod>2017-09-23T08:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/categories/life/</loc>
+    <lastmod>2017-01-07T08:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2017-01-07-goodbye-2016/</loc>
+    <lastmod>2017-01-07T08:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2017-01-02-learn-compile-php/</loc>
+    <lastmod>2017-01-02T12:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2016-12-22-null-coalescing-assignment-operator/</loc>
+    <lastmod>2016-12-22T12:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2016-12-18-how-to-save-a-php-project/</loc>
+    <lastmod>2016-12-18T12:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2016-11-21-an-issue-of-php-new/</loc>
+    <lastmod>2016-11-21T12:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2016-09-14-features-of-php71/</loc>
+    <lastmod>2016-09-14T00:29:02+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2016-07-31-php-error-exception-log/</loc>
+    <lastmod>2016-07-31T20:59:51+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2016-05-01-php-use-shared-memory/</loc>
+    <lastmod>2016-05-01T12:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2016-02-28-tidy-your-php-code/</loc>
+    <lastmod>2016-02-28T12:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-12-31-hello-2016/</loc>
+    <lastmod>2015-12-31T22:43:22+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-12-20-Internal-value-representation-in-PHP-7-part-2/</loc>
+    <lastmod>2015-12-20T22:54:48+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-12-18-php-cs-fixer/</loc>
+    <lastmod>2015-12-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-12-10-Internal-value-representation-in-PHP-7-part-1/</loc>
+    <lastmod>2015-12-10T00:39:46+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-11-20-changes-of-php7-because-of-ast/</loc>
+    <lastmod>2015-11-20T12:58:25+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-11-08-add-a-operator-to-php7/</loc>
+    <lastmod>2015-11-08T18:22:26+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-11-07-bug-of-php-function-max/</loc>
+    <lastmod>2015-11-07T13:30:22+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-11-04-how-to-create-a-php-extension/</loc>
+    <lastmod>2015-11-04T23:43:58+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-10-26-php-function-getimagesize/</loc>
+    <lastmod>2015-10-26T23:12:53+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/categories/laravel/</loc>
+    <lastmod>2015-10-25T23:50:33+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-10-25-laravel-blade-engine/</loc>
+    <lastmod>2015-10-25T23:50:33+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-10-18-part-of-php7-new-features/</loc>
+    <lastmod>2015-10-18T15:29:42+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-10-11-php-now-you-shoud-know/</loc>
+    <lastmod>2015-10-11T22:50:43+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-09-24-php-exit-die/</loc>
+    <lastmod>2015-09-24T00:25:44+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/categories/python/</loc>
+    <lastmod>2015-09-06T11:40:24+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-09-06-tingyun-probe-for-python/</loc>
+    <lastmod>2015-09-06T11:40:24+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-06-15-find-a-new-job/</loc>
+    <lastmod>2015-06-15T18:26:32+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/categories/nginx/</loc>
+    <lastmod>2015-04-09T15:36:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-04-09-use-nginx-image-filter-module/</loc>
+    <lastmod>2015-04-09T15:36:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2015-01-17-summary-2014/</loc>
+    <lastmod>2015-01-17T21:50:38+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/categories/web/</loc>
+    <lastmod>2014-12-14T18:36:44+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2014-12-14-start-to-learn-laravel/</loc>
+    <lastmod>2014-12-14T18:36:44+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2014-09-22-one-month-begin-with-a-xss/</loc>
+    <lastmod>2014-09-22T21:55:59+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2014-09-20-use-linux-ubuntu-iptables/</loc>
+    <lastmod>2014-09-20T14:32:55+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/categories/server/</loc>
+    <lastmod>2014-09-20T14:32:55+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2014-09-17-when-to-use-urlencode-and-urldecode/</loc>
+    <lastmod>2014-09-17T19:07:27+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2014-09-16-php-session-cookie/</loc>
+    <lastmod>2014-09-16T21:01:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/categories/codeigniter/</loc>
+    <lastmod>2014-09-14T23:37:54+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2014-09-14-modify-codeigniter-pagination-class/</loc>
+    <lastmod>2014-09-14T23:37:54+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2014-08-09-ios-push-apns-php-zendframework/</loc>
+    <lastmod>2014-08-09T15:50:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/categories/mobile/</loc>
+    <lastmod>2014-08-09T15:50:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/posts/2014-08-04-android-push-mqtt-mosquitto/</loc>
+    <lastmod>2014-08-04T18:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/about/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://0x1.im/tags/</loc>
+  </url>
+  
+</urlset>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>codeigniter on Scholer&#39;s Homapage</title>
+    <link>http://0x1.im/categories/codeigniter/</link>
+    <description>Recent content in codeigniter on Scholer&#39;s Homapage</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-hans</language>
+    <lastBuildDate>Sun, 14 Sep 2014 23:37:54 +0000</lastBuildDate>
+    
+	<atom:link href="http://0x1.im/categories/codeigniter/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>修改CodeIgniter的Pagination类使其支持Ajax分页</title>
+      <link>http://0x1.im/posts/2014-09-14-modify-codeigniter-pagination-class/</link>
+      <pubDate>Sun, 14 Sep 2014 23:37:54 +0000</pubDate>
+      
+      <guid>http://0x1.im/posts/2014-09-14-modify-codeigniter-pagination-class/</guid>
+      <description>本文中针对CodeIgniter的问题都是基于2.1.3的版本。
+ 在使用CodeIgniter做项目的过程中，需要用到ajax来分页，但是CI集成的分页类只支持在URL后面跟分页参数的方式。如果想实现ajax的分页，通过一定的方法也可以实现。
+###使用原有实现示例
+&amp;lt;?php $config[&amp;#39;base_url&amp;#39;] = &amp;#39;javascript:pageAnchor(\&amp;#39;&amp;#39;; $config[&amp;#39;suffix&amp;#39;] = &amp;#39;\&amp;#39;);&amp;#39;; $config[&amp;#39;first_url&amp;#39;] = &amp;#39;javascript:pageAnchor(\&amp;#39;/0\&amp;#39;)&amp;#39;; $config[&amp;#39;anchor_class&amp;#39;] = &amp;#34;&amp;#34;; //添加你的样式  $config[&amp;#39;cur_tag_open&amp;#39;] = &amp;#39;&amp;lt;a href=&amp;#34;javascript:void(0);&amp;#34; class=&amp;#34;&amp;#34;&amp;gt;&amp;#39;; $config[&amp;#39;cur_tag_close&amp;#39;] = &amp;#39;&amp;lt;/a&amp;gt;&amp;#39;; $config[&amp;#39;prev_link&amp;#39;] = &amp;#39;&amp;amp;lt;&amp;#39;; $config[&amp;#39;next_link&amp;#39;] = &amp;#39;&amp;amp;gt;&amp;#39;; $config[&amp;#39;first_link&amp;#39;] = &amp;#39;&amp;amp;laquo;&amp;#39;; $config[&amp;#39;last_link&amp;#39;] = &amp;#39;&amp;amp;raquo;&amp;#39;; $config[&amp;#39;first_tag_close&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;last_tag_open&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;next_tag_open&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;next_tag_close&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;prev_tag_open&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;num_tag_open&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;total_rows&amp;#39;] = 100; //数据总条数  $config[&amp;#39;per_page&amp;#39;] = 10; // 这里原来是要配置$config[&amp;#39;uri_segment&amp;#39;] 默认为3  // 分页类中有一个地方  // $CI-&amp;gt;uri-&amp;gt;segment($this-&amp;gt;uri_segment) !</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="这两年唱衰 PHP 的论调不少（其实我觉得大可不必），导致不少 PHP 程序员产生危机感，纷纷寻求转型，根据我的观察，基本上 Go 都是首选。不管怎么说，技多不压身，多掌握一点知识总是好的。本文就作为一个基础的入门来帮助 PHP 程序员入门 Go 语言吧。
+1. 脚本语言 vs 编译型语言 这其实是个我每次面试都会问的问题，脚本语言和编译型语言有什么区别。维基上的解释：
+ 语法和结构通常比较简单 学习和使用通常比较简单 通常以容易修改程序的“解释”作为运行方式，而不需要“编译” 程序的开发产能优于运行性能  从我的角度，可以从执行角度和环境依赖上来说。
+简单理解，作为脚本语言，你可以单独写一行 &amp;lt;?php echo &amp;quot;Hello World&amp;quot;;，命名为任意文件，然后使用 php 解释器来执行。甚至可以使用 php -a 进入交互环境执行任何代码。
+go 这种编译型语言就不是这样。因为是先编译后执行，go 一定需要知道程序的入口文件和入口函数。所以一个程序的执行一定需要 main 函数（go test 文件除外）。虽然 go 也提供了 run 指令省略到编译的步骤。
+在环境依赖上，执行 php 的服务器一定需要预装固定版本 php 解释器，而编译成二进制文件的 go 程序则只需要在对应架构的服务器上即可运行。这本质上是 php 的解释器扮演的才是 go 编译后的程序的角色，而脚本则是在 php 解释器构建的一层虚拟机上执行的。所以脚本语言在不同平台上表现的一致性更好，而使用编译型语言则需要有更好的操作系统和网络底层知识。
+2. 动态语言 vs 静态语言 动态语言与静态语言又分别被称为弱类型语言和强类型语言，其实这样描述也更加形象。
+PHP 会在执行的过程中做隐式类型转换（虽然也提供了类型转换的函数和关键字），go 的类型转换却需要手动、强制的来执行。
+弱类型语言带来了很多便利性，但是也隐含了很多问题，以至于 PHP 要引入 === 这种比较方式，不过经验丰富的 PHP 开发应该是能在每一个变量定义之前都确认好它的数据类型的。go 语言中不存在隐式转换的问题，但是写起来肯定也没有那么爽，光是 int 都有多种长度的类型，会让很多新手不太适应，同样的道理，定义每一个变量之前都稍加思考，就能轻松解决这个问题。" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="http://0x1.im/posts/2020-05-26-way-from-php-to-go/" />
+
+
+    <title>
+        
+            写给 PHP 程序员的 Go 入门教程 :: Scholer&#39;s Homapage 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.d1ea4af8fd04fb24a4f8b882ea54bd04eb245427ca4baf527c81a5dab071410b.css">
+
+
+
+
+
+
+<meta itemprop="name" content="写给 PHP 程序员的 Go 入门教程">
+<meta itemprop="description" content="这两年唱衰 PHP 的论调不少（其实我觉得大可不必），导致不少 PHP 程序员产生危机感，纷纷寻求转型，根据我的观察，基本上 Go 都是首选。不管怎么说，技多不压身，多掌握一点知识总是好的。本文就作为一个基础的入门来帮助 PHP 程序员入门 Go 语言吧。
+1. 脚本语言 vs 编译型语言 这其实是个我每次面试都会问的问题，脚本语言和编译型语言有什么区别。维基上的解释：
+ 语法和结构通常比较简单 学习和使用通常比较简单 通常以容易修改程序的“解释”作为运行方式，而不需要“编译” 程序的开发产能优于运行性能  从我的角度，可以从执行角度和环境依赖上来说。
+简单理解，作为脚本语言，你可以单独写一行 &lt;?php echo &quot;Hello World&quot;;，命名为任意文件，然后使用 php 解释器来执行。甚至可以使用 php -a 进入交互环境执行任何代码。
+go 这种编译型语言就不是这样。因为是先编译后执行，go 一定需要知道程序的入口文件和入口函数。所以一个程序的执行一定需要 main 函数（go test 文件除外）。虽然 go 也提供了 run 指令省略到编译的步骤。
+在环境依赖上，执行 php 的服务器一定需要预装固定版本 php 解释器，而编译成二进制文件的 go 程序则只需要在对应架构的服务器上即可运行。这本质上是 php 的解释器扮演的才是 go 编译后的程序的角色，而脚本则是在 php 解释器构建的一层虚拟机上执行的。所以脚本语言在不同平台上表现的一致性更好，而使用编译型语言则需要有更好的操作系统和网络底层知识。
+2. 动态语言 vs 静态语言 动态语言与静态语言又分别被称为弱类型语言和强类型语言，其实这样描述也更加形象。
+PHP 会在执行的过程中做隐式类型转换（虽然也提供了类型转换的函数和关键字），go 的类型转换却需要手动、强制的来执行。
+弱类型语言带来了很多便利性，但是也隐含了很多问题，以至于 PHP 要引入 === 这种比较方式，不过经验丰富的 PHP 开发应该是能在每一个变量定义之前都确认好它的数据类型的。go 语言中不存在隐式转换的问题，但是写起来肯定也没有那么爽，光是 int 都有多种长度的类型，会让很多新手不太适应，同样的道理，定义每一个变量之前都稍加思考，就能轻松解决这个问题。">
+<meta itemprop="datePublished" content="2020-05-26T10:41:41&#43;00:00" />
+<meta itemprop="dateModified" content="2020-05-26T10:41:41&#43;00:00" />
+<meta itemprop="wordCount" content="180">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="写给 PHP 程序员的 Go 入门教程"/>
+<meta name="twitter:description" content="这两年唱衰 PHP 的论调不少（其实我觉得大可不必），导致不少 PHP 程序员产生危机感，纷纷寻求转型，根据我的观察，基本上 Go 都是首选。不管怎么说，技多不压身，多掌握一点知识总是好的。本文就作为一个基础的入门来帮助 PHP 程序员入门 Go 语言吧。
+1. 脚本语言 vs 编译型语言 这其实是个我每次面试都会问的问题，脚本语言和编译型语言有什么区别。维基上的解释：
+ 语法和结构通常比较简单 学习和使用通常比较简单 通常以容易修改程序的“解释”作为运行方式，而不需要“编译” 程序的开发产能优于运行性能  从我的角度，可以从执行角度和环境依赖上来说。
+简单理解，作为脚本语言，你可以单独写一行 &lt;?php echo &quot;Hello World&quot;;，命名为任意文件，然后使用 php 解释器来执行。甚至可以使用 php -a 进入交互环境执行任何代码。
+go 这种编译型语言就不是这样。因为是先编译后执行，go 一定需要知道程序的入口文件和入口函数。所以一个程序的执行一定需要 main 函数（go test 文件除外）。虽然 go 也提供了 run 指令省略到编译的步骤。
+在环境依赖上，执行 php 的服务器一定需要预装固定版本 php 解释器，而编译成二进制文件的 go 程序则只需要在对应架构的服务器上即可运行。这本质上是 php 的解释器扮演的才是 go 编译后的程序的角色，而脚本则是在 php 解释器构建的一层虚拟机上执行的。所以脚本语言在不同平台上表现的一致性更好，而使用编译型语言则需要有更好的操作系统和网络底层知识。
+2. 动态语言 vs 静态语言 动态语言与静态语言又分别被称为弱类型语言和强类型语言，其实这样描述也更加形象。
+PHP 会在执行的过程中做隐式类型转换（虽然也提供了类型转换的函数和关键字），go 的类型转换却需要手动、强制的来执行。
+弱类型语言带来了很多便利性，但是也隐含了很多问题，以至于 PHP 要引入 === 这种比较方式，不过经验丰富的 PHP 开发应该是能在每一个变量定义之前都确认好它的数据类型的。go 语言中不存在隐式转换的问题，但是写起来肯定也没有那么爽，光是 int 都有多种长度的类型，会让很多新手不太适应，同样的道理，定义每一个变量之前都稍加思考，就能轻松解决这个问题。"/>
+
+
+
+
+
+    <meta property="article:section" content="go" />
+
+
+
+    <meta property="article:published_time" content="2020-05-26 10:41:41 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="http://0x1.im" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">hello</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/about/">About</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        One minute
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="http://0x1.im/posts/2020-05-26-way-from-php-to-go/">写给 PHP 程序员的 Go 入门教程</a>
+      </h1>
+
+      
+
+      <div class="post-content">
+        <p>这两年唱衰 PHP 的论调不少（其实我觉得大可不必），导致不少 PHP 程序员产生危机感，纷纷寻求转型，根据我的观察，基本上 Go 都是首选。不管怎么说，技多不压身，多掌握一点知识总是好的。本文就作为一个基础的入门来帮助 PHP 程序员入门 Go 语言吧。</p>
+<h3 id="1--脚本语言-vs-编译型语言">1.  脚本语言 vs 编译型语言</h3>
+<p>这其实是个我每次面试都会问的问题，脚本语言和编译型语言有什么区别。维基上的解释：</p>
+<ul>
+<li>语法和结构通常比较简单</li>
+<li>学习和使用通常比较简单</li>
+<li>通常以容易修改程序的“解释”作为运行方式，而不需要“编译”</li>
+<li>程序的开发产能优于运行性能</li>
+</ul>
+<p>从我的角度，可以从执行角度和环境依赖上来说。</p>
+<p>简单理解，作为脚本语言，你可以单独写一行 <code>&lt;?php echo &quot;Hello World&quot;;</code>，命名为任意文件，然后使用 php 解释器来执行。甚至可以使用 <code>php -a</code> 进入交互环境执行任何代码。</p>
+<p>go 这种编译型语言就不是这样。因为是先编译后执行，go 一定需要知道程序的入口文件和入口函数。所以一个程序的执行一定需要 <code>main</code> 函数（go test 文件除外）。虽然 go 也提供了 <code>run</code> 指令省略到编译的步骤。</p>
+<p>在环境依赖上，执行 php 的服务器一定需要预装固定版本 php 解释器，而编译成二进制文件的 go 程序则只需要在对应架构的服务器上即可运行。这本质上是 php 的解释器扮演的才是 go 编译后的程序的角色，而脚本则是在 php 解释器构建的一层虚拟机上执行的。所以脚本语言在不同平台上表现的一致性更好，而使用编译型语言则需要有更好的操作系统和网络底层知识。</p>
+<h3 id="2-动态语言-vs-静态语言">2. 动态语言 vs 静态语言</h3>
+<p>动态语言与静态语言又分别被称为弱类型语言和强类型语言，其实这样描述也更加形象。</p>
+<p>PHP 会在执行的过程中做隐式类型转换（虽然也提供了类型转换的函数和关键字），go 的类型转换却需要手动、强制的来执行。</p>
+<p>弱类型语言带来了很多便利性，但是也隐含了很多问题，以至于 PHP 要引入 <code>===</code> 这种比较方式，不过经验丰富的 PHP 开发应该是能在每一个变量定义之前都确认好它的数据类型的。go 语言中不存在隐式转换的问题，但是写起来肯定也没有那么爽，光是 <code>int</code> 都有多种长度的类型，会让很多新手不太适应，同样的道理，定义每一个变量之前都稍加思考，就能轻松解决这个问题。</p>
+<p>go 提供了 <code>:=</code> 和 <code>var</code> 关键字的赋值方式，编译器会根据初始化的值自动推导出相应的类型，但是这个用法同样也要求你小心处理作用域的问题，不妨猜一下下面这段代码的输出：</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;fmt&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">a</span> <span class="kt">int</span>
+    <span class="nx">a</span> <span class="p">=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nf">foo</span><span class="p">();</span> <span class="nx">ok</span> <span class="o">==</span> <span class="kc">true</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
+
+    <span class="kd">var</span> <span class="nx">ok</span> <span class="kt">bool</span>
+    <span class="k">if</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">ok</span> <span class="p">=</span> <span class="nf">foo</span><span class="p">();</span> <span class="nx">ok</span> <span class="o">==</span> <span class="kc">true</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">foo</span><span class="p">()</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div><h3 id="3-go-还要不要-mvc">3. Go 还要不要 MVC</h3>
+<p>先说我的观点：不需要。其实不只是 go 开发，PHP 的微服务框架比如 Slim 默认也不是按照 MVC 的方式组织代码的。本身现在前端工程化程度越来越高，一般都拉出去单独开项目，也不需要接口项目准备 V  的部分，所以说 MVC 是时代的产物，可以被淘汰了。</p>
+<p>再者，go 使用的函数名、变量一般都比较简洁，<code>Controller</code> 这个长长的单词看起来真的有点突兀。</p>
+<p>go 语言本身有一些约定性的命名方式，对代码的访问、编译和执行都是有影响的，比如 <code>internal</code> 目录下的内容不能被外部包访问，在搭建 go 项目的时候，也应该按照这些约定来，这才符合 go 的规范。</p>
+<p>这里有一个 go 项目目录组织的 demo：<a href="https://github.com/golang-standards/project-layout">https://github.com/golang-standards/project-layout</a>， 值得参考一下。也可以看一下这篇文章，写的很不错：<a href="https://draveness.me/golang-101/">https://draveness.me/golang-101/</a>。</p>
+<h3 id="4-go-还要不要框架">4. Go 还要不要框架</h3>
+<p>既然 MVC 都不需要了，那开发框架还需不需要呢？这个问题没有固定答案，因为同样在 PHP 中，框架的概念也渐渐弱化，包的概念逐渐强化。只要有 Composer，徒手搭建一个 PHP 的框架不是什么难事。</p>
+<p>从 <code>1.13</code> 的版本之后，go 终于有了默认统一的包管理方式，虽然不算完美，但总算解决了以前管理混乱、限制太多的问题，具体的介绍可以参考官方说明：<a href="https://blog.golang.org/using-go-modules">https://blog.golang.org/using-go-modules</a>。</p>
+<p>选一个或者写一个好用的基础结构，配上一些不错的包，就可以愉快的开始项目开发了。</p>
+<p>最后我还是想说明一下，语言本身可能有设计上的不同，但不应该有好坏之分，特别是应用比较广泛的语言，自然是因为其自身的某些特性吸引人。选择适合自己的、适合业务的就可以，不要当语言上的精神贵族。</p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        180 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        2020-05-26 18:41
+      </p>
+    </div>
+
+    
+      <div class="pagination">
+        <div class="pagination__title">
+          <span class="pagination__title-h"></span>
+          <hr />
+        </div>
+
+        <div class="pagination__buttons">
+          
+            <span class="button previous">
+              <a href="http://0x1.im/posts/2020-07-08-a-json-toys/">
+                <span class="button__icon">←</span>
+                <span class="button__text">使用 Golang 实现一个 JSON 命令行工具</span>
+              </a>
+            </span>
+          
+
+          
+            <span class="button next">
+              <a href="http://0x1.im/posts/2018-01-06-redis-websocket-push/">
+                <span class="button__text">基于 Redis 的 Pub/Sub 实现 Websocket 推送</span>
+                <span class="button__icon">→</span>
+              </a>
+            </span>
+          
+        </div>
+      </div>
+    
+
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+            
+            <span> <a href="http://0x1.im/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>

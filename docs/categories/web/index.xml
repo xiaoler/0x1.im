@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>web on Scholer&#39;s Homapage</title>
+    <link>http://0x1.im/categories/web/</link>
+    <description>Recent content in web on Scholer&#39;s Homapage</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-hans</language>
+    <lastBuildDate>Sun, 14 Dec 2014 18:36:44 +0000</lastBuildDate>
+    
+	<atom:link href="http://0x1.im/categories/web/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>开始学习和使用Laravel</title>
+      <link>http://0x1.im/posts/2014-12-14-start-to-learn-laravel/</link>
+      <pubDate>Sun, 14 Dec 2014 18:36:44 +0000</pubDate>
+      
+      <guid>http://0x1.im/posts/2014-12-14-start-to-learn-laravel/</guid>
+      <description>About Laravel Laravel是一个最近两年兴起的框架，在去年的PHP框架流行程度统计中居首，占据25.87%的份额。 Laravel是一个面向对象的PHP框架，大量运用了PHP5的特性。Laravel 4.0的版本需要在PHP 5.3.7 以上的环境中运行，而最新的4.2 版本则需要PHP 5.4以上的环境。 Laravel是一个重量级的框架，依赖于PHP社区中的现有标准、框架来实现。所以学习Laravel要先从以下几个项目和概念开始。
+PSR PSR的全称是PHP Standard Recommendation (PHP标准推荐)，是由PHP-FIG (PHP Framework Interop Group) 创导并规定的，到目前一共发不过5个标准 (PSR-0 ~ PSR-4)。
+PSR项目的github地址：https://github.com/php-fig/fig-standards 关于PSR的具体介绍可以参考：http://segmentfault.com/a/1190000000380008
+PSR:
+ PSR-0 自动加载 PSR-1 基本代码规范 PSR-2 代码样式 PSR-3 日志接口 PSR-4 autoloader, PSR-4可以替代PSR-0, 也可以和包括PSR-0在内的其他自动加载机制共同使用  Laravel 中并不直接使用到PSR，而是因为Laravel 使用了另外一个项目：Composer。
+Composer Composer 是 PHP 用来管理依赖（dependency）关系的工具。你可以在自己的项目中声明所依赖的外部工具库（libraries），Composer 会帮你安装这些依赖的库文件。类似于Node.js的npm 和 Ruby的 bundler。
+Packagist 是Composer 的主要资源库，默认的，Composer 只使用Packagist 仓库。通过指定仓库地址，你可以从任何地方获取包。
+Composer支持PSR-0,PSR-4,classmap及files包含以支持文件自动加载。
+Laravel 使用Composer 安装。安装完成后vendor 目录下得composer 目录下有autolad 文件，会根据项目需要加载的类生成classmap。在项目中只需要：
+ require &amp;lsquo;vendor/autoload.php&amp;rsquo;;
+ 即可自动加载所有需要的类。
+Composer 中文文档：http://docs.</description>
+    </item>
+    
+    <item>
+      <title>一个XSS带来的一些收获和警示&amp;常见安全问题总结</title>
+      <link>http://0x1.im/posts/2014-09-22-one-month-begin-with-a-xss/</link>
+      <pubDate>Mon, 22 Sep 2014 21:55:59 +0000</pubDate>
+      
+      <guid>http://0x1.im/posts/2014-09-22-one-month-begin-with-a-xss/</guid>
+      <description>一个月前我们遭遇了一次XSS，原因很简单：输入内容没有做检查。说起来也很蠢：前端没有检查、写数据库没有检查、Cookie也不是Httponly的，所有可以做的防御措施，我们全部都轻松的避过去了。这样别人轻松的就拿到cookie登录到后台了。
+而最近又先后爆出SSL心脏滴血、Bash破壳漏洞等重大的安全问题，所以这一个月我就恶补了一些关于安全的知识，在代码和网站中去是不是以前忽略过的坑坑洼洼。有些东西可以总结一些。很基础但也很容易忽略。
+一、常见的攻击方式及防御 1. XSS注入 XSS注入是最常见的、最容易的，但危害性缺不小。对于需要登录的网站，拿到cookie就意味着可以登入后台。如果后台是管理员用的，那意味着网站的大部分信息都暴漏了。如果是用户的后台，一次注入可能就意味着很多用户的私人信息暴漏在了别人面前。
+XSS原理简单、手法说起来也不复杂。只要有输入框，没有做过滤，就留给了有心人一个注入代码的可能。通过注入代码调用远程的js文件，可以轻松获取到cookie等信息。
+XSS的的基本防御是对用户输入的内容做好过滤，对于一些特殊字符的进行必要的处理。特别是需要写入到数据库里的数据。
+2. CSRF攻击 别人诱导你点了一个链接、向后端发了一个请求，这个请求下转走了你支付宝里的钱，这就是CSRF。我登录了A站，A站有扣款的服务。我又登陆了B站，B站有个按钮实际上是A站的扣款链接，我并不知情，基本上就是这样的。
+防御CSRF的关键在于后端要判断出请求是不是来自于自己呈现给用户的网页。在客户端的输入框隐藏一个输入框，框里留一个随机数，后端校验这个随机数，就能有效防御绝大部分的CSRF攻击。因为其它的网页和你的网页同时在浏览器存在的时候，从他的网页里请求你的连接时，虽然能带上cookie等信息，但是他的网页却没办法从你的网页里获取到这个随机数。
+3. SQL注入 SQL注入与XSS类似，也是从输入入手。但不同于XSS，SQL注入的内容可能并不是在输入框里进行的。一个请求需要根据用户请求的内容查询数据库，就意味着可能会有SQL注入的风险。通过与预期不同的字符串进行查询，构造SQL语句来获取数据库的信息，哪怕是有一个SQL注入的漏洞不小心暴漏给了有心的人，可能整个数据库就要沦陷了。
+SQL注入的防御工作也是要对从前端获取到的查询信息进行严格的过滤。对于不在预期之内的字符串进行完善的处理。
+4. 被上传webshell 所谓webshell，就是能通过浏览器直接在服务器上操作命令，甚至读取到结果。webshell是由上传而已。比如PHP可以通过system命令或者exec命令执行系统命令。如果有心的人上传一个脚本到你的服务器，脚本中带上了一句：echo system($_GET[&#39;cmd&#39;]);，很不幸，他能执行任何web服务器和PHP解释器有权限执行的命令。
+预防webshell需要对上传文件做严格的限制，严格控制上传文件的格式，检查上传的内容。如果是有特殊必要，也要对上传文件的访问做好严格的限制。
+同时也要关注服务器、web服务器和脚本解释器的动态，比如Bash的破壳漏洞、IIS6的解析漏洞，及时防御才能规避风险。
+二、开发和管理系统过程中的注意事项 许多事情需要在平时开发和维护的过程中注意，处理好一些上的问题，往往能有效的规避大部分的风险。
+1. 特殊文件和特殊路径的问题 不要让不该显示的信息显示出去，不要让不该让人访问的东西让别人看到。
+刚搭好环境，有时候习惯随手写个phpinfo.php放那里检查一下，事后忘记了处理，别人正好看到了，猜解路径、或者恰好又拿到了别的把柄，一整个网站基本上也就去了。
+一些框架特定的版本爆出来大的漏洞，而你恰好留了version或license文件在网站跟目录，替别人省了很多事情。比如thinkphp曾经有过任意代码执行漏洞。
+直接通过svn更新代码，svn早期有些版本会在所有目录下都有.svn目录，有特定的文件命名文件里直接就是代码，而你的web服务器恰好没有解析，整个网站的代码就到了别人手里。即使在新的版本里，根目录下也有个wc.db的文件，而你恰好又没有不允许.svn目录的访问。
+管理后台就是一个简单的网站的路径，比如phpmyadmin就是/phpmyadmin，phpmyadmin有几个版本有万能用户名的漏洞，轻轻松松拿到数据库。
+项目开发过程中，随手把数据库导出一个sql文件保存在web根目录下面，放到服务器上的时候也没有删除，有人随手去试一试，就把它下载下来了。这是很危险的。
+2. 不要使用弱口令 任何时候、任何地方都不要使用弱口令。
+像上面所说，即使你的phpmyadmin的版本恰好规避了以上的漏洞，而你安装的时候随手敲了个123456当密码。那基本上等于没有设防。
+还有网站后台的admin如果，使用一些简单的网站名称、域名或者常见的数字字母组合当密码，很容易猜解出来。
+服务器端的脚本访问数据库也不要用root账户完全权限的账号密码，如果网站被上传webshell，拿到配置文件，而数据库又恰好是超级权限的账户，不近代码暴漏在别人面前，网站也被拖库了。
+3. 服务端安全策略与权限分配 如果服务器沦陷了，那基本上任何信息都暴漏在了他人面前，所以做好服务器端的管理尤为重要。登录限制、防暴力猜解、防sqlmap、防端口扫描、监控异常流量和IP能够抵御部分极大的隐患。比如破壳漏洞出现时，有些恶意注入会执行一个ping，如果ping回对方的服务器，你的服务器很快就沦陷到他手里了。如果你恰好禁止了icmp包的output，就能度过一段缓冲期。
+在Linux上，每个应用程序都有一个执行的用户，web服务器和脚本解释器的用户权限做好限制、web文件目录做好分配可限制也能防止一些异常命令的执行。
+4. 经常检查服务器、数据库等log信息 有时候事情已经发生了，能及时发现及时处理也能把损失降到最低。可怕的时候服务器已经沦陷在别人手里了，你还不知道。
+很多时候漏洞和隐患也不是单独存在的，找到一个突破口，往往就能攻陷其它地方。比如在数据库里写入一个webshell语句，然后通过构造查询拿到服务器上的东西。
+5. 经常关注安全信息 一个安全问题爆出来之后，不要想当然的认为我这里应该没事，及时检查一下才能有效预防。经常浏览一下乌云和freebuf也能及时获取到相关的资讯。
+安全问题是个长期的工作，没有铁打的系统，不是一蹴而就的事情，时时留心最重要。</description>
+    </item>
+    
+    <item>
+      <title>什么时候需要使用urlencode和urldecode函数</title>
+      <link>http://0x1.im/posts/2014-09-17-when-to-use-urlencode-and-urldecode/</link>
+      <pubDate>Wed, 17 Sep 2014 19:07:27 +0000</pubDate>
+      
+      <guid>http://0x1.im/posts/2014-09-17-when-to-use-urlencode-and-urldecode/</guid>
+      <description>本文默认的语言为PHP
+今天在使用fscokopen的时候需要在输入中带上get参数，测试的时候发现参数传过去有问题，于是简单的把参数urlencode了一下再传，问题解决。
+后来检查了一下，原来是在参数中有空格，被拼接在需要通过fputs往scoket里字符串里再写进去就出现问题了。
+于是整理了一下关于urlencode和urldecode的小问题：
+  除了-._三个字符、大小写字母、数字，其它字符串都会被urlencode处理（虽然encode编码之后的字符串都是数字和大写字母，但是小写字母是不会被编码的）
+  通过浏览器在URL后面带GET参数的时候都是经过encode处理的（所以才叫urlencode的嘛）
+  PHP在后台接收参数的时候无需经过urldecode的处理了：
+ Warning: 超全局变量 $_GET 和 $_REQUEST 已经被解码了。对 $_GET 或 $_REQUEST 里的元素使用 urldecode() 将会导致不可预计和危险的结果
+   POST传递和接受参数都不需要经过encode和decode处理，$_POST接收的参数也不会进行解码操作
+  在使用fsockopen等函数，通过凭借header信息字符串的方式添加进去的参数，如果经过eneode，需要自己调用urldecode方法
+  encode之后的字符串还会可以再次被encode，%会被编码为%25，但是如果在浏览器上带上encode之后的字符串，字符串不会被再次编码
+  PHP的urlencode函数被把空格替换成+,rawurlencode函数会空格编码成20%
+  </description>
+    </item>
+    
+    <item>
+      <title>PHP的session与cookie &amp; CodeIgniter的session修改</title>
+      <link>http://0x1.im/posts/2014-09-16-php-session-cookie/</link>
+      <pubDate>Tue, 16 Sep 2014 21:01:00 +0000</pubDate>
+      
+      <guid>http://0x1.im/posts/2014-09-16-php-session-cookie/</guid>
+      <description>设定cookie的读取为httponly 最近网站被XSS了，还被报到乌云上去了。感谢仁慈的好事者没有做什么破坏，也给我提了醒。郁闷之与，做好防范才是关键。 做好防范，除了做好设置过滤以外，同事提到一个环节是设定cookie的读取模式为httponly。
+于是我找了一下什么是httponly。在php.ini中有一个设置参数：
+session.cookie_httponly =  试试用ini_set把这个参数置为1，清理cookie刷新一下，结果显示不行。从php.ini文件中改也不行。
+于是放弃了这种方法，在CodeIgniter中的源文件中改了几个地方，通过setcookie的参数设定httponly。
+但是还有点不死心，想看一下这个参数到底是做什么的。在网上找了一下，也没有专门去讲这个事情的，甚至有些提到这个参数和setcookie混用的。
+在PHP的源码中搜了一下，，在ext/session/session.c找到了以下的地方：
+if (PS(cookie_httponly)) { smart_str_appends(&amp;amp;ncookie, COOKIE_HTTPONLY); } smart_str_0(&amp;amp;ncookie); php_session_remove_cookie(TSRMLS_C); /* remove already sent session ID cookie */ /* &amp;#39;replace&amp;#39; must be 0 here, else a previous Set-Cookie header, probably sent with setcookie() will be replaced! */ sapi_add_header_ex(estrndup(ncookie.s-&amp;gt;val, ncookie.s-&amp;gt;len), ncookie.s-&amp;gt;len, 0, 0 TSRMLS_CC); 从这段代码中可以看出httponly这个参数是被写在客户端存储session的cookie头上的，所以作用的范围仅限于session，而且只有使用了PHP自己的session的时候才会起作用（这个参数对其它的cookie更是没有任何作用的），在使用session_start()之后，客户端会保存一个cookie记录当前会话的session数据（默认名称是PHPSESSID，通过sesssion.name修改），这里配置的所有关于cookie的参数，都是针对这一条数据的。CI的session是自己实现的。所以使用这个参数当然是没有用的。
+于是我梳理了一下cookie和session的知识并记录下来。很多信息从网络上可以获取到。
+cookie与session 1.session与session机制
+session与session机制是两个的概念。
+session，顾名思义，指的是会话的过程，而session机制指的是创建会话过程并维护的方式。 我们说的PHP的session指的是PHP实现并维护的session机制（可以使用session_start()函数开启并使用$_SESSION保存和获取参数），但是我们也可以自己实现或者使用框架里的session实现方式。
+2.session机制
+一个完善的session机制如下：
+  服务器生成一个id作为会话的id，同时可以已这个id为基础存储一些数据，整个session的id和数据可以存在文件里，也可以存在数据库里（PHP的session机制默认是存储文件）。
+  服务器把session的id和数据经过整理、加密等一系类过程作为一个数据（字符串）发送给客户端（浏览器），客户端将这个session存储下来。存储的方式可能有多种，最常用的是cookie（也可以是别的方式，只要保证在自己的web程序中可以取到，比如存在一个form标签里也是可以的）。
+  客户端（浏览器）发送请求时，带上session数据（大多时候是cookie）一起送给服务器，服务器通过解析这段数据来判断请求来自哪里，已经在这次会话的过程中存储的一些数据（后端）。</description>
+    </item>
+    
+  </channel>
+</rss>

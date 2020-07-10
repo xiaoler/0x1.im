@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>server on Scholer&#39;s Homapage</title>
+    <link>http://0x1.im/categories/server/</link>
+    <description>Recent content in server on Scholer&#39;s Homapage</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-hans</language>
+    <lastBuildDate>Sat, 20 Sep 2014 14:32:55 +0000</lastBuildDate>
+    
+	<atom:link href="http://0x1.im/categories/server/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux(Ubuntu) iptables使用小记</title>
+      <link>http://0x1.im/posts/2014-09-20-use-linux-ubuntu-iptables/</link>
+      <pubDate>Sat, 20 Sep 2014 14:32:55 +0000</pubDate>
+      
+      <guid>http://0x1.im/posts/2014-09-20-use-linux-ubuntu-iptables/</guid>
+      <description>1. 基础介绍 netfilter/iptables 是与2.4版本之后Linux内核集成的IP信息包过滤系统。iptables不是防火墙，只是定义过滤规则的工具，读取规则并发挥作用的是netfilter。 netfilter/iptables是内核集成的，不存在start/stop或者禁用的说法。可以用iptables命令创建过滤规则。（现在较新的内核中已经默认集成，无需单独安装）
+项目主页：http://www.netfilter.org/projects/iptables/
+常用命令：
+ 查看帮助：iptables -h 查看过滤规则：iptables -L [-n] [-v] 子命令：  -n：以数字的方式显示ip，它会将ip直接显示出来，如果不加-n，则会将ip反向解析成主机名 -v：显示详细信息    另外，在实际建立规则的过程中，iptables还需要和以下两个命令配合使用：
+ 保存创建好的规则到文件：iptables-save 从文件中回复规则：iptables-restore  2. 规则参数 iptables创建规则的命令和参数相当繁杂，基本的规则形式如下：
+iptables [-t table] command chain [match] [-j target] 以下是各段命令主要参数的解释。
+  -t table，table有四个选项，默认为filter：
+ filter：一般的过滤功能，默认的table nat：用于NAT功能（端口映射，地址映射等） mangle：用于对特定数据包的修改 raw：主要用于配合NOTRACK的响应 security：用户强制访问控制(MAC)网络规则    command，定义规则写入方式：
+ -P：定义链的默认规则（所有其它规则都没有匹配到的数据包，将按照默认规则来执行） -A：追加，在当前链的最后新增一个规则 -I num：插入，把当前规则插入为第几条 -R num：Replays替换/修改第几条规则 -D num：删除，明确指定删除第几条规则    chain，netfilter可以在五个位置进行过滤：
+ PREROUTING (路由前) INPUT (数据包流入口) FORWARD (转发管卡) OUTPUT(数据包出口) POSTROUTING（路由后）    match：匹配规则，常用的规则有以下几种：</description>
+    </item>
+    
+  </channel>
+</rss>

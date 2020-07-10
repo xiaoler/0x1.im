@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Scholer&#39;s Homapage</title>
+    <link>http://0x1.im/categories/</link>
+    <description>Recent content in Categories on Scholer&#39;s Homapage</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-hans</language>
+    <lastBuildDate>Wed, 08 Jul 2020 09:39:40 +0000</lastBuildDate>
+    
+	<atom:link href="http://0x1.im/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>go</title>
+      <link>http://0x1.im/categories/go/</link>
+      <pubDate>Wed, 08 Jul 2020 09:39:40 +0000</pubDate>
+      
+      <guid>http://0x1.im/categories/go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>php</title>
+      <link>http://0x1.im/categories/php/</link>
+      <pubDate>Sat, 06 Jan 2018 14:04:11 +0000</pubDate>
+      
+      <guid>http://0x1.im/categories/php/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>life</title>
+      <link>http://0x1.im/categories/life/</link>
+      <pubDate>Sat, 07 Jan 2017 08:00:00 +0000</pubDate>
+      
+      <guid>http://0x1.im/categories/life/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>laravel</title>
+      <link>http://0x1.im/categories/laravel/</link>
+      <pubDate>Sun, 25 Oct 2015 23:50:33 +0000</pubDate>
+      
+      <guid>http://0x1.im/categories/laravel/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>http://0x1.im/categories/python/</link>
+      <pubDate>Sun, 06 Sep 2015 11:40:24 +0000</pubDate>
+      
+      <guid>http://0x1.im/categories/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>nginx</title>
+      <link>http://0x1.im/categories/nginx/</link>
+      <pubDate>Thu, 09 Apr 2015 15:36:35 +0000</pubDate>
+      
+      <guid>http://0x1.im/categories/nginx/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>web</title>
+      <link>http://0x1.im/categories/web/</link>
+      <pubDate>Sun, 14 Dec 2014 18:36:44 +0000</pubDate>
+      
+      <guid>http://0x1.im/categories/web/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>server</title>
+      <link>http://0x1.im/categories/server/</link>
+      <pubDate>Sat, 20 Sep 2014 14:32:55 +0000</pubDate>
+      
+      <guid>http://0x1.im/categories/server/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>codeigniter</title>
+      <link>http://0x1.im/categories/codeigniter/</link>
+      <pubDate>Sun, 14 Sep 2014 23:37:54 +0000</pubDate>
+      
+      <guid>http://0x1.im/categories/codeigniter/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mobile</title>
+      <link>http://0x1.im/categories/mobile/</link>
+      <pubDate>Sat, 09 Aug 2014 15:50:00 +0000</pubDate>
+      
+      <guid>http://0x1.im/categories/mobile/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

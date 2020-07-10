@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="提到 Nginx &#43; PHP 服务的错误日志，我们通常能想到的有 Nginx 的 access 日志、error 日志以及 PHP 的 error 日志。虽然看起来是个很简单的问题，但里面其实又牵扯到应用配置以及日志记录位置的问题，如果是在 ubuntu 等系统下使用 apt-get 的方式来安装，其自有一套较为合理的的配置文件可用。再者运行的应用程序中的配置也会影响到日志记录的方式及内容。
+错误与异常的区别 关于错误与异常，我们可以用一个简单的例子来理解：
+&amp;lt;?php try { 1 / 0; } catch (Exception $e) { echo &amp;#34;catched&amp;#34;, PHP_EOL; } 执行这个小示例会直接得到一个『PHP Warning: Division by zero …』错误。原因很简单：这是逻辑错误，并不是异常，所以不能被 try 捕获。同样，对于变量使用前未定义这种问题，也是同样的会产生 warning 而不是被捕获。
+但是这个问题在 PHP7 中却有了一些改动，比如上面的例子中我把 / 改成 %，在 PHP7 的环境中执行会得到一个不一样的提示：
+ PHP Fatal error: Uncaught DivisionByZeroError &amp;hellip;
+ 根据这个提示，如果我把 catch 中的条件修改一下：
+&amp;lt;?php try { 1 / 0; } catch (DivisionByZeroError $e) { echo &amp;#34;catched&amp;#34;, PHP_EOL; } 这样就可以正常捕获到错误并输出 catched 了。" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="http://0x1.im/posts/2016-07-31-php-error-exception-log/" />
+
+
+    <title>
+        
+            PHP 错误与异常的日志记录 :: Scholer&#39;s Homapage 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.d1ea4af8fd04fb24a4f8b882ea54bd04eb245427ca4baf527c81a5dab071410b.css">
+
+
+
+
+
+
+<meta itemprop="name" content="PHP 错误与异常的日志记录">
+<meta itemprop="description" content="提到 Nginx &#43; PHP 服务的错误日志，我们通常能想到的有 Nginx 的 access 日志、error 日志以及 PHP 的 error 日志。虽然看起来是个很简单的问题，但里面其实又牵扯到应用配置以及日志记录位置的问题，如果是在 ubuntu 等系统下使用 apt-get 的方式来安装，其自有一套较为合理的的配置文件可用。再者运行的应用程序中的配置也会影响到日志记录的方式及内容。
+错误与异常的区别 关于错误与异常，我们可以用一个简单的例子来理解：
+&lt;?php try { 1 / 0; } catch (Exception $e) { echo &#34;catched&#34;, PHP_EOL; } 执行这个小示例会直接得到一个『PHP Warning: Division by zero …』错误。原因很简单：这是逻辑错误，并不是异常，所以不能被 try 捕获。同样，对于变量使用前未定义这种问题，也是同样的会产生 warning 而不是被捕获。
+但是这个问题在 PHP7 中却有了一些改动，比如上面的例子中我把 / 改成 %，在 PHP7 的环境中执行会得到一个不一样的提示：
+ PHP Fatal error: Uncaught DivisionByZeroError &hellip;
+ 根据这个提示，如果我把 catch 中的条件修改一下：
+&lt;?php try { 1 / 0; } catch (DivisionByZeroError $e) { echo &#34;catched&#34;, PHP_EOL; } 这样就可以正常捕获到错误并输出 catched 了。">
+<meta itemprop="datePublished" content="2016-07-31T20:59:51&#43;00:00" />
+<meta itemprop="dateModified" content="2016-07-31T20:59:51&#43;00:00" />
+<meta itemprop="wordCount" content="167">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="PHP 错误与异常的日志记录"/>
+<meta name="twitter:description" content="提到 Nginx &#43; PHP 服务的错误日志，我们通常能想到的有 Nginx 的 access 日志、error 日志以及 PHP 的 error 日志。虽然看起来是个很简单的问题，但里面其实又牵扯到应用配置以及日志记录位置的问题，如果是在 ubuntu 等系统下使用 apt-get 的方式来安装，其自有一套较为合理的的配置文件可用。再者运行的应用程序中的配置也会影响到日志记录的方式及内容。
+错误与异常的区别 关于错误与异常，我们可以用一个简单的例子来理解：
+&lt;?php try { 1 / 0; } catch (Exception $e) { echo &#34;catched&#34;, PHP_EOL; } 执行这个小示例会直接得到一个『PHP Warning: Division by zero …』错误。原因很简单：这是逻辑错误，并不是异常，所以不能被 try 捕获。同样，对于变量使用前未定义这种问题，也是同样的会产生 warning 而不是被捕获。
+但是这个问题在 PHP7 中却有了一些改动，比如上面的例子中我把 / 改成 %，在 PHP7 的环境中执行会得到一个不一样的提示：
+ PHP Fatal error: Uncaught DivisionByZeroError &hellip;
+ 根据这个提示，如果我把 catch 中的条件修改一下：
+&lt;?php try { 1 / 0; } catch (DivisionByZeroError $e) { echo &#34;catched&#34;, PHP_EOL; } 这样就可以正常捕获到错误并输出 catched 了。"/>
+
+
+
+
+
+    <meta property="article:section" content="php" />
+
+
+
+    <meta property="article:published_time" content="2016-07-31 20:59:51 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="http://0x1.im" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">hello</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/about/">About</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        One minute
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="http://0x1.im/posts/2016-07-31-php-error-exception-log/">PHP 错误与异常的日志记录</a>
+      </h1>
+
+      
+
+      <div class="post-content">
+        <p>提到 Nginx + PHP 服务的错误日志，我们通常能想到的有 Nginx 的 access 日志、error 日志以及 PHP 的 error 日志。虽然看起来是个很简单的问题，但里面其实又牵扯到应用配置以及日志记录位置的问题，如果是在 ubuntu 等系统下使用 apt-get 的方式来安装，其自有一套较为合理的的配置文件可用。再者运行的应用程序中的配置也会影响到日志记录的方式及内容。</p>
+<h2 id="错误与异常的区别">错误与异常的区别</h2>
+<p>关于错误与异常，我们可以用一个简单的例子来理解：</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<span class="k">try</span> <span class="p">{</span>
+    <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s2">&#34;catched&#34;</span><span class="p">,</span> <span class="nx">PHP_EOL</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>执行这个小示例会直接得到一个『PHP Warning:  Division by zero …』错误。原因很简单：这是逻辑错误，并不是异常，所以不能被 <code>try</code> 捕获。同样，对于变量使用前未定义这种问题，也是同样的会产生 warning 而不是被捕获。</p>
+<p>但是这个问题在 PHP7 中却有了一些改动，比如上面的例子中我把 <code>/</code> 改成 <code>%</code>，在 PHP7 的环境中执行会得到一个不一样的提示：</p>
+<blockquote>
+<p>PHP Fatal error:  Uncaught DivisionByZeroError &hellip;</p>
+</blockquote>
+<p>根据这个提示，如果我把 catch 中的条件修改一下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<span class="k">try</span> <span class="p">{</span>
+    <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">DivisionByZeroError</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s2">&#34;catched&#34;</span><span class="p">,</span> <span class="nx">PHP_EOL</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>这样就可以正常捕获到错误并输出 <code>catched</code> 了。</p>
+<p>对于第一个示例，同样如果把 <code>Excepiton</code> 修改为 <code>ErrorException</code> 也可以正常捕获。</p>
+<p>至于为什么求余和除法，在 PHP5 中提示一致而在 PHP7（我的测试环境是 7.0.4） 中除法不属于 <code>DivisionByZeroError</code> 的问题，这应该是个 <a href="https://bugs.php.net/bug.php?id=69957">BUG</a>。</p>
+<h2 id="日志的记录">日志的记录</h2>
+<p>PHP 本身可配置的 log 大概有以下几个：</p>
+<ul>
+<li>php-fpm error log（php-fpm.conf 中配置，记录 php-fpm 进程的启动和终止等信息）</li>
+<li>php-fpm slow log（也是在 php-fpm.conf 中配置，记录慢执行）</li>
+<li>php error log（php.ini 中配置，记录应用程序的错误日志）</li>
+</ul>
+<p>此外 Nginx 还有两个可配置的log：access 和 error log。这几个日志文件的功能不同，记录的内容也不同。但其中有一个点需要注意：如果配置了 php-fpm 中的 error log 位置，但日志位置不可写（配置时位置得是对的，因为 php-fpm 启动时会做检查），在适当的配置条件下错误日志会被返回到 cgi 中从而写入 nginx 的 error log 中。</p>
+<p>所以遇到问题是我们一般的查找思路都是：</p>
+<ol>
+<li>到 Nginx access log 中查看请求的状态码</li>
+<li>查看 php error log 中的错误记录以及 stack 信息</li>
+<li>查看 php-fpm log 中有无异常重启记录（如果核心或者扩展问题，会出现此情况）</li>
+</ol>
+<p>但是在以上几种情况下你也会发现，这里面并没有上文提到的程序抛出异常的日志记录。</p>
+<h2 id="异常记录">异常记录</h2>
+<p>异常不同于错误，严格上说它是应用程序逻辑的异常而不是错误，是可以通过合理的程序逻辑来手动触发的。但大多情况下异常也是要进行记录的，比如数据库无法连接或者框架的不当使用触发的异常，我们需要通过日志来定位问题并及时处理。</p>
+<p>PHP 提供了两个函数用于自定义处理错误和异常的方法：</p>
+<ul>
+<li>set_error_handler</li>
+<li>set_exception_handler</li>
+</ul>
+<p>所以可以通过 <code>set_exception_handler</code>  函数注入方法捕获所有的异常并记录 。</p>
+<p><a href="https://github.com/Seldaek/monolog">monolog</a> 是一个优秀的异常记录的库，也是基于 <a href="http://www.php-fig.org/psr/psr-3/">PSR-3</a> 标准的实现。Laravel、Symfony 中默认也是使用它来记录异常。如有需要，也可以考虑在自己的项目中引入。</p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        167 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        2016-08-01 04:59
+      </p>
+    </div>
+
+    
+      <div class="pagination">
+        <div class="pagination__title">
+          <span class="pagination__title-h"></span>
+          <hr />
+        </div>
+
+        <div class="pagination__buttons">
+          
+            <span class="button previous">
+              <a href="http://0x1.im/posts/2016-09-14-features-of-php71/">
+                <span class="button__icon">←</span>
+                <span class="button__text">PHP 7.1 新特性一览</span>
+              </a>
+            </span>
+          
+
+          
+            <span class="button next">
+              <a href="http://0x1.im/posts/2016-05-01-php-use-shared-memory/">
+                <span class="button__text">PHP 共享内存使用与信号控制</span>
+                <span class="button__icon">→</span>
+              </a>
+            </span>
+          
+        </div>
+      </div>
+    
+
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+            
+            <span> <a href="http://0x1.im/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>

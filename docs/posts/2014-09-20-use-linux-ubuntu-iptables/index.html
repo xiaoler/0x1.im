@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="1. 基础介绍 netfilter/iptables 是与2.4版本之后Linux内核集成的IP信息包过滤系统。iptables不是防火墙，只是定义过滤规则的工具，读取规则并发挥作用的是netfilter。 netfilter/iptables是内核集成的，不存在start/stop或者禁用的说法。可以用iptables命令创建过滤规则。（现在较新的内核中已经默认集成，无需单独安装）
+项目主页：http://www.netfilter.org/projects/iptables/
+常用命令：
+ 查看帮助：iptables -h 查看过滤规则：iptables -L [-n] [-v] 子命令：  -n：以数字的方式显示ip，它会将ip直接显示出来，如果不加-n，则会将ip反向解析成主机名 -v：显示详细信息    另外，在实际建立规则的过程中，iptables还需要和以下两个命令配合使用：
+ 保存创建好的规则到文件：iptables-save 从文件中回复规则：iptables-restore  2. 规则参数 iptables创建规则的命令和参数相当繁杂，基本的规则形式如下：
+iptables [-t table] command chain [match] [-j target] 以下是各段命令主要参数的解释。
+  -t table，table有四个选项，默认为filter：
+ filter：一般的过滤功能，默认的table nat：用于NAT功能（端口映射，地址映射等） mangle：用于对特定数据包的修改 raw：主要用于配合NOTRACK的响应 security：用户强制访问控制(MAC)网络规则    command，定义规则写入方式：
+ -P：定义链的默认规则（所有其它规则都没有匹配到的数据包，将按照默认规则来执行） -A：追加，在当前链的最后新增一个规则 -I num：插入，把当前规则插入为第几条 -R num：Replays替换/修改第几条规则 -D num：删除，明确指定删除第几条规则    chain，netfilter可以在五个位置进行过滤：
+ PREROUTING (路由前) INPUT (数据包流入口) FORWARD (转发管卡) OUTPUT(数据包出口) POSTROUTING（路由后）    match：匹配规则，常用的规则有以下几种：" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="http://0x1.im/posts/2014-09-20-use-linux-ubuntu-iptables/" />
+
+
+    <title>
+        
+            Linux(Ubuntu) iptables使用小记 :: Scholer&#39;s Homapage 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.d1ea4af8fd04fb24a4f8b882ea54bd04eb245427ca4baf527c81a5dab071410b.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Linux(Ubuntu) iptables使用小记">
+<meta itemprop="description" content="1. 基础介绍 netfilter/iptables 是与2.4版本之后Linux内核集成的IP信息包过滤系统。iptables不是防火墙，只是定义过滤规则的工具，读取规则并发挥作用的是netfilter。 netfilter/iptables是内核集成的，不存在start/stop或者禁用的说法。可以用iptables命令创建过滤规则。（现在较新的内核中已经默认集成，无需单独安装）
+项目主页：http://www.netfilter.org/projects/iptables/
+常用命令：
+ 查看帮助：iptables -h 查看过滤规则：iptables -L [-n] [-v] 子命令：  -n：以数字的方式显示ip，它会将ip直接显示出来，如果不加-n，则会将ip反向解析成主机名 -v：显示详细信息    另外，在实际建立规则的过程中，iptables还需要和以下两个命令配合使用：
+ 保存创建好的规则到文件：iptables-save 从文件中回复规则：iptables-restore  2. 规则参数 iptables创建规则的命令和参数相当繁杂，基本的规则形式如下：
+iptables [-t table] command chain [match] [-j target] 以下是各段命令主要参数的解释。
+  -t table，table有四个选项，默认为filter：
+ filter：一般的过滤功能，默认的table nat：用于NAT功能（端口映射，地址映射等） mangle：用于对特定数据包的修改 raw：主要用于配合NOTRACK的响应 security：用户强制访问控制(MAC)网络规则    command，定义规则写入方式：
+ -P：定义链的默认规则（所有其它规则都没有匹配到的数据包，将按照默认规则来执行） -A：追加，在当前链的最后新增一个规则 -I num：插入，把当前规则插入为第几条 -R num：Replays替换/修改第几条规则 -D num：删除，明确指定删除第几条规则    chain，netfilter可以在五个位置进行过滤：
+ PREROUTING (路由前) INPUT (数据包流入口) FORWARD (转发管卡) OUTPUT(数据包出口) POSTROUTING（路由后）    match：匹配规则，常用的规则有以下几种：">
+<meta itemprop="datePublished" content="2014-09-20T14:32:55&#43;00:00" />
+<meta itemprop="dateModified" content="2014-09-20T14:32:55&#43;00:00" />
+<meta itemprop="wordCount" content="215">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux(Ubuntu) iptables使用小记"/>
+<meta name="twitter:description" content="1. 基础介绍 netfilter/iptables 是与2.4版本之后Linux内核集成的IP信息包过滤系统。iptables不是防火墙，只是定义过滤规则的工具，读取规则并发挥作用的是netfilter。 netfilter/iptables是内核集成的，不存在start/stop或者禁用的说法。可以用iptables命令创建过滤规则。（现在较新的内核中已经默认集成，无需单独安装）
+项目主页：http://www.netfilter.org/projects/iptables/
+常用命令：
+ 查看帮助：iptables -h 查看过滤规则：iptables -L [-n] [-v] 子命令：  -n：以数字的方式显示ip，它会将ip直接显示出来，如果不加-n，则会将ip反向解析成主机名 -v：显示详细信息    另外，在实际建立规则的过程中，iptables还需要和以下两个命令配合使用：
+ 保存创建好的规则到文件：iptables-save 从文件中回复规则：iptables-restore  2. 规则参数 iptables创建规则的命令和参数相当繁杂，基本的规则形式如下：
+iptables [-t table] command chain [match] [-j target] 以下是各段命令主要参数的解释。
+  -t table，table有四个选项，默认为filter：
+ filter：一般的过滤功能，默认的table nat：用于NAT功能（端口映射，地址映射等） mangle：用于对特定数据包的修改 raw：主要用于配合NOTRACK的响应 security：用户强制访问控制(MAC)网络规则    command，定义规则写入方式：
+ -P：定义链的默认规则（所有其它规则都没有匹配到的数据包，将按照默认规则来执行） -A：追加，在当前链的最后新增一个规则 -I num：插入，把当前规则插入为第几条 -R num：Replays替换/修改第几条规则 -D num：删除，明确指定删除第几条规则    chain，netfilter可以在五个位置进行过滤：
+ PREROUTING (路由前) INPUT (数据包流入口) FORWARD (转发管卡) OUTPUT(数据包出口) POSTROUTING（路由后）    match：匹配规则，常用的规则有以下几种："/>
+
+
+
+
+
+    <meta property="article:section" content="server" />
+
+
+
+    <meta property="article:published_time" content="2014-09-20 14:32:55 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="http://0x1.im" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">hello</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/about/">About</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        2 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="http://0x1.im/posts/2014-09-20-use-linux-ubuntu-iptables/">Linux(Ubuntu) iptables使用小记</a>
+      </h1>
+
+      
+
+      <div class="post-content">
+        <h3 id="1-基础介绍">1. 基础介绍</h3>
+<p><strong>netfilter/iptables</strong> 是与2.4版本之后Linux内核集成的IP信息包过滤系统。iptables不是防火墙，只是定义过滤规则的工具，读取规则并发挥作用的是netfilter。
+netfilter/iptables是内核集成的，不存在start/stop或者禁用的说法。可以用<code>iptables</code>命令创建过滤规则。（现在较新的内核中已经默认集成，无需单独安装）</p>
+<p>项目主页：<a href="http://www.netfilter.org/projects/iptables/" title="netfilter/iptables">http://www.netfilter.org/projects/iptables/</a></p>
+<p>常用命令：</p>
+<ul>
+<li>查看帮助：iptables -h</li>
+<li>查看过滤规则：iptables -L [-n] [-v]
+<!-- raw HTML omitted -->
+子命令：
+<ul>
+<li>-n：以数字的方式显示ip，它会将ip直接显示出来，如果不加-n，则会将ip反向解析成主机名</li>
+<li>-v：显示详细信息</li>
+</ul>
+</li>
+</ul>
+<p>另外，在实际建立规则的过程中，iptables还需要和以下两个命令配合使用：</p>
+<ul>
+<li>保存创建好的规则到文件：iptables-save</li>
+<li>从文件中回复规则：iptables-restore</li>
+</ul>
+<h3 id="2-规则参数">2. 规则参数</h3>
+<p>iptables创建规则的命令和参数相当繁杂，基本的规则形式如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">iptables <span class="o">[</span>-t table<span class="o">]</span> <span class="nb">command</span> chain <span class="o">[</span>match<span class="o">]</span> <span class="o">[</span>-j target<span class="o">]</span>
+</code></pre></div><p>以下是各段命令主要参数的解释。</p>
+<ul>
+<li>
+<p><strong>-t table，table有四个选项，默认为filter：</strong></p>
+<ul>
+<li>filter：一般的过滤功能，默认的table</li>
+<li>nat：用于NAT功能（端口映射，地址映射等）</li>
+<li>mangle：用于对特定数据包的修改</li>
+<li>raw：主要用于配合NOTRACK的响应</li>
+<li>security：用户强制访问控制(MAC)网络规则</li>
+</ul>
+</li>
+<li>
+<p><strong>command，定义规则写入方式：</strong></p>
+<ul>
+<li>-P：定义链的默认规则（所有其它规则都没有匹配到的数据包，将按照默认规则来执行）</li>
+<li>-A：追加，在当前链的最后新增一个规则</li>
+<li>-I num：插入，把当前规则插入为第几条</li>
+<li>-R num：Replays替换/修改第几条规则</li>
+<li>-D num：删除，明确指定删除第几条规则</li>
+</ul>
+</li>
+<li>
+<p><strong>chain，netfilter可以在五个位置进行过滤：</strong></p>
+<ul>
+<li>PREROUTING (路由前)</li>
+<li>INPUT (数据包流入口)</li>
+<li>FORWARD (转发管卡)</li>
+<li>OUTPUT(数据包出口)</li>
+<li>POSTROUTING（路由后）</li>
+</ul>
+</li>
+<li>
+<p><strong>match：匹配规则，常用的规则有以下几种：</strong></p>
+<ul>
+<li>-p：用于匹配协议的（这里的协议通常有3种，TCP/UDP/ICMP，逗号分隔多个协议，ALL是确实设置，<code>!</code>表示反向匹配）</li>
+<li>-s：匹配源地址ip或ip段（IP或IP/MASK，<code>!</code>表示反向匹配）</li>
+<li>-d：匹配信息包的目的地IP地址（<code>!</code>表示反向匹配）</li>
+<li>-i：流入网卡</li>
+<li>-o：流出网卡</li>
+<li>&ndash;dport：目标端口</li>
+<li>&ndash;sport：源端口</li>
+<li>&ndash;state：连接状态</li>
+<li>-m：显式扩展以上的规则（即可以匹配多个状态、端口等）</li>
+</ul>
+</li>
+<li>
+<p><strong>target：进行的操作/响应，常见的有以下几种：</strong></p>
+<ul>
+<li>DROP（悄悄丢弃）</li>
+<li>REJECT（明示拒绝）</li>
+<li>ACCEPT（接受）</li>
+<li>MASQUERADE（源地址伪装）</li>
+<li>REDIRECT（重定向）</li>
+<li>MARK（打防火墙标记的）</li>
+<li>RETURN（返回）</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-实际运用">3. 实际运用</h3>
+<p>在生产环境的配置中，可以先通过<code>netstat -tunlp</code>命令查看一下当前服务器上有哪些端口是正在监听或使用的已经使用的是tcp还是udp的协议，然后根据使用情况来进行配置。</p>
+<ol>
+<li>允许已经建立的连接接收数据（状态为ESTABLISHED或RELATED的连接）：</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+</code></pre></div><ol>
+<li>eth0开放端口22（SSH的默认端口）：</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">iptables -A INPUT -p tcp -i eth0 --dport <span class="m">22</span> -j ACCEPT
+<span class="c1"># 如果有多个网卡，可以选择开放，比如只开放局域网网卡允许ssh登录</span>
+</code></pre></div><ol>
+<li>开放其它需要的服务端口，比如80端口：</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">iptables -A INPUT -p tcp --dport <span class="m">80</span> -j ACCEPT
+
+<span class="c1"># 或者是开放多个端口：</span>
+iptables -A INPUT -p tcp -m multiport --source-port 8081,8082,8083 -j ACCEPT
+
+<span class="c1">#或者开放一个端口段：</span>
+iptables -A INPUT -p tcp --dport 8084:8090 -j ACCEPT
+</code></pre></div><ol>
+<li>如果需要接受ping</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># echo-request</span>
+iptables -A INPUT -p icmp -m icmp --icmp-type <span class="m">8</span> -j ACCEPT
+
+<span class="c1"># echo-reply</span>
+iptables -A INPUT -p icmp -m icmp --icmp-type <span class="m">0</span> -j ACCEPT
+</code></pre></div><ol>
+<li>最后执行全局策略：</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">iptables -P INPUT DROP
+iptables -P OUTPUT ACCEPT
+iptables -P FORWARD DROP
+</code></pre></div><h3 id="4-保存和恢复规则">4. 保存和恢复规则</h3>
+<p>通过命令设定的规则只会在当前系统运行的情况下生效，需要通过一定的配置达到在每次开机时自动启动规则。</p>
+<p>保存当前iptables的规则到文件中：</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">iptables-save &gt; /etc/iptables.up.rules
+
+<span class="c1"># 以下语句添加到/etc/rc.local，在系统重启时恢复规则：</span>
+/sbin/iptables-restore &lt; /etc/iptables.up.rules
+</code></pre></div><h3 id="5-如果需要清除所有规则">5. 如果需要清除所有规则</h3>
+<p><strong>当Chain INPUT (policy DROP)时执行/sbin/iptables -F后，你将和服务器断开连接，
+所以在清空所有规则前把policy DROP该为INPUT，防止悲剧发生。</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">iptables -P INPUT ACCEPT
+
+<span class="c1"># 清空所有规则</span>
+iptables -F
+iptables -X
+
+<span class="c1"># 计数器置0</span>
+iptables -Z
+</code></pre></div><h3 id="6-ubuntu集成的工具ufw">6. Ubuntu集成的工具：ufw</h3>
+<p>ufw为了使Ubuntu的netfilter更易于使用和管理而发行的，是由Canonical公司开发的，采用python编写。</p>
+<p>ufw的实质也是通过创建iptables规则的方式实现的，只是简化了参数的格式。如果需要对服务器做一些过滤规则，我建议还是直接使用iptables来创建过滤。</p>
+<p>ufw使用文档：<a href="http://wiki.ubuntu.org.cn/Ufw%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97">http://wiki.ubuntu.org.cn/Ufw使用指南</a></p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        215 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        2014-09-20 22:32
+      </p>
+    </div>
+
+    
+      <div class="pagination">
+        <div class="pagination__title">
+          <span class="pagination__title-h"></span>
+          <hr />
+        </div>
+
+        <div class="pagination__buttons">
+          
+            <span class="button previous">
+              <a href="http://0x1.im/posts/2014-09-22-one-month-begin-with-a-xss/">
+                <span class="button__icon">←</span>
+                <span class="button__text">一个XSS带来的一些收获和警示&amp;常见安全问题总结</span>
+              </a>
+            </span>
+          
+
+          
+            <span class="button next">
+              <a href="http://0x1.im/posts/2014-09-17-when-to-use-urlencode-and-urldecode/">
+                <span class="button__text">什么时候需要使用urlencode和urldecode函数</span>
+                <span class="button__icon">→</span>
+              </a>
+            </span>
+          
+        </div>
+      </div>
+    
+
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+            
+            <span> <a href="http://0x1.im/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>

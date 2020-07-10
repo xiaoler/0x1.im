@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="本文中针对CodeIgniter的问题都是基于2.1.3的版本。
+ 在使用CodeIgniter做项目的过程中，需要用到ajax来分页，但是CI集成的分页类只支持在URL后面跟分页参数的方式。如果想实现ajax的分页，通过一定的方法也可以实现。
+###使用原有实现示例
+&amp;lt;?php $config[&amp;#39;base_url&amp;#39;] = &amp;#39;javascript:pageAnchor(\&amp;#39;&amp;#39;; $config[&amp;#39;suffix&amp;#39;] = &amp;#39;\&amp;#39;);&amp;#39;; $config[&amp;#39;first_url&amp;#39;] = &amp;#39;javascript:pageAnchor(\&amp;#39;/0\&amp;#39;)&amp;#39;; $config[&amp;#39;anchor_class&amp;#39;] = &amp;#34;&amp;#34;; //添加你的样式  $config[&amp;#39;cur_tag_open&amp;#39;] = &amp;#39;&amp;lt;a href=&amp;#34;javascript:void(0);&amp;#34; class=&amp;#34;&amp;#34;&amp;gt;&amp;#39;; $config[&amp;#39;cur_tag_close&amp;#39;] = &amp;#39;&amp;lt;/a&amp;gt;&amp;#39;; $config[&amp;#39;prev_link&amp;#39;] = &amp;#39;&amp;amp;lt;&amp;#39;; $config[&amp;#39;next_link&amp;#39;] = &amp;#39;&amp;amp;gt;&amp;#39;; $config[&amp;#39;first_link&amp;#39;] = &amp;#39;&amp;amp;laquo;&amp;#39;; $config[&amp;#39;last_link&amp;#39;] = &amp;#39;&amp;amp;raquo;&amp;#39;; $config[&amp;#39;first_tag_close&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;last_tag_open&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;next_tag_open&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;next_tag_close&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;prev_tag_open&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;num_tag_open&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;total_rows&amp;#39;] = 100; //数据总条数  $config[&amp;#39;per_page&amp;#39;] = 10; // 这里原来是要配置$config[&amp;#39;uri_segment&amp;#39;] 默认为3  // 分页类中有一个地方  // $CI-&amp;gt;uri-&amp;gt;segment($this-&amp;gt;uri_segment) !" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="http://0x1.im/posts/2014-09-14-modify-codeigniter-pagination-class/" />
+
+
+    <title>
+        
+            修改CodeIgniter的Pagination类使其支持Ajax分页 :: Scholer&#39;s Homapage 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.d1ea4af8fd04fb24a4f8b882ea54bd04eb245427ca4baf527c81a5dab071410b.css">
+
+
+
+
+
+
+<meta itemprop="name" content="修改CodeIgniter的Pagination类使其支持Ajax分页">
+<meta itemprop="description" content="本文中针对CodeIgniter的问题都是基于2.1.3的版本。
+ 在使用CodeIgniter做项目的过程中，需要用到ajax来分页，但是CI集成的分页类只支持在URL后面跟分页参数的方式。如果想实现ajax的分页，通过一定的方法也可以实现。
+###使用原有实现示例
+&lt;?php $config[&#39;base_url&#39;] = &#39;javascript:pageAnchor(\&#39;&#39;; $config[&#39;suffix&#39;] = &#39;\&#39;);&#39;; $config[&#39;first_url&#39;] = &#39;javascript:pageAnchor(\&#39;/0\&#39;)&#39;; $config[&#39;anchor_class&#39;] = &#34;&#34;; //添加你的样式  $config[&#39;cur_tag_open&#39;] = &#39;&lt;a href=&#34;javascript:void(0);&#34; class=&#34;&#34;&gt;&#39;; $config[&#39;cur_tag_close&#39;] = &#39;&lt;/a&gt;&#39;; $config[&#39;prev_link&#39;] = &#39;&amp;lt;&#39;; $config[&#39;next_link&#39;] = &#39;&amp;gt;&#39;; $config[&#39;first_link&#39;] = &#39;&amp;laquo;&#39;; $config[&#39;last_link&#39;] = &#39;&amp;raquo;&#39;; $config[&#39;first_tag_close&#39;] = &#39;&#39;; $config[&#39;last_tag_open&#39;] = &#39;&#39;; $config[&#39;next_tag_open&#39;] = &#39;&#39;; $config[&#39;next_tag_close&#39;] = &#39;&#39;; $config[&#39;prev_tag_open&#39;] = &#39;&#39;; $config[&#39;num_tag_open&#39;] = &#39;&#39;; $config[&#39;total_rows&#39;] = 100; //数据总条数  $config[&#39;per_page&#39;] = 10; // 这里原来是要配置$config[&#39;uri_segment&#39;] 默认为3  // 分页类中有一个地方  // $CI-&gt;uri-&gt;segment($this-&gt;uri_segment) !">
+<meta itemprop="datePublished" content="2014-09-14T23:37:54&#43;00:00" />
+<meta itemprop="dateModified" content="2014-09-14T23:37:54&#43;00:00" />
+<meta itemprop="wordCount" content="129">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="修改CodeIgniter的Pagination类使其支持Ajax分页"/>
+<meta name="twitter:description" content="本文中针对CodeIgniter的问题都是基于2.1.3的版本。
+ 在使用CodeIgniter做项目的过程中，需要用到ajax来分页，但是CI集成的分页类只支持在URL后面跟分页参数的方式。如果想实现ajax的分页，通过一定的方法也可以实现。
+###使用原有实现示例
+&lt;?php $config[&#39;base_url&#39;] = &#39;javascript:pageAnchor(\&#39;&#39;; $config[&#39;suffix&#39;] = &#39;\&#39;);&#39;; $config[&#39;first_url&#39;] = &#39;javascript:pageAnchor(\&#39;/0\&#39;)&#39;; $config[&#39;anchor_class&#39;] = &#34;&#34;; //添加你的样式  $config[&#39;cur_tag_open&#39;] = &#39;&lt;a href=&#34;javascript:void(0);&#34; class=&#34;&#34;&gt;&#39;; $config[&#39;cur_tag_close&#39;] = &#39;&lt;/a&gt;&#39;; $config[&#39;prev_link&#39;] = &#39;&amp;lt;&#39;; $config[&#39;next_link&#39;] = &#39;&amp;gt;&#39;; $config[&#39;first_link&#39;] = &#39;&amp;laquo;&#39;; $config[&#39;last_link&#39;] = &#39;&amp;raquo;&#39;; $config[&#39;first_tag_close&#39;] = &#39;&#39;; $config[&#39;last_tag_open&#39;] = &#39;&#39;; $config[&#39;next_tag_open&#39;] = &#39;&#39;; $config[&#39;next_tag_close&#39;] = &#39;&#39;; $config[&#39;prev_tag_open&#39;] = &#39;&#39;; $config[&#39;num_tag_open&#39;] = &#39;&#39;; $config[&#39;total_rows&#39;] = 100; //数据总条数  $config[&#39;per_page&#39;] = 10; // 这里原来是要配置$config[&#39;uri_segment&#39;] 默认为3  // 分页类中有一个地方  // $CI-&gt;uri-&gt;segment($this-&gt;uri_segment) !"/>
+
+
+
+
+
+    <meta property="article:section" content="codeigniter" />
+
+
+
+    <meta property="article:published_time" content="2014-09-14 23:37:54 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="http://0x1.im" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">hello</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/about/">About</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        One minute
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="http://0x1.im/posts/2014-09-14-modify-codeigniter-pagination-class/">修改CodeIgniter的Pagination类使其支持Ajax分页</a>
+      </h1>
+
+      
+
+      <div class="post-content">
+        <blockquote>
+<p>本文中针对CodeIgniter的问题都是基于<code>2.1.3</code>的版本。</p>
+</blockquote>
+<p>在使用CodeIgniter做项目的过程中，需要用到ajax来分页，但是CI集成的分页类只支持在URL后面跟分页参数的方式。如果想实现ajax的分页，通过一定的方法也可以实现。</p>
+<p>###使用原有实现示例</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;base_url&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="s1">&#39;javascript:pageAnchor(\&#39;&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;suffix&#39;</span><span class="p">]</span>           <span class="o">=</span> <span class="s1">&#39;\&#39;);&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;first_url&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="s1">&#39;javascript:pageAnchor(\&#39;/0\&#39;)&#39;</span><span class="p">;</span>
+
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;anchor_class&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span> <span class="c1">//添加你的样式
+</span><span class="c1"></span>    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;cur_tag_open&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="s1">&#39;&lt;a href=&#34;javascript:void(0);&#34; class=&#34;&#34;&gt;&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;cur_tag_close&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s1">&#39;&lt;/a&gt;&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;prev_link&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="s1">&#39;&amp;lt;&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;next_link&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="s1">&#39;&amp;gt;&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;first_link&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="s1">&#39;&amp;laquo;&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;last_link&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="s1">&#39;&amp;raquo;&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;first_tag_close&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;last_tag_open&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;next_tag_open&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;next_tag_close&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;prev_tag_open&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;num_tag_open&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;total_rows&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="mi">100</span><span class="p">;</span> <span class="c1">//数据总条数
+</span><span class="c1"></span>    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;per_page&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+    <span class="c1">// 这里原来是要配置$config[&#39;uri_segment&#39;] 默认为3
+</span><span class="c1"></span>    <span class="c1">// 分页类中有一个地方
+</span><span class="c1"></span>    <span class="c1">// $CI-&gt;uri-&gt;segment($this-&gt;uri_segment) != $base_page
+</span><span class="c1"></span>    <span class="c1">// 通过这个方法去判断当前页码
+</span><span class="c1"></span>    <span class="c1">// 我们的uri里第三段全为字母,刚好可以绕过这个判断
+</span><span class="c1"></span>    <span class="c1">// 所以cur_page 这个参数才能够传入进去
+</span><span class="c1"></span>    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;cur_page&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//当前页
+</span><span class="c1"></span><span class="cp">?&gt;</span>
+</code></pre></div><p>只要你的URL的第三段全为字母，就可以绕过判断，这实际上是一个bug。</p>
+<p>通过以上的配置，在js中增加一个<code>pageAnchor</code>的方法，就可以实现ajax的分页了。</p>
+<p>另外，在CdoeIgniter <code>2.1.3</code>之前的版本中，通过<code>$this-&gt;load-&gt;library('pagination',$config)</code>的方式来初始化时添加<code>anchor_class</code>参数无法生效，这是因为代码中把这个参数的操作放到了构造函数中，这个BUG在<code>2.1.4</code>的版本中已经修复了。</p>
+<p>###修改后的实现</p>
+<p>通过这种方法来实现毕竟也不太恰当，可以提取出这个类来单独使用，这样在别的框架中也可以使用这个分页类。</p>
+<p>主要改动如下：</p>
+<ol>
+<li>添加了一个<code>is_ajax</code>的参数，并修改了默认的跟tag有关的参数，便于直接写入css</li>
+<li>移除了跟CI的其它类有关的取URL参数的部分，这样就是一个纯净的分页类了</li>
+<li><code>num_links</code>小于1时跳到第一页，而不是报错</li>
+<li>移除了<code>query_string_segment</code>参数，增加<code>query_string_key</code>参数，仍然支持通过参数的形式获取分页。</li>
+</ol>
+<p>改动后的使用配置方法：</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;is_ajax&#39;</span><span class="p">]</span>          <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;base_url&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="s1">&#39;pageAnchor&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;first_url&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="s1">&#39;javascript:pageAnchor(\&#39;/0\&#39;)&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;anchor_class&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;cur_tag_open&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="s1">&#39;&lt;a href=&#34;javascript:void(0);&#34; class=&#34;&#34;&gt;&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;cur_tag_close&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s1">&#39;&lt;/a&gt;&#39;</span><span class="p">;</span>
+    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;total_rows&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="mi">100</span><span class="p">;</span> <span class="c1">// 数据总条数
+</span><span class="c1"></span>    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;cur_page&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>  <span class="c1">// 当前页码
+</span><span class="c1"></span><span class="cp">?&gt;</span>
+</code></pre></div><p>###下载
+<a href="/files/code/Page.php" title="">Page.php</a></p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        129 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        2014-09-15 07:37
+      </p>
+    </div>
+
+    
+      <div class="pagination">
+        <div class="pagination__title">
+          <span class="pagination__title-h"></span>
+          <hr />
+        </div>
+
+        <div class="pagination__buttons">
+          
+            <span class="button previous">
+              <a href="http://0x1.im/posts/2014-09-16-php-session-cookie/">
+                <span class="button__icon">←</span>
+                <span class="button__text">PHP的session与cookie &amp; CodeIgniter的session修改</span>
+              </a>
+            </span>
+          
+
+          
+            <span class="button next">
+              <a href="http://0x1.im/posts/2014-08-09-ios-push-apns-php-zendframework/">
+                <span class="button__text">iOS推送（Apple Push Notification Service）部署总结</span>
+                <span class="button__icon">→</span>
+              </a>
+            </span>
+          
+        </div>
+      </div>
+    
+
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+            
+            <span> <a href="http://0x1.im/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>
