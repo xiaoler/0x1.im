@@ -11,7 +11,7 @@
 PHP5 中的 zval PHP5 中 zval 结构体定义如下：
 typedef struct _zval_struct { zvalue_value value; zend_uint refcount__gc; zend_uchar type; zend_uchar is_ref__gc; } zval; 如上，zval 包含一个 value、一个 type 以及两个 __gc 后缀的字段。value 是个联合体，用于存储不同类型的值：
 typedef union _zvalue_value { long lval; // 用于 bool 类型、整型和资源类型  double dval; // 用于浮点类型  struct { // 用于字符串  char *val; int len; } str; HashTable *ht; // 用于数组  zend_object_value obj; // 用于对象  zend_ast *ast; // 用于常量表达式(PHP5." />
-<meta name="keywords" content="" />
+<meta name="keywords" content=", php" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="http://0x1.im/posts/2015-12-10-Internal-value-representation-in-PHP-7-part-1/" />
@@ -19,7 +19,7 @@ typedef union _zvalue_value { long lval; // 用于 bool 类型、整型和资源
 
     <title>
         
-            [译]变量在 PHP7 内部的实现（一） :: Scholer&#39;s Homapage 
+            [译]变量在 PHP7 内部的实现（一） :: Scholer&#39;s Pages 
         
     </title>
 
@@ -50,7 +50,7 @@ typedef union _zvalue_value { long lval; // 用于 bool 类型、整型和资源
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="[译]变量在 PHP7 内部的实现（一）"/>
 <meta name="twitter:description" content="本文第一部分和第二均翻译自Nikita Popov(nikic，PHP 官方开发组成员，柏林科技大学的学生) 的博客。为了更符合汉语的阅读习惯，文中并不会逐字逐句的翻译。
@@ -63,8 +63,6 @@ typedef union _zvalue_value { long lval; // 用于 bool 类型、整型和资源
 
 
 
-
-    <meta property="article:section" content="php" />
 
 
 
@@ -87,7 +85,7 @@ typedef union _zvalue_value { long lval; // 用于 bool 类型、整型和资源
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">hello</span>
+            <span class="logo__text">$ echo 0x1.im</span>
             <span class="logo__cursor" style=
                   "
                    
@@ -101,7 +99,7 @@ typedef union _zvalue_value { long lval; // 用于 bool 类型、整型和资源
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/about/">About</a></li>
+    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/tags/">Tags</a></li><li><a href="http://0x1.im/about/">About</a></li>
     </ul>
 </nav>
 
@@ -134,7 +132,7 @@ typedef union _zvalue_value { long lval; // 用于 bool 类型、整型和资源
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        7 minutes
+        
 
         
       </p>
@@ -445,6 +443,12 @@ reference       |      x     |             |          |
     <hr />
 
     <div class="post-info">
+        <p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7" y2="7"></line>
+          </svg><span class="tag"><a href="http://0x1.im/tags/php/">php</a></span>
+        </p>
 
       <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
@@ -454,7 +458,7 @@ reference       |      x     |             |          |
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        1466 Words
+        
       </p>
 
       <p>
@@ -511,7 +515,7 @@ reference       |      x     |             |          |
             <span>&copy; 2020</span>
             
             
-            <span> <a href="http://0x1.im/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            <span></span>
         </div>
     </div>
     <div class="footer__inner">

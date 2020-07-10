@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2015-10-26T23:12:53Z"
 title: getimagesize 函数不是完全可靠的

@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2016-09-14T00:29:02Z"
 title: PHP 7.1 新特性一览

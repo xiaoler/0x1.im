@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2015-11-04T23:43:58Z"
 title: 如何编写一个独立的 PHP 扩展（译）

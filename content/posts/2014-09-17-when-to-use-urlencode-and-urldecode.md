@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - web
 date: "2014-09-17T19:07:27Z"
 title: 什么时候需要使用urlencode和urldecode函数

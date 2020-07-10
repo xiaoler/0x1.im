@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - go
 date: "2020-05-26T10:41:41Z"
 title: 写给 PHP 程序员的 Go 入门教程

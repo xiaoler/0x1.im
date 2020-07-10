@@ -21,7 +21,7 @@ session，顾名思义，指的是会话的过程，而session机制指的是创
   服务器生成一个id作为会话的id，同时可以已这个id为基础存储一些数据，整个session的id和数据可以存在文件里，也可以存在数据库里（PHP的session机制默认是存储文件）。
   服务器把session的id和数据经过整理、加密等一系类过程作为一个数据（字符串）发送给客户端（浏览器），客户端将这个session存储下来。存储的方式可能有多种，最常用的是cookie（也可以是别的方式，只要保证在自己的web程序中可以取到，比如存在一个form标签里也是可以的）。
   客户端（浏览器）发送请求时，带上session数据（大多时候是cookie）一起送给服务器，服务器通过解析这段数据来判断请求来自哪里，已经在这次会话的过程中存储的一些数据（后端）。" />
-<meta name="keywords" content="" />
+<meta name="keywords" content=", web" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="http://0x1.im/posts/2014-09-16-php-session-cookie/" />
@@ -29,7 +29,7 @@ session，顾名思义，指的是会话的过程，而session机制指的是创
 
     <title>
         
-            PHP的session与cookie &amp; CodeIgniter的session修改 :: Scholer&#39;s Homapage 
+            PHP的session与cookie &amp; CodeIgniter的session修改 :: Scholer&#39;s Pages 
         
     </title>
 
@@ -70,7 +70,7 @@ session，顾名思义，指的是会话的过程，而session机制指的是创
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="web," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="PHP的session与cookie &amp; CodeIgniter的session修改"/>
 <meta name="twitter:description" content="设定cookie的读取为httponly 最近网站被XSS了，还被报到乌云上去了。感谢仁慈的好事者没有做什么破坏，也给我提了醒。郁闷之与，做好防范才是关键。 做好防范，除了做好设置过滤以外，同事提到一个环节是设定cookie的读取模式为httponly。
@@ -94,8 +94,6 @@ session，顾名思义，指的是会话的过程，而session机制指的是创
 
 
 
-    <meta property="article:section" content="web" />
-
 
 
     <meta property="article:published_time" content="2014-09-16 21:01:00 &#43;0000 UTC" />
@@ -117,7 +115,7 @@ session，顾名思义，指的是会话的过程，而session机制指的是创
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">hello</span>
+            <span class="logo__text">$ echo 0x1.im</span>
             <span class="logo__cursor" style=
                   "
                    
@@ -131,7 +129,7 @@ session，顾名思义，指的是会话的过程，而session机制指的是创
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/about/">About</a></li>
+    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/tags/">Tags</a></li><li><a href="http://0x1.im/about/">About</a></li>
     </ul>
 </nav>
 
@@ -164,7 +162,7 @@ session，顾名思义，指的是会话的过程，而session机制指的是创
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        One minute
+        
 
         
       </p>
@@ -253,6 +251,12 @@ session，顾名思义，指的是会话的过程，而session机制指的是创
     <hr />
 
     <div class="post-info">
+        <p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7" y2="7"></line>
+          </svg><span class="tag"><a href="http://0x1.im/tags/web/">web</a></span>
+        </p>
 
       <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
@@ -262,7 +266,7 @@ session，顾名思义，指的是会话的过程，而session机制指的是创
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        153 Words
+        
       </p>
 
       <p>
@@ -319,7 +323,7 @@ session，顾名思义，指的是会话的过程，而session机制指的是创
             <span>&copy; 2020</span>
             
             
-            <span> <a href="http://0x1.im/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            <span></span>
         </div>
     </div>
     <div class="footer__inner">

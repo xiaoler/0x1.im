@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2016-05-01T12:00:00Z"
 title: PHP 共享内存使用与信号控制

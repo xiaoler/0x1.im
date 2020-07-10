@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2016-07-31T20:59:51Z"
 title: PHP 错误与异常的日志记录

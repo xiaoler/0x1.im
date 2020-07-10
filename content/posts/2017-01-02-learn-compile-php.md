@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2017-01-02T12:00:00Z"
 title: 如何学习 PHP 源码 - 从编译开始

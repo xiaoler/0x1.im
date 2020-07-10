@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - go
 date: "2020-07-08T09:39:40Z"
 title: 使用 Golang 实现一个 JSON 命令行工具

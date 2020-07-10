@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2016-11-21T12:00:00Z"
 title: 一个关于 PHP 的 new 的小问题的探究

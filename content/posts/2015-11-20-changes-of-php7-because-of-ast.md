@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2015-11-20T12:58:25Z"
 title: PHP7 的抽象语法树（AST）带来的变化

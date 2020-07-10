@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2018-01-06T14:04:11Z"
 title: 基于 Redis 的 Pub/Sub 实现 Websocket 推送

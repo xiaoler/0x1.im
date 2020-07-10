@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - mobile
 date: "2014-08-09T15:50:00Z"
 title: iOS推送（Apple Push Notification Service）部署总结

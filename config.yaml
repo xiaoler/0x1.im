@@ -2,10 +2,15 @@
 baseURL: http://0x1.im
 disablePathToLower: true
 languageCode: zh-hans
-title: Scholer
+title: Scholer's Pages
 pygmentsCodefences: true
 pygmentsUseClasses: true
 publishDir: docs
+disableKinds:
+  - RSS
+  - sitemap
+taxonomies:
+  tag: tags
 # theme: hello-friend-ng
 
 params:
@@ -26,7 +31,9 @@ menu:
     - name: Posts
       url: /posts/
       weight: 10
-
+    - name: Tags
+      url: /tags/
+      weight: 20
     - name: About
       url: /about/
-      weight: 20
+      weight: 30

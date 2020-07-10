@@ -9,7 +9,7 @@
 &amp;lt;?php $a = 0; $b = $a ?: 1; # $b === 1 这实际上相当于：
 &amp;lt;?php $a = 0; $b = $a ? $a : 1; # $b === 1 在 PHP5 中，语法分析是这样写的：
 | expr &amp;#39;?&amp;#39; { zend_do_begin_qm_op(&amp;amp;$1, &amp;amp;$2 TSRMLS_CC); } expr &amp;#39;:&amp;#39; { zend_do_qm_true(&amp;amp;$4, &amp;amp;$2, &amp;amp;$5 TSRMLS_CC); } expr { zend_do_qm_false(&amp;amp;$$, &amp;amp;$7, &amp;amp;$2, &amp;amp;$5 TSRMLS_CC); } | expr &amp;#39;?&amp;#39; &amp;#39;:&amp;#39; { zend_do_jmp_set(&amp;amp;$1, &amp;amp;$2, &amp;amp;$3 TSRMLS_CC); } expr { zend_do_jmp_set_else(&amp;amp;$$, &amp;amp;$5, &amp;amp;$2, &amp;amp;$3 TSRMLS_CC); } 在 PHP7 中，由于 AST（抽象语法树）的引入，语法分析有些简化：" />
-<meta name="keywords" content="" />
+<meta name="keywords" content=", php" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="http://0x1.im/posts/2015-11-08-add-a-operator-to-php7/" />
@@ -17,7 +17,7 @@
 
     <title>
         
-            两行代码给 PHP7 添加一个“非空合并”语法糖 :: Scholer&#39;s Homapage 
+            两行代码给 PHP7 添加一个“非空合并”语法糖 :: Scholer&#39;s Pages 
         
     </title>
 
@@ -46,7 +46,7 @@
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="两行代码给 PHP7 添加一个“非空合并”语法糖"/>
 <meta name="twitter:description" content="我们知道从 PHP 5.3 起三元运算符 ? : 有一个写法简洁写法是这样的：
@@ -57,8 +57,6 @@
 
 
 
-
-    <meta property="article:section" content="php" />
 
 
 
@@ -81,7 +79,7 @@
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">hello</span>
+            <span class="logo__text">$ echo 0x1.im</span>
             <span class="logo__cursor" style=
                   "
                    
@@ -95,7 +93,7 @@
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/about/">About</a></li>
+    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/tags/">Tags</a></li><li><a href="http://0x1.im/about/">About</a></li>
     </ul>
 </nav>
 
@@ -128,7 +126,7 @@
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        2 minutes
+        
 
         
       </p>
@@ -197,6 +195,12 @@ $ /usr/local/php/bin/php -r <span class="s2">&#34;\$a = 0; echo \$a ??: 1, PHP_E
     <hr />
 
     <div class="post-info">
+        <p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7" y2="7"></line>
+          </svg><span class="tag"><a href="http://0x1.im/tags/php/">php</a></span>
+        </p>
 
       <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
@@ -206,7 +210,7 @@ $ /usr/local/php/bin/php -r <span class="s2">&#34;\$a = 0; echo \$a ??: 1, PHP_E
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        248 Words
+        
       </p>
 
       <p>
@@ -263,7 +267,7 @@ $ /usr/local/php/bin/php -r <span class="s2">&#34;\$a = 0; echo \$a ??: 1, PHP_E
             <span>&copy; 2020</span>
             
             
-            <span> <a href="http://0x1.im/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            <span></span>
         </div>
     </div>
     <div class="footer__inner">

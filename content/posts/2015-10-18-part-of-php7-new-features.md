@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2015-10-18T15:29:42Z"
 title: PHP 7 的几个新特性

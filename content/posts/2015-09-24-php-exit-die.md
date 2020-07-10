@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2015-09-24T00:25:44Z"
 title: 说说 PHP 的 die 和 exit

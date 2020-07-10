@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2015-12-18T00:00:00Z"
 title: php-cs-fixer (PHP Coding Standards Fixer)

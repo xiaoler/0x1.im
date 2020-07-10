@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - server
 date: "2014-09-20T14:32:55Z"
 title: Linux(Ubuntu) iptables使用小记

@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - python
 date: "2015-09-06T11:40:24Z"
 title: Python 版 APM 服务使用测试

@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2015-12-20T22:54:48Z"
 title: '[译]变量在 PHP7 内部的实现（二）'

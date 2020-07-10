@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - web
 date: "2014-09-22T21:55:59Z"
 title: 一个XSS带来的一些收获和警示&常见安全问题总结

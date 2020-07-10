@@ -11,7 +11,7 @@ PHP 内置的 shmop 扩展 (Shared Memory Operations) 提供了一系列共享�
  shmop_close — 关闭共享内存块 shmop_delete — 删除共享内存块 shmop_open — 创建或打开共享内存块 shmop_read — 从共享内存块中读取数据 shmop_size — 获取共享内存块的大小 shmop_write — 向共享内存块中写入数据  与此相关的还有一个很重要的函数：ftok，通过文件的 inode 信息（*nix 上通过 stat 或 ls -i 命令查看）创建 IPC 的唯一 key（文件/文件夹的 inode 是唯一的）。这个函数在 Linux 上也是直接调用同名的系统函数实现，Windows 上还是使用一些封装。
 一个简单的计数例子：
 &amp;lt;?php # 创建一块共享内存 $shm_key = ftok(__FILE__, &amp;#39;t&amp;#39;); $shm_id = shmop_open($shm_key, &amp;#39;c&amp;#39;, 0644, 8); # 读取并写入数据 $count = (int) shmop_read($shm_id, 0, 8) &#43; 1; shmop_write($shm_id, str_pad($count, 8, &amp;#39;0&amp;#39;, STR_PAD_LEFT), 0); // echo shmop_read($shm_id, 0, 8); # 关闭内存块，并不会删除共享内存，只是清除 PHP 的资源 shmop_close($shm_id); 以上这段代码没执行一次计数加 1，而且数据是在不同进程之间共享的。也就是说除非手动删除这块内存使用，否则这个数据是不会重置的。" />
-<meta name="keywords" content="" />
+<meta name="keywords" content=", php" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="http://0x1.im/posts/2016-05-01-php-use-shared-memory/" />
@@ -19,7 +19,7 @@ PHP 内置的 shmop 扩展 (Shared Memory Operations) 提供了一系列共享�
 
     <title>
         
-            PHP 共享内存使用与信号控制 :: Scholer&#39;s Homapage 
+            PHP 共享内存使用与信号控制 :: Scholer&#39;s Pages 
         
     </title>
 
@@ -50,7 +50,7 @@ PHP 内置的 shmop 扩展 (Shared Memory Operations) 提供了一系列共享�
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="PHP 共享内存使用与信号控制"/>
 <meta name="twitter:description" content="共享内存 共享内存的使用主要是为了能够在同一台机器不同的进程中共享一些数据，比如在多个 php-fpm 进程中共享当前进程的使用情况。这种通信也称为进程间通信（Inter-Process Communication），简称 IPC。
@@ -63,8 +63,6 @@ PHP 内置的 shmop 扩展 (Shared Memory Operations) 提供了一系列共享�
 
 
 
-
-    <meta property="article:section" content="php" />
 
 
 
@@ -87,7 +85,7 @@ PHP 内置的 shmop 扩展 (Shared Memory Operations) 提供了一系列共享�
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">hello</span>
+            <span class="logo__text">$ echo 0x1.im</span>
             <span class="logo__cursor" style=
                   "
                    
@@ -101,7 +99,7 @@ PHP 内置的 shmop 扩展 (Shared Memory Operations) 提供了一系列共享�
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/about/">About</a></li>
+    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/tags/">Tags</a></li><li><a href="http://0x1.im/about/">About</a></li>
     </ul>
 </nav>
 
@@ -134,7 +132,7 @@ PHP 内置的 shmop 扩展 (Shared Memory Operations) 提供了一系列共享�
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        2 minutes
+        
 
         
       </p>
@@ -214,6 +212,12 @@ PHP 内置的 shmop 扩展 (Shared Memory Operations) 提供了一系列共享�
     <hr />
 
     <div class="post-info">
+        <p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7" y2="7"></line>
+          </svg><span class="tag"><a href="http://0x1.im/tags/php/">php</a></span>
+        </p>
 
       <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
@@ -223,7 +227,7 @@ PHP 内置的 shmop 扩展 (Shared Memory Operations) 提供了一系列共享�
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        245 Words
+        
       </p>
 
       <p>
@@ -280,7 +284,7 @@ PHP 内置的 shmop 扩展 (Shared Memory Operations) 提供了一系列共享�
             <span>&copy; 2020</span>
             
             
-            <span> <a href="http://0x1.im/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            <span></span>
         </div>
     </div>
     <div class="footer__inner">

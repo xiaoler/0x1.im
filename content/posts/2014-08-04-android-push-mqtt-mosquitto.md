@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - mobile
 date: "2014-08-04T18:00:00Z"
 title: MQTT(使用mosquitto做broker)做Android推送总结

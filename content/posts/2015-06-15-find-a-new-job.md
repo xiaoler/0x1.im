@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - life
 date: "2015-06-15T18:26:32Z"
 title: 2015年5月 ~ 6月离职求职历程

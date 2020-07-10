@@ -15,7 +15,7 @@
 # 我使用16进制数的方式给图片重命名 location ~* /(.*)\/([0-9a-f]&#43;)_(\d&#43;)x(\d&#43;)\.(jpg|png|jpeg|gif)$ { # 如果存在文件就终止规则 if (-f $request_filename) { break; } # 设定一些参数 set $filepath $1; set $filename &amp;#34;$2.$5&amp;#34;; set $thumb &amp;#34;$2_$3x$4.$5&amp;#34;; set $width $3; set $height $4; # 如果原文件不存在可以直接返回404 if (!-f $document_root/$filepath/$filename) { return 404; } # 重写URL rewrite /(.*)\/([0-9a-f]&#43;)_([0-9x]&#43;)\.(jpg|png|jpeg|gif) /$1/$2.$4 break; # 执行图片缩放 image_filter test; image_filter resize $width $height; image_filter_jpeg_quality 75; } 但是在这个版本的配置中，如果配置原文件不存在，实际上没法正确返回404，而是返回415。过滤还是执行了。
 还有一个问题就是在每次访问缩略图的时候都会重新生成，如果访问量比较大的情况下，效率并不高。
 进过一系列的实践后，我又改好了一个版本：" />
-<meta name="keywords" content="" />
+<meta name="keywords" content=", nginx" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="http://0x1.im/posts/2015-04-09-use-nginx-image-filter-module/" />
@@ -23,7 +23,7 @@
 
     <title>
         
-            使用Nginx 的 image filter 模块裁剪图片 :: Scholer&#39;s Homapage 
+            使用Nginx 的 image filter 模块裁剪图片 :: Scholer&#39;s Pages 
         
     </title>
 
@@ -58,7 +58,7 @@
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="nginx," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用Nginx 的 image filter 模块裁剪图片"/>
 <meta name="twitter:description" content="背景 项目中有个地方需要根据客户端的要求缩放图片。最开始想用PHP来实现这个功能。设想中如果已经存在图片a.jpg，则可以通过类似a_400x400.jpg的方式来获取图片特定尺寸的缩略图。
@@ -75,8 +75,6 @@
 
 
 
-
-    <meta property="article:section" content="nginx" />
 
 
 
@@ -99,7 +97,7 @@
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">hello</span>
+            <span class="logo__text">$ echo 0x1.im</span>
             <span class="logo__cursor" style=
                   "
                    
@@ -113,7 +111,7 @@
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/about/">About</a></li>
+    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/tags/">Tags</a></li><li><a href="http://0x1.im/about/">About</a></li>
     </ul>
 </nav>
 
@@ -146,7 +144,7 @@
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        One minute
+        
 
         
       </p>
@@ -175,14 +173,14 @@ location ~* /<span class="o">(</span>.*<span class="o">)</span><span class="se">
     <span class="k">if</span> <span class="o">(</span>-f <span class="nv">$request_filename</span><span class="o">)</span> <span class="o">{</span>
         break<span class="p">;</span>
     <span class="o">}</span>
-    
+
     <span class="c1"># 设定一些参数</span>
     <span class="nb">set</span> <span class="nv">$filepath</span> <span class="nv">$1</span><span class="p">;</span>
     <span class="nb">set</span> <span class="nv">$filename</span> <span class="s2">&#34;</span><span class="nv">$2</span><span class="s2">.</span><span class="nv">$5</span><span class="s2">&#34;</span><span class="p">;</span>
     <span class="nb">set</span> <span class="nv">$thumb</span>    <span class="s2">&#34;</span><span class="nv">$2</span><span class="s2">_</span><span class="nv">$3</span><span class="s2">x</span><span class="nv">$4</span><span class="s2">.</span><span class="nv">$5</span><span class="s2">&#34;</span><span class="p">;</span>
     <span class="nb">set</span> <span class="nv">$width</span>    <span class="nv">$3</span><span class="p">;</span>
     <span class="nb">set</span> <span class="nv">$height</span>   <span class="nv">$4</span><span class="p">;</span>
-    
+
     <span class="c1"># 如果原文件不存在可以直接返回404</span>
     <span class="k">if</span> <span class="o">(</span>!-f <span class="nv">$document_root</span>/<span class="nv">$filepath</span>/<span class="nv">$filename</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">return</span> 404<span class="p">;</span>
@@ -242,6 +240,12 @@ location /image-resize <span class="o">{</span>
     <hr />
 
     <div class="post-info">
+        <p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7" y2="7"></line>
+          </svg><span class="tag"><a href="http://0x1.im/tags/nginx/">nginx</a></span>
+        </p>
 
       <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
@@ -251,7 +255,7 @@ location /image-resize <span class="o">{</span>
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        142 Words
+        
       </p>
 
       <p>
@@ -308,7 +312,7 @@ location /image-resize <span class="o">{</span>
             <span>&copy; 2020</span>
             
             
-            <span> <a href="http://0x1.im/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            <span></span>
         </div>
     </div>
     <div class="footer__inner">

@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2016-02-28T12:00:00Z"
 title: PHP 代码规范简洁之道

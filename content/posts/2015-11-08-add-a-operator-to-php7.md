@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2015-11-08T18:22:26Z"
 title: 两行代码给 PHP7 添加一个“非空合并”语法糖

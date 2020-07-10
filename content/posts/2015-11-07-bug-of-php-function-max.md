@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2015-11-07T13:30:22Z"
 title: max/min 函数（PHP）的一个小 BUG

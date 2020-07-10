@@ -12,7 +12,7 @@
  查找视图文件； 根据文件名后缀从 Container 中取出响应的引擎； 加载视图文件或编译后加载编译后的文件执行，同时将需要解析的数据暴露在视图文件环境中。  Factory 中的一些方法完成了以上第一步的过程，文件查找是调用的 FileViewFinder,其中使用了一些 Illuminate\Filesystem\Filesystem 中的方法，这个类中还有一些方法是跟 events 相关的，这里就忽略不表了。
 在以上步骤中，如果中获取到的视图文件是需要“编译”的，引擎会调用 “Blade 编译器”将原视图进行“编译”并保存在 cache 目录中然后加载输出。下次调用时如果发现源文件并没有被修改过就不再重新编译而是直接获取缓存文件并输出。
 CompilerEngine 调用的编译器是 CompilerInterface 接口的实现，默认情况下也就只有 BladeCompiler（如果不知道解析器是如何注入的，你需要去了解 Laravel 的服务容器，这里就不细表）。" />
-<meta name="keywords" content="" />
+<meta name="keywords" content=", laravel" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="http://0x1.im/posts/2015-10-25-laravel-blade-engine/" />
@@ -20,7 +20,7 @@ CompilerEngine 调用的编译器是 CompilerInterface 接口的实现，默认�
 
     <title>
         
-            Laravel 模板引擎（Blade）原理简析 :: Scholer&#39;s Homapage 
+            Laravel 模板引擎（Blade）原理简析 :: Scholer&#39;s Pages 
         
     </title>
 
@@ -52,7 +52,7 @@ CompilerEngine 调用的编译器是 CompilerInterface 接口的实现，默认�
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="laravel," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Laravel 模板引擎（Blade）原理简析"/>
 <meta name="twitter:description" content="上次提到过，模板引擎一般是要做三件事情：
@@ -66,8 +66,6 @@ CompilerEngine 调用的编译器是 CompilerInterface 接口的实现，默认�
 
 
 
-
-    <meta property="article:section" content="laravel" />
 
 
 
@@ -90,7 +88,7 @@ CompilerEngine 调用的编译器是 CompilerInterface 接口的实现，默认�
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">hello</span>
+            <span class="logo__text">$ echo 0x1.im</span>
             <span class="logo__cursor" style=
                   "
                    
@@ -104,7 +102,7 @@ CompilerEngine 调用的编译器是 CompilerInterface 接口的实现，默认�
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/about/">About</a></li>
+    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/tags/">Tags</a></li><li><a href="http://0x1.im/about/">About</a></li>
     </ul>
 </nav>
 
@@ -137,7 +135,7 @@ CompilerEngine 调用的编译器是 CompilerInterface 接口的实现，默认�
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        2 minutes
+        
 
         
       </p>
@@ -269,6 +267,12 @@ CompilerEngine 调用的编译器是 CompilerInterface 接口的实现，默认�
     <hr />
 
     <div class="post-info">
+        <p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7" y2="7"></line>
+          </svg><span class="tag"><a href="http://0x1.im/tags/laravel/">laravel</a></span>
+        </p>
 
       <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
@@ -278,7 +282,7 @@ CompilerEngine 调用的编译器是 CompilerInterface 接口的实现，默认�
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        403 Words
+        
       </p>
 
       <p>
@@ -335,7 +339,7 @@ CompilerEngine 调用的编译器是 CompilerInterface 接口的实现，默认�
             <span>&copy; 2020</span>
             
             
-            <span> <a href="http://0x1.im/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            <span></span>
         </div>
     </div>
     <div class="footer__inner">

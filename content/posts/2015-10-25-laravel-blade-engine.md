@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - laravel
 date: "2015-10-25T23:50:33Z"
 title: Laravel 模板引擎（Blade）原理简析

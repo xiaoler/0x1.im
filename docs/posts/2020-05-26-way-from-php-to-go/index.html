@@ -14,7 +14,7 @@ go 这种编译型语言就不是这样。因为是先编译后执行，go 一�
 2. 动态语言 vs 静态语言 动态语言与静态语言又分别被称为弱类型语言和强类型语言，其实这样描述也更加形象。
 PHP 会在执行的过程中做隐式类型转换（虽然也提供了类型转换的函数和关键字），go 的类型转换却需要手动、强制的来执行。
 弱类型语言带来了很多便利性，但是也隐含了很多问题，以至于 PHP 要引入 === 这种比较方式，不过经验丰富的 PHP 开发应该是能在每一个变量定义之前都确认好它的数据类型的。go 语言中不存在隐式转换的问题，但是写起来肯定也没有那么爽，光是 int 都有多种长度的类型，会让很多新手不太适应，同样的道理，定义每一个变量之前都稍加思考，就能轻松解决这个问题。" />
-<meta name="keywords" content="" />
+<meta name="keywords" content=", go" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="http://0x1.im/posts/2020-05-26-way-from-php-to-go/" />
@@ -22,7 +22,7 @@ PHP 会在执行的过程中做隐式类型转换（虽然也提供了类型转�
 
     <title>
         
-            写给 PHP 程序员的 Go 入门教程 :: Scholer&#39;s Homapage 
+            写给 PHP 程序员的 Go 入门教程 :: Scholer&#39;s Pages 
         
     </title>
 
@@ -56,7 +56,7 @@ PHP 会在执行的过程中做隐式类型转换（虽然也提供了类型转�
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="go," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="写给 PHP 程序员的 Go 入门教程"/>
 <meta name="twitter:description" content="这两年唱衰 PHP 的论调不少（其实我觉得大可不必），导致不少 PHP 程序员产生危机感，纷纷寻求转型，根据我的观察，基本上 Go 都是首选。不管怎么说，技多不压身，多掌握一点知识总是好的。本文就作为一个基础的入门来帮助 PHP 程序员入门 Go 语言吧。
@@ -72,8 +72,6 @@ PHP 会在执行的过程中做隐式类型转换（虽然也提供了类型转�
 
 
 
-
-    <meta property="article:section" content="go" />
 
 
 
@@ -96,7 +94,7 @@ PHP 会在执行的过程中做隐式类型转换（虽然也提供了类型转�
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">hello</span>
+            <span class="logo__text">$ echo 0x1.im</span>
             <span class="logo__cursor" style=
                   "
                    
@@ -110,7 +108,7 @@ PHP 会在执行的过程中做隐式类型转换（虽然也提供了类型转�
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/about/">About</a></li>
+    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/tags/">Tags</a></li><li><a href="http://0x1.im/about/">About</a></li>
     </ul>
 </nav>
 
@@ -143,7 +141,7 @@ PHP 会在执行的过程中做隐式类型转换（虽然也提供了类型转�
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        One minute
+        
 
         
       </p>
@@ -217,6 +215,12 @@ PHP 会在执行的过程中做隐式类型转换（虽然也提供了类型转�
     <hr />
 
     <div class="post-info">
+        <p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7" y2="7"></line>
+          </svg><span class="tag"><a href="http://0x1.im/tags/go/">go</a></span>
+        </p>
 
       <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
@@ -226,7 +230,7 @@ PHP 会在执行的过程中做隐式类型转换（虽然也提供了类型转�
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        180 Words
+        
       </p>
 
       <p>
@@ -283,7 +287,7 @@ PHP 会在执行的过程中做隐式类型转换（虽然也提供了类型转�
             <span>&copy; 2020</span>
             
             
-            <span> <a href="http://0x1.im/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            <span></span>
         </div>
     </div>
     <div class="footer__inner">

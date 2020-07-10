@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2015-10-11T22:50:43Z"
 title: 现在写 PHP，你应该知道这些

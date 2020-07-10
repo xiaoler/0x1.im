@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2016-12-22T12:00:00Z"
 title: 一个神奇的操作符即将加入PHP

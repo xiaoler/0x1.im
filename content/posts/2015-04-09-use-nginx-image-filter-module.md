@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - nginx
 date: "2015-04-09T15:36:35Z"
 title: 使用Nginx 的 image filter 模块裁剪图片
@@ -30,14 +30,14 @@ location ~* /(.*)\/([0-9a-f]+)_(\d+)x(\d+)\.(jpg|png|jpeg|gif)$ {
     if (-f $request_filename) {
         break;
     }
-    
+
     # 设定一些参数
     set $filepath $1;
     set $filename "$2.$5";
     set $thumb    "$2_$3x$4.$5";
     set $width    $3;
     set $height   $4;
-    
+
     # 如果原文件不存在可以直接返回404
     if (!-f $document_root/$filepath/$filename) {
         return 404;

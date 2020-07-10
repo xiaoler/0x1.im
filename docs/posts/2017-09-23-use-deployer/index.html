@@ -13,7 +13,7 @@ task(&amp;#39;deploy&amp;#39;, [ &amp;#39;deploy:prepare&amp;#39;, &amp;#39;depl
 使用 deployer 进行代码部署是非常方便编写指令的，还有一个好处就是你可以在任何一次部署结束之后使用 rollback 命令进行回滚等操作。
 起步 创建一个基于 deployer 的项目部署配置很简单，在安装完 deployer 后直接在目录中执行 dep init 即可。deployer 本身已经提供了一些知名开源项目的部署配置供选择，如果想高度自定义，选择通用配置（common）即可。
 执行完成后会在当前目录中生成一个 deploy.php 的文件。 配置文件中最常见的两个函数就是 set 和 task，task 上文已经有过介绍。set 函数是用来配置参数用的。它既可以用来设置新的配置项，也可以替换默认的设置。" />
-<meta name="keywords" content="" />
+<meta name="keywords" content=", php" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="http://0x1.im/posts/2017-09-23-use-deployer/" />
@@ -21,7 +21,7 @@ task(&amp;#39;deploy&amp;#39;, [ &amp;#39;deploy:prepare&amp;#39;, &amp;#39;depl
 
     <title>
         
-            使用 deployer 部署项目 :: Scholer&#39;s Homapage 
+            使用 deployer 部署项目 :: Scholer&#39;s Pages 
         
     </title>
 
@@ -54,7 +54,7 @@ task(&#39;deploy&#39;, [ &#39;deploy:prepare&#39;, &#39;deploy:lock&#39;, &#39;d
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 deployer 部署项目"/>
 <meta name="twitter:description" content="我一直都认为部署是持续集成或者 DevOps 中最重要的一个环节。受限于公司的网络环境，一直在这一块儿能做的事情很少。最近用腾讯云的机器做一些事情，才有机会好好研究一下 deployer 这个工具。
@@ -69,8 +69,6 @@ task(&#39;deploy&#39;, [ &#39;deploy:prepare&#39;, &#39;deploy:lock&#39;, &#39;d
 
 
 
-
-    <meta property="article:section" content="php" />
 
 
 
@@ -93,7 +91,7 @@ task(&#39;deploy&#39;, [ &#39;deploy:prepare&#39;, &#39;deploy:lock&#39;, &#39;d
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">hello</span>
+            <span class="logo__text">$ echo 0x1.im</span>
             <span class="logo__cursor" style=
                   "
                    
@@ -107,7 +105,7 @@ task(&#39;deploy&#39;, [ &#39;deploy:prepare&#39;, &#39;deploy:lock&#39;, &#39;d
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/about/">About</a></li>
+    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/tags/">Tags</a></li><li><a href="http://0x1.im/about/">About</a></li>
     </ul>
 </nav>
 
@@ -140,7 +138,7 @@ task(&#39;deploy&#39;, [ &#39;deploy:prepare&#39;, &#39;deploy:lock&#39;, &#39;d
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        One minute
+        
 
         
       </p>
@@ -218,6 +216,12 @@ set(&#39;writable_dirs&#39;, [
     <hr />
 
     <div class="post-info">
+        <p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7" y2="7"></line>
+          </svg><span class="tag"><a href="http://0x1.im/tags/php/">php</a></span>
+        </p>
 
       <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
@@ -227,7 +231,7 @@ set(&#39;writable_dirs&#39;, [
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        176 Words
+        
       </p>
 
       <p>
@@ -284,7 +288,7 @@ set(&#39;writable_dirs&#39;, [
             <span>&copy; 2020</span>
             
             
-            <span> <a href="http://0x1.im/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            <span></span>
         </div>
     </div>
     <div class="footer__inner">

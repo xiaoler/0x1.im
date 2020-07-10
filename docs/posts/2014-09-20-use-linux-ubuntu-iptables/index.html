@@ -15,7 +15,7 @@ iptables [-t table] command chain [match] [-j target] 以下是各段命令主�
  filter：一般的过滤功能，默认的table nat：用于NAT功能（端口映射，地址映射等） mangle：用于对特定数据包的修改 raw：主要用于配合NOTRACK的响应 security：用户强制访问控制(MAC)网络规则    command，定义规则写入方式：
  -P：定义链的默认规则（所有其它规则都没有匹配到的数据包，将按照默认规则来执行） -A：追加，在当前链的最后新增一个规则 -I num：插入，把当前规则插入为第几条 -R num：Replays替换/修改第几条规则 -D num：删除，明确指定删除第几条规则    chain，netfilter可以在五个位置进行过滤：
  PREROUTING (路由前) INPUT (数据包流入口) FORWARD (转发管卡) OUTPUT(数据包出口) POSTROUTING（路由后）    match：匹配规则，常用的规则有以下几种：" />
-<meta name="keywords" content="" />
+<meta name="keywords" content=", server" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="http://0x1.im/posts/2014-09-20-use-linux-ubuntu-iptables/" />
@@ -23,7 +23,7 @@ iptables [-t table] command chain [match] [-j target] 以下是各段命令主�
 
     <title>
         
-            Linux(Ubuntu) iptables使用小记 :: Scholer&#39;s Homapage 
+            Linux(Ubuntu) iptables使用小记 :: Scholer&#39;s Pages 
         
     </title>
 
@@ -58,7 +58,7 @@ iptables [-t table] command chain [match] [-j target] 以下是各段命令主�
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="server," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux(Ubuntu) iptables使用小记"/>
 <meta name="twitter:description" content="1. 基础介绍 netfilter/iptables 是与2.4版本之后Linux内核集成的IP信息包过滤系统。iptables不是防火墙，只是定义过滤规则的工具，读取规则并发挥作用的是netfilter。 netfilter/iptables是内核集成的，不存在start/stop或者禁用的说法。可以用iptables命令创建过滤规则。（现在较新的内核中已经默认集成，无需单独安装）
@@ -75,8 +75,6 @@ iptables [-t table] command chain [match] [-j target] 以下是各段命令主�
 
 
 
-
-    <meta property="article:section" content="server" />
 
 
 
@@ -99,7 +97,7 @@ iptables [-t table] command chain [match] [-j target] 以下是各段命令主�
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">hello</span>
+            <span class="logo__text">$ echo 0x1.im</span>
             <span class="logo__cursor" style=
                   "
                    
@@ -113,7 +111,7 @@ iptables [-t table] command chain [match] [-j target] 以下是各段命令主�
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/about/">About</a></li>
+    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/tags/">Tags</a></li><li><a href="http://0x1.im/about/">About</a></li>
     </ul>
 </nav>
 
@@ -146,7 +144,7 @@ iptables [-t table] command chain [match] [-j target] 以下是各段命令主�
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        2 minutes
+        
 
         
       </p>
@@ -307,6 +305,12 @@ iptables -Z
     <hr />
 
     <div class="post-info">
+        <p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7" y2="7"></line>
+          </svg><span class="tag"><a href="http://0x1.im/tags/server/">server</a></span>
+        </p>
 
       <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
@@ -316,7 +320,7 @@ iptables -Z
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        215 Words
+        
       </p>
 
       <p>
@@ -373,7 +377,7 @@ iptables -Z
             <span>&copy; 2020</span>
             
             
-            <span> <a href="http://0x1.im/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            <span></span>
         </div>
     </div>
     <div class="footer__inner">

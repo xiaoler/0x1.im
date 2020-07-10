@@ -9,7 +9,7 @@
  在使用CodeIgniter做项目的过程中，需要用到ajax来分页，但是CI集成的分页类只支持在URL后面跟分页参数的方式。如果想实现ajax的分页，通过一定的方法也可以实现。
 ###使用原有实现示例
 &amp;lt;?php $config[&amp;#39;base_url&amp;#39;] = &amp;#39;javascript:pageAnchor(\&amp;#39;&amp;#39;; $config[&amp;#39;suffix&amp;#39;] = &amp;#39;\&amp;#39;);&amp;#39;; $config[&amp;#39;first_url&amp;#39;] = &amp;#39;javascript:pageAnchor(\&amp;#39;/0\&amp;#39;)&amp;#39;; $config[&amp;#39;anchor_class&amp;#39;] = &amp;#34;&amp;#34;; //添加你的样式  $config[&amp;#39;cur_tag_open&amp;#39;] = &amp;#39;&amp;lt;a href=&amp;#34;javascript:void(0);&amp;#34; class=&amp;#34;&amp;#34;&amp;gt;&amp;#39;; $config[&amp;#39;cur_tag_close&amp;#39;] = &amp;#39;&amp;lt;/a&amp;gt;&amp;#39;; $config[&amp;#39;prev_link&amp;#39;] = &amp;#39;&amp;amp;lt;&amp;#39;; $config[&amp;#39;next_link&amp;#39;] = &amp;#39;&amp;amp;gt;&amp;#39;; $config[&amp;#39;first_link&amp;#39;] = &amp;#39;&amp;amp;laquo;&amp;#39;; $config[&amp;#39;last_link&amp;#39;] = &amp;#39;&amp;amp;raquo;&amp;#39;; $config[&amp;#39;first_tag_close&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;last_tag_open&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;next_tag_open&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;next_tag_close&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;prev_tag_open&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;num_tag_open&amp;#39;] = &amp;#39;&amp;#39;; $config[&amp;#39;total_rows&amp;#39;] = 100; //数据总条数  $config[&amp;#39;per_page&amp;#39;] = 10; // 这里原来是要配置$config[&amp;#39;uri_segment&amp;#39;] 默认为3  // 分页类中有一个地方  // $CI-&amp;gt;uri-&amp;gt;segment($this-&amp;gt;uri_segment) !" />
-<meta name="keywords" content="" />
+<meta name="keywords" content=", codeigniter" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="http://0x1.im/posts/2014-09-14-modify-codeigniter-pagination-class/" />
@@ -17,7 +17,7 @@
 
     <title>
         
-            修改CodeIgniter的Pagination类使其支持Ajax分页 :: Scholer&#39;s Homapage 
+            修改CodeIgniter的Pagination类使其支持Ajax分页 :: Scholer&#39;s Pages 
         
     </title>
 
@@ -46,7 +46,7 @@
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="codeigniter," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="修改CodeIgniter的Pagination类使其支持Ajax分页"/>
 <meta name="twitter:description" content="本文中针对CodeIgniter的问题都是基于2.1.3的版本。
@@ -57,8 +57,6 @@
 
 
 
-
-    <meta property="article:section" content="codeigniter" />
 
 
 
@@ -81,7 +79,7 @@
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">hello</span>
+            <span class="logo__text">$ echo 0x1.im</span>
             <span class="logo__cursor" style=
                   "
                    
@@ -95,7 +93,7 @@
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/about/">About</a></li>
+    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/tags/">Tags</a></li><li><a href="http://0x1.im/about/">About</a></li>
     </ul>
 </nav>
 
@@ -128,7 +126,7 @@
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        One minute
+        
 
         
       </p>
@@ -209,6 +207,12 @@
     <hr />
 
     <div class="post-info">
+        <p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7" y2="7"></line>
+          </svg><span class="tag"><a href="http://0x1.im/tags/codeigniter/">codeigniter</a></span>
+        </p>
 
       <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
@@ -218,7 +222,7 @@
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        129 Words
+        
       </p>
 
       <p>
@@ -275,7 +279,7 @@
             <span>&copy; 2020</span>
             
             
-            <span> <a href="http://0x1.im/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            <span></span>
         </div>
     </div>
     <div class="footer__inner">

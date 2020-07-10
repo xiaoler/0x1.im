@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2017-09-23T08:00:00Z"
 title: 使用 deployer 部署项目

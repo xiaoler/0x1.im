@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - web
 date: "2014-09-16T21:01:00Z"
 title: PHP的session与cookie & CodeIgniter的session修改

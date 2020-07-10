@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - php
 date: "2016-12-18T12:00:00Z"
 title: 如何拯救一个有历史问题的PHP项目

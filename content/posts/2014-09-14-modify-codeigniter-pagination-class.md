@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - codeigniter
 date: "2014-09-14T23:37:54Z"
 title: 修改CodeIgniter的Pagination类使其支持Ajax分页

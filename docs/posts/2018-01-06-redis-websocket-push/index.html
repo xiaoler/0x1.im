@@ -10,7 +10,7 @@
 实现 这里会遇到的问题就是，用 PHP 的库来开一个 WebSocket 服务端口的时候，由于要保持连接，并接收的后续连接，所以服务本身是处于监听端口的状态。而如果程序同时要订阅来自 Redis 的事件，同样也需要监听 Redis 的消息。那么要如何实现呢？这里先直接抛出我所使用的两个库：
  Ratchet：一个 PHP 实现的异步 WebSocket 服务器 predis-async: PHP 实现的异步 Redis 客户端  仔细看上面的描述，除了 PHP 实现 外，他们还有一个相同的关键词：异步。没错，这里的异步和 node.js 描述的异步差不多是同一回事。实现异步的基础就是：EventLoop。这里我也不具体描述 EventLoop 到底是怎么一回事儿。其实 Ratchet 提供的 examples 里也有一个借用 zeromq 实现 push的例子：
 $loop = React\EventLoop\Factory::create(); // Listen for the web server to make a ZeroMQ push after an ajax request $context = new React\ZMQ\Context($loop); $pusher = new MyApp\Pusher; $pull = $context-&amp;gt;getSocket(ZMQ::SOCKET_PULL); $pull-&amp;gt;bind(&amp;#39;tcp://127." />
-<meta name="keywords" content="" />
+<meta name="keywords" content=", php" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="http://0x1.im/posts/2018-01-06-redis-websocket-push/" />
@@ -18,7 +18,7 @@ $loop = React\EventLoop\Factory::create(); // Listen for the web server to make 
 
     <title>
         
-            基于 Redis 的 Pub/Sub 实现 Websocket 推送 :: Scholer&#39;s Homapage 
+            基于 Redis 的 Pub/Sub 实现 Websocket 推送 :: Scholer&#39;s Pages 
         
     </title>
 
@@ -48,7 +48,7 @@ $loop = React\EventLoop\Factory::create(); // Listen for the web server to make 
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="基于 Redis 的 Pub/Sub 实现 Websocket 推送"/>
 <meta name="twitter:description" content="背景 微信小程序的生态越来越完善，而在技术上，小程序目前只支持两种通信协议：HTTPS 和 WebSocket，所以在需要使用双工通信的时候，除了 WebSocket 也没有别的选择。最近恰好有个这样的需求，所以我也花了点时间研究了一下。
@@ -60,8 +60,6 @@ $loop = React\EventLoop\Factory::create(); // Listen for the web server to make 
 
 
 
-
-    <meta property="article:section" content="php" />
 
 
 
@@ -84,7 +82,7 @@ $loop = React\EventLoop\Factory::create(); // Listen for the web server to make 
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">hello</span>
+            <span class="logo__text">$ echo 0x1.im</span>
             <span class="logo__cursor" style=
                   "
                    
@@ -98,7 +96,7 @@ $loop = React\EventLoop\Factory::create(); // Listen for the web server to make 
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/about/">About</a></li>
+    <ul class="menu__inner"><li><a href="http://0x1.im/posts/">Posts</a></li><li><a href="http://0x1.im/tags/">Tags</a></li><li><a href="http://0x1.im/about/">About</a></li>
     </ul>
 </nav>
 
@@ -131,7 +129,7 @@ $loop = React\EventLoop\Factory::create(); // Listen for the web server to make 
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        2 minutes
+        
 
         
       </p>
@@ -203,6 +201,12 @@ $webSock = new React\Socket\Server(&#39;0.0.0.0:8080&#39;, $loop); // Binding to
     <hr />
 
     <div class="post-info">
+        <p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7" y2="7"></line>
+          </svg><span class="tag"><a href="http://0x1.im/tags/php/">php</a></span>
+        </p>
 
       <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
@@ -212,7 +216,7 @@ $webSock = new React\Socket\Server(&#39;0.0.0.0:8080&#39;, $loop); // Binding to
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        244 Words
+        
       </p>
 
       <p>
@@ -269,7 +273,7 @@ $webSock = new React\Socket\Server(&#39;0.0.0.0:8080&#39;, $loop); // Binding to
             <span>&copy; 2020</span>
             
             
-            <span> <a href="http://0x1.im/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            <span></span>
         </div>
     </div>
     <div class="footer__inner">

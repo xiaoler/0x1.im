@@ -1,5 +1,5 @@
 ---
-categories:
+tags:
 - web
 date: "2014-12-14T18:36:44Z"
 title: 开始学习和使用Laravel
