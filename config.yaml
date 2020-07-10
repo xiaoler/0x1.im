@@ -1,5 +1,5 @@
 ---
-baseURL: http://0x1.im
+baseURL: https://0x1.im
 disablePathToLower: true
 languageCode: zh-hans
 hasCJKLanguage: true
