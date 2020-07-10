@@ -2,7 +2,7 @@
 baseURL: http://0x1.im
 disablePathToLower: true
 languageCode: zh-hans
-title: Scholer's Homapage
+title: Scholer
 pygmentsCodefences: true
 pygmentsUseClasses: true
 publishDir: docs
@@ -13,7 +13,10 @@ params:
   dateformShort: "Jan 2"
   dateformNum: "2006-01-02"
   dateformNumTime: "2006-01-02 15:04"
-  defaultTheme: "dark"
+  homeSubtitle: 深漂码农，主要从事 PHP/Golang 应用开发，兴趣爱好广泛。
+  defaultTheme: dark
+  logo:
+    logoText: "$ echo 0x1.im"
   social:
     - name: github
       url: 'https://github.com/'
