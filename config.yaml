@@ -6,13 +6,14 @@ title: Scholer's Homapage
 pygmentsCodefences: true
 pygmentsUseClasses: true
 publishDir: docs
-theme: hello-friend-ng
+# theme: hello-friend-ng
 
 params:
   dateform: "Jan 2, 2006"
   dateformShort: "Jan 2"
   dateformNum: "2006-01-02"
   dateformNumTime: "2006-01-02 15:04"
+  defaultTheme: "dark"
   social:
     - name: github
       url: 'https://github.com/'
@@ -22,6 +23,7 @@ menu:
     - name: Posts
       url: /posts/
       weight: 10
+
     - name: About
       url: /about/
       weight: 20
