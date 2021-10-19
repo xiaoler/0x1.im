@@ -33,13 +33,9 @@
 
 
 <meta itemprop="name" content="PHP 7.1 新特性一览">
-<meta itemprop="description" content="PHP 7.1 release版本发布在即，本文整理一下 7.1 中的一些新特性以供了解。所有内容均选自官方 RFC 文档。 可空类型 可空类型主要用于参数类型声明和函数返">
-<meta itemprop="datePublished" content="2016-09-14T00:29:02&#43;00:00" />
-<meta itemprop="dateModified" content="2016-09-14T00:29:02&#43;00:00" />
+<meta itemprop="description" content="PHP 7.1 release版本发布在即，本文整理一下 7.1 中的一些新特性以供了解。所有内容均选自官方 RFC 文档。 可空类型 可空类型主要用于参数类型声明和函数返"><meta itemprop="datePublished" content="2016-09-14T00:29:02+00:00" />
+<meta itemprop="dateModified" content="2016-09-14T00:29:02+00:00" />
 <meta itemprop="wordCount" content="1703">
-
-
-
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="PHP 7.1 新特性一览"/>
@@ -137,7 +133,7 @@
 <h2 id="可空类型">可空类型</h2>
 <p>可空类型主要用于参数类型声明和函数返回值声明。</p>
 <p>主要的两种形式如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">function</span> <span class="nf">answer</span><span class="p">()</span><span class="o">:</span> <span class="o">?</span><span class="nx">int</span>  <span class="p">{</span>
     <span class="k">return</span> <span class="k">null</span><span class="p">;</span> <span class="c1">//ok
 </span><span class="c1"></span><span class="p">}</span>
@@ -153,12 +149,12 @@
 <span class="p">}</span>
 </code></pre></div><p>从例子很容易理解，所指的就是通过 <code>?</code> 的形式表明函数参数或者返回值的类型要么为指定类型，要么为 <code>null</code>。</p>
 <p>此方法也可用于接口函数的定义：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">interface</span> <span class="nx">Fooable</span> <span class="p">{</span>
     <span class="k">function</span> <span class="nf">foo</span><span class="p">(</span><span class="o">?</span><span class="nx">Fooable</span> <span class="nv">$f</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div><p>但有一个需要注意的地方：如果函数本身定义了参数类型并且没有默认值，即使是可空的，也不能省略，否则会触发错误。如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">function</span> <span class="nf">foo_nullable</span><span class="p">(</span><span class="o">?</span><span class="nx">Bar</span> <span class="nv">$bar</span><span class="p">)</span> <span class="p">{}</span>
 
 <span class="nx">foo_nullable</span><span class="p">(</span><span class="k">new</span> <span class="nx">Bar</span><span class="p">);</span> <span class="c1">// 可行
@@ -167,7 +163,7 @@
 </span></code></pre></div><p>但是如果以上函数的参数定义为 <code>?Bar $bar = null</code> 的形式，则第三种写法也是可行的。因为 <code>= null</code> 实际上相当于 <code>?</code> 的超集，对于可空类型的参数，可以设定 <code>null</code> 为默认值。</p>
 <h2 id="list-的方括号简写">list 的方括号简写</h2>
 <p>我们知道在 PHP5.4 之前只能通过 <code>array()</code> 来定义数组，5.4之后添加了 <code>[]</code> 的简化写法（省略了5个字符还是很实在的）。</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="c1">// 5.4 之前
 </span><span class="c1"></span><span class="nv">$array</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
 <span class="nv">$array</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s2">&#34;a&#34;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;b&#34;</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;c&#34;</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">);</span>
@@ -176,22 +172,22 @@
 </span><span class="c1"></span><span class="nv">$array</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
 <span class="nv">$array</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;a&#34;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;b&#34;</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;c&#34;</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">];</span>
 </code></pre></div><p>引申到另外一个问题上，如果我们要把数组的值赋值给不同的变量，可以通过 <code>list</code> 来实现：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">list</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">,</span> <span class="nv">$c</span><span class="p">)</span> <span class="o">=</span> <span class="nv">$array</span><span class="p">;</span>
 </code></pre></div><p>是否也可以通过 <code>[]</code> 的简写来实现呢？</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="p">[</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">,</span> <span class="nv">$c</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$array</span><span class="p">;</span>
 </code></pre></div><p>以及下一个特性中会提到的 list 指定 key：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="p">[</span><span class="s2">&#34;a&#34;</span> <span class="o">=&gt;</span> <span class="nv">$a</span><span class="p">,</span> <span class="s2">&#34;b&#34;</span> <span class="o">=&gt;</span> <span class="nv">$b</span><span class="p">,</span> <span class="s2">&#34;c&#34;</span> <span class="o">=&gt;</span> <span class="nv">$c</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$array</span><span class="p">;</span>
 </code></pre></div><p>PHP7.1 实现了这个特性。但是要注意的是：出现在左值中的 <code>[]</code> 并不是数组的简写，是 <code>list()</code> 的简写。</p>
 <p>但是并不仅仅如此，新的 <code>list()</code> 的实现并不仅仅可以出现在左值中，也能在 <code>foreach</code> 循环中使用：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$points</span> <span class="k">as</span> <span class="p">[</span><span class="s2">&#34;x&#34;</span> <span class="o">=&gt;</span> <span class="nv">$x</span><span class="p">,</span> <span class="s2">&#34;y&#34;</span> <span class="o">=&gt;</span> <span class="nv">$y</span><span class="p">])</span> <span class="p">{</span>
     <span class="nx">var_dump</span><span class="p">(</span><span class="nv">$x</span><span class="p">,</span> <span class="nv">$y</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div><p>不过因为实现的问题，<code>list()</code> 和 <code>[]</code> 不能相互嵌套使用：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="c1">// 不合法
 </span><span class="c1"></span><span class="k">list</span><span class="p">([</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">],</span> <span class="p">[</span><span class="nv">$c</span><span class="p">,</span> <span class="nv">$d</span><span class="p">])</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]];</span>
 
@@ -202,27 +198,27 @@
 </span><span class="c1"></span><span class="p">[[</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">],</span> <span class="p">[</span><span class="nv">$c</span><span class="p">,</span> <span class="nv">$d</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]];</span>
 </code></pre></div><h2 id="允许在-list-中指定-key">允许在 list 中指定 key</h2>
 <p>上文提到过，新的 <code>list()</code> 的实现中可以指定key：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nv">$array</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;a&#34;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;b&#34;</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;c&#34;</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">];</span>
 <span class="p">[</span><span class="s2">&#34;a&#34;</span> <span class="o">=&gt;</span> <span class="nv">$a</span><span class="p">,</span> <span class="s2">&#34;b&#34;</span> <span class="o">=&gt;</span> <span class="nv">$b</span><span class="p">,</span> <span class="s2">&#34;c&#34;</span> <span class="o">=&gt;</span> <span class="nv">$c</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$array</span><span class="p">;</span>
 </code></pre></div><p>这也就相当于:</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nv">$a</span> <span class="o">=</span> <span class="nv">$array</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">];</span>
 <span class="nv">$b</span> <span class="o">=</span> <span class="nv">$array</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">];</span>
 <span class="nv">$c</span> <span class="o">=</span> <span class="nv">$array</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">];</span>
 </code></pre></div><p>和以往的区别在于以往的 <code>list()</code> 的实现相当于 key 只能是 <code>0, 1, 2, 3</code> 的数字形式并且不能调整顺序。执行以下语句：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">list</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="o">=&gt;</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="mi">2</span> <span class="o">=&gt;</span> <span class="s1">&#39;2&#39;</span><span class="p">];</span>
 </code></pre></div><p>会得到 <code>PHP error:  Undefined offset: 0...</code> 的错误。</p>
 <p>而新的实现则可以通过以下方式来调整赋值：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">list</span><span class="p">(</span><span class="mi">1</span> <span class="o">=&gt;</span> <span class="nv">$a</span><span class="p">,</span> <span class="mi">2</span> <span class="o">=&gt;</span> <span class="nv">$b</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="o">=&gt;</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="mi">2</span> <span class="o">=&gt;</span> <span class="s1">&#39;2&#39;</span><span class="p">];</span>
 </code></pre></div><p>不同于数组的是，<code>list</code> 并不支持混合形式的 key，以下写法会触发解析错误：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="c1">// Parse error: syntax error, ...
 </span><span class="c1"></span><span class="k">list</span><span class="p">(</span><span class="nv">$unkeyed</span><span class="p">,</span> <span class="s2">&#34;key&#34;</span> <span class="o">=&gt;</span> <span class="nv">$keyed</span><span class="p">)</span> <span class="o">=</span> <span class="nv">$array</span><span class="p">;</span>
 </code></pre></div><p>更复杂的情况，<code>list</code> 也支持复合形式的解析：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nv">$points</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">[</span><span class="s2">&#34;x&#34;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;y&#34;</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">],</span>
     <span class="p">[</span><span class="s2">&#34;x&#34;</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;y&#34;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">]</span>
@@ -237,7 +233,7 @@
 
 <span class="k">list</span><span class="p">(</span><span class="s2">&#34;first&#34;</span> <span class="o">=&gt;</span> <span class="k">list</span><span class="p">(</span><span class="nv">$x1</span><span class="p">,</span> <span class="nv">$y1</span><span class="p">),</span> <span class="s2">&#34;second&#34;</span> <span class="o">=&gt;</span> <span class="k">list</span><span class="p">(</span><span class="nv">$x2</span><span class="p">,</span> <span class="nv">$y2</span><span class="p">))</span> <span class="o">=</span> <span class="nv">$points</span><span class="p">;</span>
 </code></pre></div><p>以及循环中使用：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nv">$points</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">[</span><span class="s2">&#34;x&#34;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;y&#34;</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">],</span>
     <span class="p">[</span><span class="s2">&#34;x&#34;</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;y&#34;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">]</span>
@@ -248,12 +244,12 @@
 <span class="p">}</span>
 </code></pre></div><h2 id="void-返回类型">void 返回类型</h2>
 <p>PHP7.0 添加了指定函数返回类型的特性，但是返回类型却不能指定为 <code>void</code>，7.1 的这个特性算是一个补充：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">function</span> <span class="nf">should_return_nothing</span><span class="p">()</span><span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
     <span class="k">return</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// Fatal error: A void function must not return a value
 </span><span class="c1"></span><span class="p">}</span>
 </code></pre></div><p>以下两种情况都可以通过验证：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">function</span> <span class="nf">lacks_return</span><span class="p">()</span><span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
     <span class="c1">// valid
 </span><span class="c1"></span><span class="p">}</span>
@@ -262,7 +258,7 @@
     <span class="k">return</span><span class="p">;</span> <span class="c1">// valid
 </span><span class="c1"></span><span class="p">}</span>
 </code></pre></div><p>定义返回类型为 <code>void</code> 的函数不能有返回值，即使返回 <code>null</code> 也不行：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">function</span> <span class="nf">returns_one</span><span class="p">()</span><span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
     <span class="k">return</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// Fatal error: A void function must not return a value
 </span><span class="c1"></span><span class="p">}</span>
@@ -271,11 +267,11 @@
     <span class="k">return</span> <span class="k">null</span><span class="p">;</span> <span class="c1">// Fatal error: A void function must not return a value
 </span><span class="c1"></span><span class="p">}</span>
 </code></pre></div><p>此外 <code>void</code> 也只适用于返回类型，并不能用于参数类型声明，或者会触发错误：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">function</span> <span class="nf">foobar</span><span class="p">(</span><span class="nx">void</span> <span class="nv">$foo</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Fatal error: void cannot be used as a parameter type
 </span><span class="c1"></span><span class="p">}</span>
 </code></pre></div><p>类函数中对于返回类型的声明也不能被子类覆盖，否则会触发错误：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">class</span> <span class="nc">Foo</span>
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">bar</span><span class="p">()</span><span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
@@ -289,7 +285,7 @@
 <span class="p">}</span>
 </code></pre></div><h2 id="类常量属性设定">类常量属性设定</h2>
 <p>这个特性说起来比较简单，就是现在类中的常量支持使用 <code>public</code>、<code>private</code> 和 <code>protected</code> 修饰了：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">class</span> <span class="nc">Token</span> <span class="p">{</span>
     <span class="c1">// 常量默认为 public
 </span><span class="c1"></span>    <span class="k">const</span> <span class="no">PUBLIC_CONST</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
@@ -303,13 +299,13 @@
 </span><span class="c1"></span>    <span class="k">private</span> <span class="k">const</span> <span class="no">FOO</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">BAR</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div><p>此外，接口（interface）中的常量只能是 <code>public</code> 属性：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">interface</span> <span class="nx">ICache</span> <span class="p">{</span>
     <span class="k">public</span> <span class="k">const</span> <span class="no">PUBLIC</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="k">const</span> <span class="no">IMPLICIT_PUBLIC</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div><p>为了应对变化，反射类的实现也相应的丰富了一下，增加了 <code>getReflectionConstant</code> 和 <code>getReflectionConstants</code> 两个方法用于获取常量的额外属性：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">class</span> <span class="nc">testClass</span>  <span class="p">{</span>
     <span class="k">const</span> <span class="no">TEST_CONST</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span><span class="p">;</span>
 <span class="p">}</span>
@@ -319,7 +315,7 @@
 <span class="nv">$consts</span> <span class="o">=</span> <span class="nv">$obj</span><span class="o">-&gt;</span><span class="na">getReflectionConstants</span><span class="p">();</span>
 </code></pre></div><h2 id="多条件-catch">多条件 catch</h2>
 <p>在以往的 <code>try ... catch</code> 语句中，每个 <code>catch</code> 只能设定一个条件判断：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">try</span> <span class="p">{</span>
     <span class="c1">// Some code...
 </span><span class="c1"></span><span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">ExceptionType1</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
@@ -330,7 +326,7 @@
     <span class="c1">// ...
 </span><span class="c1"></span><span class="p">}</span>
 </code></pre></div><p>新的实现中可以在一个 <code>catch</code> 中设置多个条件，相当于或的形式判断：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">try</span> <span class="p">{</span>
     <span class="c1">// Some code...
 </span><span class="c1"></span><span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">ExceptionType1</span> <span class="o">|</span> <span class="nx">ExceptionType2</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
@@ -425,7 +421,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2021</span>
             
             
             <span></span>
@@ -447,7 +443,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
 
 
 

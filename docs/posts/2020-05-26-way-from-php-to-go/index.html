@@ -33,13 +33,9 @@
 
 
 <meta itemprop="name" content="写给 PHP 程序员的 Go 入门教程">
-<meta itemprop="description" content="这两年唱衰 PHP 的论调不少（其实我觉得大可不必），导致不少 PHP 程序员产生危机感，纷纷寻求转型，根据我的观察，基本上 Go 都是首选。不管怎么说，技多不压">
-<meta itemprop="datePublished" content="2020-05-26T10:41:41&#43;00:00" />
-<meta itemprop="dateModified" content="2020-05-26T10:41:41&#43;00:00" />
+<meta itemprop="description" content="这两年唱衰 PHP 的论调不少（其实我觉得大可不必），导致不少 PHP 程序员产生危机感，纷纷寻求转型，根据我的观察，基本上 Go 都是首选。不管怎么说，技多不压"><meta itemprop="datePublished" content="2020-05-26T10:41:41+00:00" />
+<meta itemprop="dateModified" content="2020-05-26T10:41:41+00:00" />
 <meta itemprop="wordCount" content="1681">
-
-
-
 <meta itemprop="keywords" content="go," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="写给 PHP 程序员的 Go 入门教程"/>
@@ -149,7 +145,7 @@
 <p>PHP 会在执行的过程中做隐式类型转换（虽然也提供了类型转换的函数和关键字），go 的类型转换却需要手动、强制的来执行。</p>
 <p>弱类型语言带来了很多便利性，但是也隐含了很多问题，以至于 PHP 要引入 <code>===</code> 这种比较方式，不过经验丰富的 PHP 开发应该是能在每一个变量定义之前都确认好它的数据类型的。go 语言中不存在隐式转换的问题，但是写起来肯定也没有那么爽，光是 <code>int</code> 都有多种长度的类型，会让很多新手不太适应，同样的道理，定义每一个变量之前都稍加思考，就能轻松解决这个问题。</p>
 <p>go 提供了 <code>:=</code> 和 <code>var</code> 关键字的赋值方式，编译器会根据初始化的值自动推导出相应的类型，但是这个用法同样也要求你小心处理作用域的问题，不妨猜一下下面这段代码的输出：</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
     <span class="s">&#34;fmt&#34;</span>
@@ -260,7 +256,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2021</span>
             
             
             <span></span>
@@ -282,7 +278,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
 
 
 

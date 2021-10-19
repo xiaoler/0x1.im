@@ -33,13 +33,9 @@
 
 
 <meta itemprop="name" content="PHP 共享内存使用与信号控制">
-<meta itemprop="description" content="共享内存 共享内存的使用主要是为了能够在同一台机器不同的进程中共享一些数据，比如在多个 php-fpm 进程中共享当前进程的使用情况。这种通信也称为进程间通信">
-<meta itemprop="datePublished" content="2016-05-01T12:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2016-05-01T12:00:00&#43;00:00" />
+<meta itemprop="description" content="共享内存 共享内存的使用主要是为了能够在同一台机器不同的进程中共享一些数据，比如在多个 php-fpm 进程中共享当前进程的使用情况。这种通信也称为进程间通信"><meta itemprop="datePublished" content="2016-05-01T12:00:00+00:00" />
+<meta itemprop="dateModified" content="2016-05-01T12:00:00+00:00" />
 <meta itemprop="wordCount" content="1413">
-
-
-
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="PHP 共享内存使用与信号控制"/>
@@ -145,7 +141,7 @@
 </ul>
 <p>与此相关的还有一个很重要的函数：<a href="http://php.net/manual/zh/function.ftok.php">ftok</a>，通过文件的 inode 信息（*nix 上通过 <code>stat</code> 或 <code>ls -i</code> 命令查看）创建 IPC 的唯一 key（文件/文件夹的 inode 是唯一的）。这个函数在 Linux 上也是直接调用同名的系统函数实现，Windows 上还是使用一些封装。</p>
 <p>一个简单的计数例子：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="c1"># 创建一块共享内存
 </span><span class="c1"></span><span class="nv">$shm_key</span> <span class="o">=</span> <span class="nx">ftok</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">);</span>
 <span class="nv">$shm_id</span> <span class="o">=</span> <span class="nx">shmop_open</span><span class="p">(</span><span class="nv">$shm_key</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mo">0644</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
@@ -173,7 +169,7 @@
 </blockquote>
 <p>简单说来：sysvshm 扩展提供的方法并不是原封不动的存储用户的数据，而是先使用 PHP 的变量序列化函数对参数进行序列化然后再进行存储。这就导致通过这些方法存储的数据无法和非 PHP 进程共享。不过这样也能存储更丰富的 PHP 数据类型，上文的扩展中 <code>shmop_write</code> 只能写入字符串。那么为什么 sysvshm 同样不支持 Windows 呢？因为其并没有引入封装了 <code>shm*</code> 系列函数的 <code>tsrm_win32.h</code> 的头文件。</p>
 <p>引入信号控制之后的示例：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 
 <span class="nv">$id_key</span> <span class="o">=</span> <span class="nx">ftok</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">);</span>
 <span class="nv">$sem_id</span> <span class="o">=</span> <span class="nx">sem_get</span><span class="p">(</span><span class="nv">$id_key</span><span class="p">);</span>
@@ -266,7 +262,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2021</span>
             
             
             <span></span>
@@ -288,7 +284,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
 
 
 

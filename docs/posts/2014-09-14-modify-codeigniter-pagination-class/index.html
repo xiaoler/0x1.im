@@ -33,13 +33,9 @@
 
 
 <meta itemprop="name" content="修改CodeIgniter的Pagination类使其支持Ajax分页">
-<meta itemprop="description" content="本文中针对CodeIgniter的问题都是基于2.1.3的版本。 在使用CodeIgniter做项目的过程中，需要用到ajax来分页，但是CI">
-<meta itemprop="datePublished" content="2014-09-14T23:37:54&#43;00:00" />
-<meta itemprop="dateModified" content="2014-09-14T23:37:54&#43;00:00" />
-<meta itemprop="wordCount" content="848">
-
-
-
+<meta itemprop="description" content="本文中针对CodeIgniter的问题都是基于2.1.3的版本。 在使用CodeIgniter做项目的过程中，需要用到ajax来分页，但是CI"><meta itemprop="datePublished" content="2014-09-14T23:37:54+00:00" />
+<meta itemprop="dateModified" content="2014-09-14T23:37:54+00:00" />
+<meta itemprop="wordCount" content="856">
 <meta itemprop="keywords" content="codeigniter," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="修改CodeIgniter的Pagination类使其支持Ajax分页"/>
@@ -136,7 +132,7 @@
 </blockquote>
 <p>在使用CodeIgniter做项目的过程中，需要用到ajax来分页，但是CI集成的分页类只支持在URL后面跟分页参数的方式。如果想实现ajax的分页，通过一定的方法也可以实现。</p>
 <p>###使用原有实现示例</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
     <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;base_url&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="s1">&#39;javascript:pageAnchor(\&#39;&#39;</span><span class="p">;</span>
     <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;suffix&#39;</span><span class="p">]</span>           <span class="o">=</span> <span class="s1">&#39;\&#39;);&#39;</span><span class="p">;</span>
     <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;first_url&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="s1">&#39;javascript:pageAnchor(\&#39;/0\&#39;)&#39;</span><span class="p">;</span>
@@ -165,8 +161,8 @@
 </span><span class="c1"></span>    <span class="c1">// 我们的uri里第三段全为字母,刚好可以绕过这个判断
 </span><span class="c1"></span>    <span class="c1">// 所以cur_page 这个参数才能够传入进去
 </span><span class="c1"></span>    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;cur_page&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//当前页
-</span><span class="c1"></span><span class="cp">?&gt;</span>
-</code></pre></div><p>只要你的URL的第三段全为字母，就可以绕过判断，这实际上是一个bug。</p>
+</span><span class="c1"></span><span class="cp">?&gt;</span><span class="err">
+</span></code></pre></div><p>只要你的URL的第三段全为字母，就可以绕过判断，这实际上是一个bug。</p>
 <p>通过以上的配置，在js中增加一个<code>pageAnchor</code>的方法，就可以实现ajax的分页了。</p>
 <p>另外，在CdoeIgniter <code>2.1.3</code>之前的版本中，通过<code>$this-&gt;load-&gt;library('pagination',$config)</code>的方式来初始化时添加<code>anchor_class</code>参数无法生效，这是因为代码中把这个参数的操作放到了构造函数中，这个BUG在<code>2.1.4</code>的版本中已经修复了。</p>
 <p>###修改后的实现</p>
@@ -179,7 +175,7 @@
 <li>移除了<code>query_string_segment</code>参数，增加<code>query_string_key</code>参数，仍然支持通过参数的形式获取分页。</li>
 </ol>
 <p>改动后的使用配置方法：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
     <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;is_ajax&#39;</span><span class="p">]</span>          <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
     <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;base_url&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="s1">&#39;pageAnchor&#39;</span><span class="p">;</span>
     <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;first_url&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="s1">&#39;javascript:pageAnchor(\&#39;/0\&#39;)&#39;</span><span class="p">;</span>
@@ -188,8 +184,8 @@
     <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;cur_tag_close&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s1">&#39;&lt;/a&gt;&#39;</span><span class="p">;</span>
     <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;total_rows&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="mi">100</span><span class="p">;</span> <span class="c1">// 数据总条数
 </span><span class="c1"></span>    <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;cur_page&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>  <span class="c1">// 当前页码
-</span><span class="c1"></span><span class="cp">?&gt;</span>
-</code></pre></div><p>###下载
+</span><span class="c1"></span><span class="cp">?&gt;</span><span class="err">
+</span></code></pre></div><p>###下载
 <a href="/files/code/Page.php" title="">Page.php</a></p>
 
       </div>
@@ -213,7 +209,7 @@
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        848 Words
+        856 Words
       </p>
 
       <p>
@@ -267,7 +263,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2021</span>
             
             
             <span></span>
@@ -289,7 +285,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
 
 
 

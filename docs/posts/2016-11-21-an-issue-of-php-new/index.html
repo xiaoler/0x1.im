@@ -33,13 +33,9 @@
 
 
 <meta itemprop="name" content="一个关于 PHP 的 new 的小问题的探究">
-<meta itemprop="description" content="问题起因 前两天有人在群里说了一个关于 new 和 stdClass 的问题，具体表现如下： &lt;?php $a = new stdClass; $b = new $a; var_dump($a, $b); 这段代码是可以正确运行的，并且 $a 和 $b 是两个不同的空对象">
-<meta itemprop="datePublished" content="2016-11-21T12:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2016-11-21T12:00:00&#43;00:00" />
+<meta itemprop="description" content="问题起因 前两天有人在群里说了一个关于 new 和 stdClass 的问题，具体表现如下： &lt;?php $a = new stdClass; $b = new $a; var_dump($a, $b); 这段代码是可以正确运行的，并且 $a 和 $b 是两个不同的空对象"><meta itemprop="datePublished" content="2016-11-21T12:00:00+00:00" />
+<meta itemprop="dateModified" content="2016-11-21T12:00:00+00:00" />
 <meta itemprop="wordCount" content="612">
-
-
-
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="一个关于 PHP 的 new 的小问题的探究"/>
@@ -133,7 +129,7 @@
       <div class="post-content">
         <h2 id="问题起因">问题起因</h2>
 <p>前两天有人在群里说了一个关于 <code>new</code> 和 <code>stdClass</code> 的问题，具体表现如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="k">stdClass</span><span class="p">;</span>
 <span class="nv">$b</span> <span class="o">=</span> <span class="k">new</span> <span class="nv">$a</span><span class="p">;</span>
 <span class="nx">var_dump</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">);</span>
@@ -141,29 +137,29 @@
 <p>所以问题就是：为什么空对象还可以跟在 <code>new</code> 后面，<code>stdClass</code> 有什么特殊的地方吗？</p>
 <h2 id="实际表现">实际表现</h2>
 <p>其实主要稍加验证就能知道，其实这和 <code>stdClass</code> 并没有什么关系，完全是 <code>new</code> 的行为决定的，比如在 <a href="http://psysh.org/">psysh</a> 上做一下简单的测试：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php">&gt;&gt;&gt; $a = new Reflection;
-=&gt; Reflection {#174}
-&gt;&gt;&gt; $b = new $a;
-=&gt; Reflection {#177}
-</code></pre></div><p>这里我是 new 了一个 <code>Reflection</code> 类的实例，和 <code>stdClass</code> 的表现没有区别。当然也可以自定义一个类：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php">&gt;&gt;&gt; class Test { public $foo = 1; }
-=&gt; null
-&gt;&gt;&gt; $a = new Test
-=&gt; Test {#178
-     +foo: 1,
-   }
-&gt;&gt;&gt; $a-&gt;foo = 2;
-=&gt; 2
-&gt;&gt;&gt; $b = new $a;
-=&gt; Test {#180
-     +foo: 1,
-   }
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&gt;&gt;&gt;</span> <span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Reflection</span><span class="p">;</span>
+<span class="o">=&gt;</span> <span class="nx">Reflection</span> <span class="p">{</span><span class="c1">#174}
+</span><span class="c1"></span><span class="o">&gt;&gt;&gt;</span> <span class="nv">$b</span> <span class="o">=</span> <span class="k">new</span> <span class="nv">$a</span><span class="p">;</span>
+<span class="o">=&gt;</span> <span class="nx">Reflection</span> <span class="p">{</span><span class="c1">#177}
+</span></code></pre></div><p>这里我是 new 了一个 <code>Reflection</code> 类的实例，和 <code>stdClass</code> 的表现没有区别。当然也可以自定义一个类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">Test</span> <span class="p">{</span> <span class="k">public</span> <span class="nv">$foo</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="p">}</span>
+<span class="o">=&gt;</span> <span class="k">null</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Test</span>
+<span class="o">=&gt;</span> <span class="nx">Test</span> <span class="p">{</span><span class="c1">#178
+</span><span class="c1"></span>     <span class="o">+</span><span class="nx">foo</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+   <span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nv">$a</span><span class="o">-&gt;</span><span class="na">foo</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="o">=&gt;</span> <span class="mi">2</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nv">$b</span> <span class="o">=</span> <span class="k">new</span> <span class="nv">$a</span><span class="p">;</span>
+<span class="o">=&gt;</span> <span class="nx">Test</span> <span class="p">{</span><span class="c1">#180
+</span><span class="c1"></span>     <span class="o">+</span><span class="nx">foo</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+   <span class="p">}</span>
 </code></pre></div><p>从这个例子中我们可以清楚的看到，改变 <code>$a</code> 的属性对 <code>$b</code> 没有任何影响（到这里也可以顺便思考一下 PHP 的一个关键字：<code>clone</code>）。</p>
 <p>既然已经知道了表现，也可以得到结论：通过一个类的对象 <code>new</code> 出一个新对象等同于 <code>new</code> 原对象的类。</p>
 <h2 id="原因">原因</h2>
 <p>那么 PHP 是什么样的实现造成了这种表现呢？还是从源码入手来解析这个问题。</p>
 <p>其实从源码中，我们可以直奔 <code>zend_vm_def.h</code> 中找到答案，在关于 <code>ZEND_FETCH_CLASS</code> 这个 opcode 的解释中，我们可以看到以下内容：</p>
-<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="n">ZEND_VM_HANDLER</span><span class="p">(</span><span class="mi">109</span><span class="p">,</span> <span class="n">ZEND_FETCH_CLASS</span><span class="p">,</span> <span class="n">ANY</span><span class="p">,</span> <span class="n">CONST</span><span class="o">|</span><span class="n">TMPVAR</span><span class="o">|</span><span class="n">UNUSED</span><span class="o">|</span><span class="n">CV</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="n">ZEND_VM_HANDLER</span><span class="p">(</span><span class="mi">109</span><span class="p">,</span> <span class="n">ZEND_FETCH_CLASS</span><span class="p">,</span> <span class="n">ANY</span><span class="p">,</span> <span class="n">CONST</span><span class="o">|</span><span class="n">TMPVAR</span><span class="o">|</span><span class="n">UNUSED</span><span class="o">|</span><span class="n">CV</span><span class="p">)</span>
 <span class="p">{</span>
         <span class="p">...</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">OP2_TYPE</span> <span class="o">==</span> <span class="n">IS_CONST</span><span class="p">)</span> <span class="p">{</span>
@@ -251,7 +247,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2021</span>
             
             
             <span></span>
@@ -273,7 +269,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
 
 
 

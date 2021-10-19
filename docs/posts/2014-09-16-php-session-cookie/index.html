@@ -33,13 +33,9 @@
 
 
 <meta itemprop="name" content="PHP的session与cookie &amp; CodeIgniter的session修改">
-<meta itemprop="description" content="设定cookie的读取为httponly 最近网站被XSS了，还被报到乌云上去了。感谢仁慈的好事者没有做什么破坏，也给我提了醒。郁闷之与，做好">
-<meta itemprop="datePublished" content="2014-09-16T21:01:00&#43;00:00" />
-<meta itemprop="dateModified" content="2014-09-16T21:01:00&#43;00:00" />
-<meta itemprop="wordCount" content="2447">
-
-
-
+<meta itemprop="description" content="设定cookie的读取为httponly 最近网站被XSS了，还被报到乌云上去了。感谢仁慈的好事者没有做什么破坏，也给我提了醒。郁闷之与，做好"><meta itemprop="datePublished" content="2014-09-16T21:01:00+00:00" />
+<meta itemprop="dateModified" content="2014-09-16T21:01:00+00:00" />
+<meta itemprop="wordCount" content="2451">
 <meta itemprop="keywords" content="web," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="PHP的session与cookie &amp; CodeIgniter的session修改"/>
@@ -141,7 +137,7 @@
 <p>于是放弃了这种方法，在CodeIgniter中的源文件中改了几个地方，通过setcookie的参数设定httponly。</p>
 <p>但是还有点不死心，想看一下这个参数到底是做什么的。在网上找了一下，也没有专门去讲这个事情的，甚至有些提到这个参数和setcookie混用的。</p>
 <p>在PHP的源码中搜了一下，，在<code>ext/session/session.c</code>找到了以下的地方：</p>
-<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="k">if</span> <span class="p">(</span><span class="n">PS</span><span class="p">(</span><span class="n">cookie_httponly</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">if</span> <span class="p">(</span><span class="n">PS</span><span class="p">(</span><span class="n">cookie_httponly</span><span class="p">))</span> <span class="p">{</span>
     <span class="n">smart_str_appends</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ncookie</span><span class="p">,</span> <span class="n">COOKIE_HTTPONLY</span><span class="p">);</span>
 <span class="p">}</span>
 
@@ -180,15 +176,15 @@
 <p>CI也是通过cookie来存session的，这点没有什么特别之处。不过CI的session机制并不是通过PHP原生的方法来调用的，是自己实现的。</p>
 <p>使用CI的session类的好处在于可以很方便的使用数据库来存储和维护session数据。这是你可以在服务端里保存一些session相关的关键数据，比如用户的id。</p>
 <p><strong>如果你不使用数据库存储session数据，那就不要使用CI的session类，因为它会直接把你的数据写到cookie里去，虽然数据是加密的：</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
     <span class="c1">// Are we saving custom data to the DB?  If not, all we do is update the cookie
 </span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sess_use_database</span> <span class="o">===</span> <span class="k">FALSE</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_set_cookie</span><span class="p">();</span>
         <span class="k">return</span><span class="p">;</span>
     <span class="p">}</span>
-<span class="cp">?&gt;</span>
-</code></pre></div><p>修改CI的cookie使其可以支持可以设定为httponly:</p>
+<span class="cp">?&gt;</span><span class="err">
+</span></code></pre></div><p>修改CI的cookie使其可以支持可以设定为httponly:</p>
 <ul>
 <li>修改systerm/libraries/Session.php：添加一个属性 $cookie_httponly ，在构造函数的循环获取变量设置的数组里添加上这个属性；在 _set_cookie 方法末尾setcookie的地方添加上 $this-&gt;cookie_httponly;</li>
 <li>修改systerm/core/Input.php： set_cookie 方法中添加参数 $http_only ,并在末尾setcookie函数里添加这个参数;</li>
@@ -221,7 +217,7 @@
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        2447 Words
+        2451 Words
       </p>
 
       <p>
@@ -275,7 +271,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2021</span>
             
             
             <span></span>
@@ -297,7 +293,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
 
 
 

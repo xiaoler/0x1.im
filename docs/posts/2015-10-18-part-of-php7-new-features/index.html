@@ -33,13 +33,9 @@
 
 
 <meta itemprop="name" content="PHP 7 的几个新特性">
-<meta itemprop="description" content="1. ?? 运算符（NULL 合并运算符） 把这个放在第一个说是因为我觉得它很有用。用法： $a = $_GET[&#39;a&#39;] ?? 1; 它相当于： &lt;?php $a = isset($_GET[&#39;a&#39;]) ? $_GET[&#39;a&#39;] : 1; 我们知道三元运算符是可以这">
-<meta itemprop="datePublished" content="2015-10-18T15:29:42&#43;00:00" />
-<meta itemprop="dateModified" content="2015-10-18T15:29:42&#43;00:00" />
+<meta itemprop="description" content="1. ?? 运算符（NULL 合并运算符） 把这个放在第一个说是因为我觉得它很有用。用法： $a = $_GET[&#39;a&#39;] ?? 1; 它相当于： &lt;?php $a = isset($_GET[&#39;a&#39;]) ? $_GET[&#39;a&#39;] : 1; 我们知道三元运算符是可以这"><meta itemprop="datePublished" content="2015-10-18T15:29:42+00:00" />
+<meta itemprop="dateModified" content="2015-10-18T15:29:42+00:00" />
 <meta itemprop="wordCount" content="1134">
-
-
-
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="PHP 7 的几个新特性"/>
@@ -133,16 +129,16 @@
       <div class="post-content">
         <h3 id="1--运算符null-合并运算符">1. ?? 运算符（NULL 合并运算符）</h3>
 <p>把这个放在第一个说是因为我觉得它很有用。用法：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php">$a = $_GET[&#39;a&#39;] ?? 1;
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="nv">$a</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span> <span class="o">??</span> <span class="mi">1</span><span class="p">;</span>
 </code></pre></div><p>它相当于：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nv">$a</span> <span class="o">=</span> <span class="nx">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">])</span> <span class="o">?</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
 </code></pre></div><p>我们知道三元运算符是可以这样用的：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php">$a ?: 1
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="nv">$a</span> <span class="o">?:</span> <span class="mi">1</span>
 </code></pre></div><p>但是这是建立在 $a 已经定义了的前提上。新增的 ?? 运算符可以简化判断。</p>
 <h3 id="2-函数返回值类型声明">2. 函数返回值类型声明</h3>
 <p>官方文档提供的例子（注意 <code>...</code> 的边长参数语法在 PHP 5.6 以上的版本中才有）：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">function</span> <span class="nf">arraysSum</span><span class="p">(</span><span class="k">array</span> <span class="o">...</span><span class="nv">$arrays</span><span class="p">)</span><span class="o">:</span> <span class="k">array</span>
 <span class="p">{</span>
     <span class="k">return</span> <span class="nx">array_map</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="k">array</span> <span class="nv">$array</span><span class="p">)</span><span class="o">:</span> <span class="nx">int</span> <span class="p">{</span>
@@ -153,7 +149,7 @@
 <span class="nx">print_r</span><span class="p">(</span><span class="nx">arraysSum</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">]));</span>
 </code></pre></div><p>从这个例子中可以看出现在函数（包括匿名函数）都可以指定返回值的类型。</p>
 <p>这种声明的写法有些类似于 swift：</p>
-<div class="highlight"><pre class="chroma"><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">sayHello</span><span class="p">(</span><span class="n">personName</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">String</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">sayHello</span><span class="p">(</span><span class="n">personName</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">String</span> <span class="p">{</span>
     <span class="kd">let</span> <span class="nv">greeting</span> <span class="p">=</span> <span class="s">&#34;Hello, &#34;</span> <span class="o">+</span> <span class="n">personName</span> <span class="o">+</span> <span class="s">&#34;!&#34;</span>
     <span class="k">return</span> <span class="n">greeting</span>
 <span class="p">}</span>
@@ -161,7 +157,7 @@
 <p>不过这里也有一个特点需要注意。PHP 7 增加了一个 <em>declare</em> 指令：<code>strict_types</code>，既使用严格模式。</p>
 <p>使用返回值类型声明时，如果没有声明为严格模式，如果返回值不是预期的类型，PHP 还是会对其进行强制类型转换。但是如果是严格模式， 则会出发一个 <code>TypeError</code> 的 Fatal error。</p>
 <p>强制模式：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">function</span> <span class="nf">foo</span><span class="p">(</span><span class="nv">$a</span><span class="p">)</span> <span class="o">:</span> <span class="nx">int</span>
 <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$a</span><span class="p">;</span>
@@ -170,7 +166,7 @@
 <span class="nx">foo</span><span class="p">(</span><span class="mf">1.0</span><span class="p">);</span>
 </code></pre></div><p>以上代码可以正常执行，foo 函数返回 int 1，没有任何错误。</p>
 <p>严格模式：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">declare</span><span class="p">(</span><span class="nx">strict_types</span><span class="o">=</span><span class="mi">1</span><span class="p">);</span>
 
 <span class="k">function</span> <span class="nf">foo</span><span class="p">(</span><span class="nv">$a</span><span class="p">)</span> <span class="o">:</span> <span class="nx">int</span>
@@ -185,7 +181,7 @@
 <h3 id="3-标量类型声明">3. 标量类型声明</h3>
 <p>PHP 7 中的函数的形参类型声明可以是标量了。在 PHP 5 中只能是类名、接口、<code>array</code> 或者 <code>callable</code> (PHP 5.4，即可以是函数，包括匿名函数)，现在也可以使用 <code>string</code>、<code>int</code>、<code>float</code>和 <code>bool</code> 了。</p>
 <p>官方示例：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="c1">// Coercive mode
 </span><span class="c1"></span><span class="k">function</span> <span class="nf">sumOfInts</span><span class="p">(</span><span class="nx">int</span> <span class="o">...</span><span class="nv">$ints</span><span class="p">)</span>
 <span class="p">{</span>
@@ -196,7 +192,7 @@
 </code></pre></div><p>需要注意的是上文提到的严格模式的问题在这里同样适用：强制模式（默认，既强制类型转换）下还是会对不符合预期的参数进行强制类型转换，严格模式下则触发 <code>TypeError</code> 的致命错误。</p>
 <h3 id="4-use-批量声明">4. use 批量声明</h3>
 <p>PHP 7 中 use 可以在一句话中声明多个类或函数或 const 了：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="k">use</span> <span class="nx">some\namespace\</span><span class="p">{</span><span class="nx">ClassA</span><span class="p">,</span> <span class="nx">ClassB</span><span class="p">,</span> <span class="nx">ClassC</span> <span class="k">as</span> <span class="nx">C</span><span class="p">};</span>
 <span class="k">use</span> <span class="k">function</span> <span class="nf">some\namespace\</span><span class="p">{</span><span class="nx">fn_a</span><span class="p">,</span> <span class="nx">fn_b</span><span class="p">,</span> <span class="nx">fn_c</span><span class="p">};</span>
 <span class="k">use</span> <span class="k">const</span> <span class="no">some\namespace\</span><span class="p">{</span><span class="nx">ConstA</span><span class="p">,</span> <span class="nx">ConstB</span><span class="p">,</span> <span class="nx">ConstC</span><span class="p">};</span>
@@ -289,7 +285,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2021</span>
             
             
             <span></span>
@@ -311,7 +307,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
 
 
 

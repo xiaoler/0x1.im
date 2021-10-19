@@ -33,13 +33,9 @@
 
 
 <meta itemprop="name" content="如何编写一个独立的 PHP 扩展（译）">
-<meta itemprop="description" content="本文翻译自 PHP 源码中的 README.SELF-CONTAINED-EXTENSIONS。文中标记了 注 的内容均为自己添加。内容有点老，也挺啰嗦，">
-<meta itemprop="datePublished" content="2015-11-04T23:43:58&#43;00:00" />
-<meta itemprop="dateModified" content="2015-11-04T23:43:58&#43;00:00" />
+<meta itemprop="description" content="本文翻译自 PHP 源码中的 README.SELF-CONTAINED-EXTENSIONS。文中标记了 注 的内容均为自己添加。内容有点老，也挺啰嗦，"><meta itemprop="datePublished" content="2015-11-04T23:43:58+00:00" />
+<meta itemprop="dateModified" content="2015-11-04T23:43:58+00:00" />
 <meta itemprop="wordCount" content="1515">
-
-
-
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="如何编写一个独立的 PHP 扩展（译）"/>
@@ -150,17 +146,17 @@
 <p><em>注：以上这些都是类 Unix 环境下才能使用的工具。</em></p>
 <h2 id="改装一个已经存在的扩展">改装一个已经存在的扩展</h2>
 <p>为了显示出创建一个独立的扩展是很容易的事情，我们先将一个已经内嵌到 PHP 的扩展改成独立扩展。安装 PHP 并且执行以下命令：</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ mkdir /tmp/newext
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">$ mkdir /tmp/newext
 $ <span class="nb">cd</span> /tmp/newext
 </code></pre></div><p>现在你已经有了一个空目录。我们将 mysql 扩展目录下的文件复制过来：</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ cp -rp php-4.0.X/ext/mysql/* .
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">$ cp -rp php-4.0.X/ext/mysql/* .
 <span class="c1"># 注：看来这篇 README 真的需要更新一下了</span>
 <span class="c1"># PHP7 中已经移除了 mysql 扩展部分</span>
 </code></pre></div><p>到这里扩展就完成了，执行：</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ phpize
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">$ phpize
 </code></pre></div><p>现在你可以独立存放这个目录下的文件到任何地方，这个扩展可以完全独立存在了。</p>
 <p>用户在编译时需要使用以下命令：</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ ./configure <span class="se">\
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">$ ./configure <span class="se">\
 </span><span class="se"></span>       <span class="o">[</span>--with-php-config<span class="o">=</span>/path/to/php-config<span class="o">]</span> <span class="se">\
 </span><span class="se"></span>       <span class="o">[</span>--with-mysql<span class="o">=</span>MYSQL-DIR<span class="o">]</span>
 $ make install
@@ -174,7 +170,7 @@ $ make install
 <p><em>注：上面说的是 Makefile.in 文件中的配置选项，可以参考 <a href="https://github.com/xdebug/xdebug/blob/master/Makefile.in">xdebug</a>。</em></p>
 <h2 id="修改-m4-后缀的配置文件">修改 m4 后缀的配置文件</h2>
 <p>m4 配置文件可以指定一些额外的检查。对于一个独立扩展来说，你只需要做一些宏调用即可。</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">PHP_ARG_ENABLE<span class="o">(</span>foobar,whether to <span class="nb">enable</span> foobar,
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">PHP_ARG_ENABLE<span class="o">(</span>foobar,whether to <span class="nb">enable</span> foobar,
 <span class="o">[</span>  --enable-foobar            Enable foobar<span class="o">])</span>
 
 <span class="k">if</span> <span class="nb">test</span> <span class="s2">&#34;</span><span class="nv">$PHP_FOOBAR</span><span class="s2">&#34;</span> !<span class="o">=</span> <span class="s2">&#34;no&#34;</span><span class="p">;</span> <span class="k">then</span>
@@ -191,12 +187,12 @@ $ make install
 <h2 id="修改自定义模块">修改自定义模块</h2>
 <p>将 config.m4 文件和资源文件放到同一个目录中，然后执行 <code>phpize</code> （PHP 4.0 以上的版本编译 PHP 的时候都安装了 phpize）。</p>
 <p>如果你的 phpize 不在系统环境变量中，你需要指定绝对路径，例如：</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ /php/bin/phpize
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">$ /php/bin/phpize
 </code></pre></div><p>这个命令会自动复制必需的构建文件到当前目录并根据 config.m4 创建配置文件。</p>
 <p>通过以上的步骤，你已经有了一个独立的扩展了。</p>
 <h2 id="安装扩展">安装扩展</h2>
 <p>扩展可以通过以下命令编译安装：</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ ./configure <span class="se">\
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">$ ./configure <span class="se">\
 </span><span class="se"></span>            <span class="o">[</span>--with-php-config<span class="o">=</span>/path/to/php-config<span class="o">]</span>
 $ make install
 </code></pre></div><h2 id="给模块添加共享支持">给模块添加共享支持</h2>
@@ -210,7 +206,7 @@ $ make install
 </li>
 <li>
 <p>添加以下代码到你的 C 语言资源文件中：</p>
-<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#ifdef COMPILE_DL_FOO
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#ifdef COMPILE_DL_FOO
 </span><span class="cp"></span><span class="n">ZEND_GET_MODULE</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
 <span class="cp">#endif
 </span></code></pre></div></li>
@@ -224,7 +220,7 @@ $ make install
 </li>
 <li>
 <p>需要在扩展头文件中定义好版本信息，这个宏会被 <code>foo_module_entry</code> 调用来声明扩展版本：</p>
-<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#define PHP_FOO_VERSION &#34;1.2.3&#34;
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#define PHP_FOO_VERSION &#34;1.2.3&#34;
 </span></code></pre></div></li>
 </ol>
 
@@ -303,7 +299,7 @@ $ make install
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2021</span>
             
             
             <span></span>
@@ -325,7 +321,7 @@ $ make install
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
 
 
 

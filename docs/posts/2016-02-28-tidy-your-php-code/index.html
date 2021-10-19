@@ -33,13 +33,9 @@
 
 
 <meta itemprop="name" content="PHP 代码规范简洁之道">
-<meta itemprop="description" content="1. 统一的编码规范 编码规范往简单说其实就是三个方面： 换行 空格 变量命名 放在 PHP 里面，还有一些附加的地方，比如关键字大小写，语法糖的使用（array">
-<meta itemprop="datePublished" content="2016-02-28T12:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2016-02-28T12:00:00&#43;00:00" />
+<meta itemprop="description" content="1. 统一的编码规范 编码规范往简单说其实就是三个方面： 换行 空格 变量命名 放在 PHP 里面，还有一些附加的地方，比如关键字大小写，语法糖的使用（array"><meta itemprop="datePublished" content="2016-02-28T12:00:00+00:00" />
+<meta itemprop="dateModified" content="2016-02-28T12:00:00+00:00" />
 <meta itemprop="wordCount" content="1264">
-
-
-
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="PHP 代码规范简洁之道"/>
@@ -141,7 +137,7 @@
 <p>放在 PHP 里面，还有一些附加的地方，比如关键字大小写，语法糖的使用（<code>array()</code> 与 <code>[]</code> 等）的问题。之前整理过 <a href="https://github.com/XiaoLer/php-develop-standards/blob/master/php-basic-coding-standard.md">PSR</a> 的标准，也找过 <a href="http://0x1.im/blog/php/php-cs-fixer.html">php-cs-fixer</a> 这样的工具。这些都是规范代码的重要手段。有统一的标准，配合上工具的检查，形成统一的编码约束不是什么难题。</p>
 <p>没有规范，不同的人甚至同一个人在空格、换行和命名上都有可能是十分随意的。代码一长，回使整个文件看起来无比杂乱。</p>
 <p>典型的例子比如：<code>if</code> 和 <code>else</code> 的组合，可以写出无数种风格，比如：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="c1"># 单语句不写大括号
 </span><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="k">true</span><span class="p">)</span> <span class="nx">doSomething</span><span class="p">();</span>
 <span class="c1"># else 大括号换行 十分占篇幅
@@ -155,7 +151,7 @@
 <span class="c1"># 此外还有关键字后不带空格，随意缩进等等
 </span><span class="c1"># ...
 </span></code></pre></div><p>再比如变量函数命名的问题上，各种混搭风格层出不穷：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="c1"># 全小写
 </span><span class="c1"></span><span class="nv">$someparam1</span> <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
 <span class="c1"># 首字母下环线
@@ -170,7 +166,7 @@
 <p>如果你仔细看过 PSR 的标准，可能也会注意到某些地方其实是标准无法涉及到的。比如一个超长的表达式在什么时候换行，如何缩进等。</p>
 <p>这里涉及到的就是编码习惯的约束问题。</p>
 <p>比如方法的链式的调用的问题，比如某些数据库查询的封装：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="c1"># 不换行的情况下句子会很长
 </span><span class="c1"></span><span class="nv">$result</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">groupBy</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">orderBy</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;DESC&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">result</span><span class="p">();</span>
@@ -182,7 +178,7 @@
     <span class="o">-&gt;</span><span class="na">orderBy</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;DESC&#39;</span><span class="p">)</span>
     <span class="o">-&gt;</span><span class="na">result</span><span class="p">();</span>
 </code></pre></div><p>还有数组定义，某些数组成员字符串很长的情况下的写法：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nv">$array</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;abcdefg&#39;</span><span class="p">,</span> <span class="s1">&#39;acbdfeg&#39;</span><span class="p">,</span> <span class="s1">&#39;bcadgfe&#39;</span><span class="p">,</span> <span class="s1">&#39;cdadgef&#39;</span><span class="p">];</span>
 
 <span class="c1"># 如果成员太长，我建议拆解，这样
@@ -195,7 +191,7 @@
 </code></pre></div><h2 id="3-寻找最优的写法">3. 寻找最优的写法</h2>
 <p>写代码的过程中，最优的写法和编码习惯又不是同一件事情。这里要说的指的是如何遵循 PHP 的语言特性或者框架的特征，充分发挥语言和框架的能力来减少冗余。</p>
 <p>比如在获取前端传入的参数的时候，很多时候能见到这样的代码：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nv">$param</span> <span class="o">=</span> <span class="nx">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;param&#39;</span><span class="p">])</span> <span class="o">?</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;param&#39;</span><span class="p">]</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
 </code></pre></div><p>更有甚者一些框架将前端传入的参数封装了一层，比如 <code>$this-&gt;request-&gt;data['param']</code>，如果再去用 <code>isset</code> 或者 <code>array_key_exists</code> 判断，整个获取参数的语句就会变得很长。</p>
 <p>某些情况下使用三元运算符的时候需要注意 <code>?:</code> 是可以<a href="http://0x1.im/blog/php/add-a-operator-to-php7.html">合并使用</a>的。</p>
@@ -284,7 +280,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2021</span>
             
             
             <span></span>
@@ -306,7 +302,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
 
 
 

@@ -33,13 +33,9 @@
 
 
 <meta itemprop="name" content="Python 版 APM 服务使用测试">
-<meta itemprop="description" content="后端开发与云服务 云服务这个词，大概最早是从云盘开始的，那时候概念也特别简单，无非就是把一些数据存在别人的服务器上，在”云存储”这个名词火起来">
-<meta itemprop="datePublished" content="2015-09-06T11:40:24&#43;00:00" />
-<meta itemprop="dateModified" content="2015-09-06T11:40:24&#43;00:00" />
+<meta itemprop="description" content="后端开发与云服务 云服务这个词，大概最早是从云盘开始的，那时候概念也特别简单，无非就是把一些数据存在别人的服务器上，在”云存储”这个名词火起来"><meta itemprop="datePublished" content="2015-09-06T11:40:24+00:00" />
+<meta itemprop="dateModified" content="2015-09-06T11:40:24+00:00" />
 <meta itemprop="wordCount" content="3810">
-
-
-
 <meta itemprop="keywords" content="python," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Python 版 APM 服务使用测试"/>
@@ -140,16 +136,16 @@
 <h2 id="听云探针python版的使用">听云探针(Python版)的使用</h2>
 <p>探针部署过程十分简单，在听云后台复制自己账户的 license key，生成配置文件，将配置文件地址加载到环境变量中，就可以启动程序开始使用了。以下是测试环境部署步骤的介绍。</p>
 <p>先用 virtualenv 开辟一个环境并 active 之：</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">virtualenv tingyun
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">virtualenv tingyun
 <span class="nb">cd</span> tingyun
 <span class="nb">source</span> bin/active
 </code></pre></div><p>听云探针在 pypi 的仓库里有，所以可以直接安装了，同时也安装 django , 探针支持 MySQL 的 log 记录，所以我也安装了 MySQL 的组件并将 django 的数据库从 sqlite 改成 MySQL：</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># 安装组件</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># 安装组件</span>
 pip install tingyun django MySQL-python
 <span class="c1"># 创建一个 django 工程</span>
 django-admin startproject www
 </code></pre></div><p>接着需要修改一下 django 的数据库选项，进入到 www/www 目录，打开 settings.py，找到 DATABASE 的字典，注释掉原有的 sqlite 选项并改为 MySQL：</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># &#39;default&#39;: {</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1"># &#39;default&#39;: {</span>
 <span class="c1">#     &#39;ENGINE&#39;: &#39;django.db.backends.sqlite3&#39;,</span>
 <span class="c1">#     &#39;NAME&#39;: os.path.join(BASE_DIR, &#39;db.sqlite3&#39;),</span>
 <span class="c1"># }</span>
@@ -162,22 +158,22 @@ django-admin startproject www
     <span class="s1">&#39;PORT&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
 <span class="p">}</span>
 </code></pre></div><p>在 MySQL 中创建 django 的库，然后安装 django 的 admin 后台需要的数据表（注意回到 manage.py 所在的目录）：</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">python manage.py syncdb
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">python manage.py syncdb
 </code></pre></div><p>接下来设置听云的服务，按照听云后台的提示和文档说明进行就可以了：</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># YourLicenseKey 是你的听云后台里显示的 key</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># YourLicenseKey 是你的听云后台里显示的 key</span>
 <span class="c1"># 听云后台里将 tingyun.ini 放置在 tmp 目录，我建议你放在当前工作目录，免得丢失</span>
 <span class="c1"># 一些配置参数可以打开 tingyun.ini 进行修改</span>
 tingyun-admin generate-config YourLicenseKey tingyun.ini
-#
+<span class="c1">#</span>
 <span class="c1"># 这里的 TING_YUN_CONFIG_FILE 写绝对路径比较保险，以下是我本地的目录</span>
 <span class="c1"># 如果是在服务器上，可以写入到 .bashrc 或者 .bash_profile 中去，需要重启服务时不用重新设置</span>
 <span class="nb">export</span> <span class="nv">TING_YUN_CONFIG_FILE</span><span class="o">=</span>/Users/Scholer/Work/Personal/tingyun/tingyun.ini
-#
+<span class="c1">#</span>
 <span class="c1"># 听云的服务会读取当前环境变量的参数 TING_YUN_CONFIG_FILE 来获取配置文件</span>
 <span class="c1"># 我们可以先检查一下，如果看到 success 字样就 OK</span>
 tingyun-admin check-config
 </code></pre></div><p>万事具备，可以启动服务了：</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">tingyun-admin run-program python www/manage.py runserver
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">tingyun-admin run-program python www/manage.py runserver
 </code></pre></div><p>接下来我们就可以浏览一下页面，登录一下后台等等生成一些访问记录来看看效果了（或者可以比较残暴一点用测试工具，我用 <a href="http://httpd.apache.org/docs/2.0/programs/ab.html">ab</a> 发了一些的测试请求）。</p>
 <p>一切顺利的话，过一会儿刷新一下听云的后台，就能看到一些数据了。</p>
 <p>有一些事情需要注意一下：</p>
@@ -220,11 +216,11 @@ tingyun-admin check-config
 <p>在听云的配置文件 tingyun.ini 中，除了有 <code>license_key</code> 以外，还有 <code>app_name</code>、 <code>log_file</code> 、 <code>log_level</code> 等参数配置。其中 <code>action_tracer.log_sql</code> 可以选择是否将 SQL 日志只保存在本地文件中（这应该是出于安全考虑，毕竟把所有的 SQL 日志都暴漏给服务平台，有些人可能会有些顾虑。但是考虑到现在服务器一般都是云服务器，所以这其实问题也并不大，选择了服务，就应该相信服务），这点听云考虑的很周到。</p>
 <p>log 文件中记录了一些 trace 的log，包括程序耗时等。</p>
 <p>回到程序本身中去，在启动探针的时，我们执行的是 <code>tingyun run-program</code>，最终执行的是听云的 package 中 admin 目录下的  <code>run_program</code> 的函数，<code>check_config</code>、<code>generate_config</code> 也位于 admin 目录下。整个程序目录还包括 bootstrap 、hook 和 api 目录。</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">root_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">root_directory</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">root_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">root_directory</span><span class="p">)</span>
 <span class="n">boot_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_directory</span><span class="p">,</span> <span class="s1">&#39;bootstrap&#39;</span><span class="p">)</span>
 <span class="n">python_path</span> <span class="o">=</span> <span class="n">boot_directory</span>
 </code></pre></div><p><code>run_program</code> 将 bootstrap 目录加入系统 path 中。通过 Python 提供的两个 hook（sitecustomize 和 usercustomize 之中的 sitecustomize，听云探针正式被加载到运行环境中：</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">if</span> <span class="n">config_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">if</span> <span class="n">config_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
     <span class="c1"># When installed as an egg with buildout, the root directory for</span>
     <span class="c1"># packages is not listed in sys.path and scripts instead set it</span>
     <span class="c1"># after Python has started up. This will cause importing of</span>
@@ -238,10 +234,10 @@ tingyun-admin check-config
     <span class="c1"># Finally initialize the agent.</span>
     <span class="n">tingyun</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">config_file</span><span class="o">=</span><span class="n">config_file</span><span class="p">)</span>
 </code></pre></div><p>在 <code>tingyun.api.initial.config</code> 中，<code>initialize</code> 函数被执行，调用 <code>_process_module_builtin</code> 函数，探针开始工作 ：</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">_load_configuration</span><span class="p">(</span><span class="n">config_file</span><span class="o">=</span><span class="n">config_file</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">_load_configuration</span><span class="p">(</span><span class="n">config_file</span><span class="o">=</span><span class="n">config_file</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">_detect_done</span><span class="p">:</span>
-    <span class="n">_detect_done</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">_detect_done</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">_process_module_builtin</span><span class="p">()</span>
 </code></pre></div><p>MySQL、Redis 等监控模块都位于 hook 目录下，通过 <code>_process_module_definition_wrapper</code> 函数将进程与监控模块进行绑定，包括 django 的主要模块以及常用的数据库等。在核心模块执行的时候触发监控，将数据回传到 <code>api.tracert</code> 模块进行处理。</p>
 <p>而对于硬件信息的检测则由 <code>api.platform.system_info</code> 进行。</p>
@@ -324,7 +320,7 @@ tingyun-admin check-config
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2021</span>
             
             
             <span></span>
@@ -346,7 +342,7 @@ tingyun-admin check-config
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
 
 
 

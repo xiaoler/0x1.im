@@ -25,7 +25,7 @@ params:
     logoText: "echo 0x1.im"
   social:
     - name: github
-      url: 'https://github.com/'
+      url: 'https://github.com/xiaoler'
 
 menu:
   main:

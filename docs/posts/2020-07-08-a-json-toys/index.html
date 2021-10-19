@@ -33,13 +33,9 @@
 
 
 <meta itemprop="name" content="使用 Golang 实现一个 JSON 命令行工具">
-<meta itemprop="description" content="首先先提一个问题，&quot;abc&quot; 、123 或者 [1, 2, 3] 是不是一个合法的 json ？ 之前一直有在使用一个 json 的命令行工具 jq，这个工具是基于">
-<meta itemprop="datePublished" content="2020-07-08T09:39:40&#43;00:00" />
-<meta itemprop="dateModified" content="2020-07-08T09:39:40&#43;00:00" />
+<meta itemprop="description" content="首先先提一个问题，&quot;abc&quot; 、123 或者 [1, 2, 3] 是不是一个合法的 json ？ 之前一直有在使用一个 json 的命令行工具 jq，这个工具是基于"><meta itemprop="datePublished" content="2020-07-08T09:39:40+00:00" />
+<meta itemprop="dateModified" content="2020-07-08T09:39:40+00:00" />
 <meta itemprop="wordCount" content="1539">
-
-
-
 <meta itemprop="keywords" content="go," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 Golang 实现一个 JSON 命令行工具"/>
@@ -154,7 +150,7 @@
 </blockquote>
 <h3 id="什么是-json">什么是 json</h3>
 <p>在动手之前，先要对 <a href="https://www.json.org/">json</a> 有一个全面的认识。先来大致看一下官网提供的 json 的 BNF 范式的起始部分：</p>
-<pre><code>json
+<pre tabindex="0"><code>json
     element
 
 value
@@ -174,7 +170,7 @@ element
 <p>在实现时我并没有去复制官网提供的 BNF，而是采用了 antlr4 提供的语法，关于它的实现，这里有一篇文章说明：<a href="https://andreabergia.com/a-grammar-for-json-with-antlr-v4/">https://andreabergia.com/a-grammar-for-json-with-antlr-v4/</a> 。</p>
 <p>简单来说，json 有七种的数据，其中 <code>array</code> 和 <code>object</code> 是可以再包含 <code>value</code>，剩下五种就是基本的数值数据。</p>
 <p>此外，还有一类比较特殊的情况，就是对 <code>string</code> 的用法：</p>
-<pre><code>member
+<pre tabindex="0"><code>member
     ws string ws ':' element
 </code></pre><p><code>string</code> 既可以是一个基本类型的 <code>value</code>，也可以一个对象成员的键值。这会导致我们在对 <code>string</code> 做上色等处理时需要考虑着两种情况。</p>
 <h3 id="antlr4-提供的接口">antlr4 提供的接口</h3>
@@ -192,7 +188,7 @@ element
 <p>在使用 antlr4 提供的接口时，需要标注进入和退出的顺序。</p>
 <h3 id="交互模式下的问题">交互模式下的问题</h3>
 <p>最开始我做了个非常简单的交互模式的实现：</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">reader</span> <span class="o">:=</span> <span class="nx">bufio</span><span class="p">.</span><span class="nf">NewReader</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdin</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="nx">reader</span> <span class="o">:=</span> <span class="nx">bufio</span><span class="p">.</span><span class="nf">NewReader</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdin</span><span class="p">)</span>
 <span class="k">for</span> <span class="p">{</span>
     <span class="nx">fmt</span><span class="p">.</span><span class="nf">Print</span><span class="p">(</span><span class="s">&#34;&gt;&gt;&gt; &#34;</span><span class="p">)</span>
     <span class="nx">text</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">reader</span><span class="p">.</span><span class="nf">ReadString</span><span class="p">(</span><span class="sc">&#39;\n&#39;</span><span class="p">)</span>
@@ -205,7 +201,7 @@ element
     <span class="nf">fn</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div><p>但是在这种实现逻辑下，上下左右等按键会直接打印在屏幕上而无法正确处理，因为终端处于 <strong>cooked mode</strong> 下。go 本身也没有提供 tty 的封装。所以要进入 <strong>raw mode</strong>，一种是通过直接 call 起命令行的方式：</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">raw</span><span class="p">(</span><span class="nx">start</span> <span class="kt">bool</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">raw</span><span class="p">(</span><span class="nx">start</span> <span class="kt">bool</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
     <span class="nx">r</span> <span class="o">:=</span> <span class="s">&#34;raw&#34;</span>
     <span class="k">if</span> <span class="p">!</span><span class="nx">start</span> <span class="p">{</span>
         <span class="nx">r</span> <span class="p">=</span> <span class="s">&#34;-raw&#34;</span>
@@ -299,7 +295,7 @@ element
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2021</span>
             
             
             <span></span>
@@ -321,7 +317,7 @@ element
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
 
 
 

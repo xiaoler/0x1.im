@@ -33,13 +33,9 @@
 
 
 <meta itemprop="name" content="基于 Redis 的 Pub/Sub 实现 Websocket 推送">
-<meta itemprop="description" content="背景 微信小程序的生态越来越完善，而在技术上，小程序目前只支持两种通信协议：HTTPS 和 WebSocket，所以在需要使用双工通信的时候，除了">
-<meta itemprop="datePublished" content="2018-01-06T14:04:11&#43;00:00" />
-<meta itemprop="dateModified" content="2018-01-06T14:04:11&#43;00:00" />
+<meta itemprop="description" content="背景 微信小程序的生态越来越完善，而在技术上，小程序目前只支持两种通信协议：HTTPS 和 WebSocket，所以在需要使用双工通信的时候，除了"><meta itemprop="datePublished" content="2018-01-06T14:04:11+00:00" />
+<meta itemprop="dateModified" content="2018-01-06T14:04:11+00:00" />
 <meta itemprop="wordCount" content="1072">
-
-
-
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="基于 Redis 的 Pub/Sub 实现 Websocket 推送"/>
@@ -141,21 +137,21 @@
 <li><a href="https://github.com/nrk/predis-async">predis-async</a>: PHP 实现的异步 Redis 客户端</li>
 </ul>
 <p>仔细看上面的描述，除了 <em>PHP 实现</em> 外，他们还有一个相同的关键词：异步。没错，这里的异步和 node.js 描述的异步差不多是同一回事。实现异步的基础就是：EventLoop。这里我也不具体描述 EventLoop 到底是怎么一回事儿。其实 Ratchet 提供的 examples 里也有一个借用 zeromq 实现 push的例子：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php">$loop   = React\EventLoop\Factory::create();
-// Listen for the web server to make a ZeroMQ push after an ajax request
-$context = new React\ZMQ\Context($loop);
-$pusher = new MyApp\Pusher;
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="nv">$loop</span>   <span class="o">=</span> <span class="nx">React\EventLoop\Factory</span><span class="o">::</span><span class="na">create</span><span class="p">();</span>
+<span class="c1">// Listen for the web server to make a ZeroMQ push after an ajax request
+</span><span class="c1"></span><span class="nv">$context</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">React\ZMQ\Context</span><span class="p">(</span><span class="nv">$loop</span><span class="p">);</span>
+<span class="nv">$pusher</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyApp\Pusher</span><span class="p">;</span>
 
-$pull = $context-&gt;getSocket(ZMQ::SOCKET_PULL);
-$pull-&gt;bind(&#39;tcp://127.0.0.1:5555&#39;); // Binding to 127.0.0.1 means the only client that can connect is itself
-$pull-&gt;on(&#39;message&#39;, array($pusher, &#39;onBlogEntry&#39;));
+<span class="nv">$pull</span> <span class="o">=</span> <span class="nv">$context</span><span class="o">-&gt;</span><span class="na">getSocket</span><span class="p">(</span><span class="nx">ZMQ</span><span class="o">::</span><span class="na">SOCKET_PULL</span><span class="p">);</span>
+<span class="nv">$pull</span><span class="o">-&gt;</span><span class="na">bind</span><span class="p">(</span><span class="s1">&#39;tcp://127.0.0.1:5555&#39;</span><span class="p">);</span> <span class="c1">// Binding to 127.0.0.1 means the only client that can connect is itself
+</span><span class="c1"></span><span class="nv">$pull</span><span class="o">-&gt;</span><span class="na">on</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="nv">$pusher</span><span class="p">,</span> <span class="s1">&#39;onBlogEntry&#39;</span><span class="p">));</span>
 
-// Set up our WebSocket server for clients wanting real-time updates
-$webSock = new React\Socket\Server(&#39;0.0.0.0:8080&#39;, $loop); // Binding to 0.0.0.0 means remotes can connect
-</code></pre></div><p>上面的例子中可以看出来，实现主动推送的核心点也是在于共享了同一个 loop 实例。</p>
+<span class="c1">// Set up our WebSocket server for clients wanting real-time updates
+</span><span class="c1"></span><span class="nv">$webSock</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">React\Socket\Server</span><span class="p">(</span><span class="s1">&#39;0.0.0.0:8080&#39;</span><span class="p">,</span> <span class="nv">$loop</span><span class="p">);</span> <span class="c1">// Binding to 0.0.0.0 means remotes can connect
+</span></code></pre></div><p>上面的例子中可以看出来，实现主动推送的核心点也是在于共享了同一个 loop 实例。</p>
 <p>同样，如果要实现基于 Redis Pub/Sub 的推送，也是要利用这一点。上面这两个库使用的 EventLoop 库恰好是同一个：<a href="https://github.com/reactphp/event-loop">reactphp/event-loop</a>，并且也是上述基于 zeromq 实现推送的 EventLoop 库。</p>
 <p>实现上和上面的代码示例类似：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 
 <span class="nv">$loop</span> <span class="o">=</span> <span class="nx">LoopFactory</span><span class="o">::</span><span class="na">create</span><span class="p">();</span>
 <span class="nv">$redis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Predis\Async\Client</span><span class="p">(</span><span class="s1">&#39;tcp://127.0.0.1:6379&#39;</span><span class="p">,</span> <span class="nv">$loop</span><span class="p">);</span>
@@ -258,7 +254,7 @@ $webSock = new React\Socket\Server(&#39;0.0.0.0:8080&#39;, $loop); // Binding to
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2021</span>
             
             
             <span></span>
@@ -280,7 +276,7 @@ $webSock = new React\Socket\Server(&#39;0.0.0.0:8080&#39;, $loop); // Binding to
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
 
 
 

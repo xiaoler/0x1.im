@@ -33,13 +33,9 @@
 
 
 <meta itemprop="name" content="使用Nginx 的 image filter 模块裁剪图片">
-<meta itemprop="description" content="背景 项目中有个地方需要根据客户端的要求缩放图片。最开始想用PHP来实现这个功能。设想中如果已经存在图片a.jpg，则可以通过类似a_400x">
-<meta itemprop="datePublished" content="2015-04-09T15:36:35&#43;00:00" />
-<meta itemprop="dateModified" content="2015-04-09T15:36:35&#43;00:00" />
+<meta itemprop="description" content="背景 项目中有个地方需要根据客户端的要求缩放图片。最开始想用PHP来实现这个功能。设想中如果已经存在图片a.jpg，则可以通过类似a_400x"><meta itemprop="datePublished" content="2015-04-09T15:36:35+00:00" />
+<meta itemprop="dateModified" content="2015-04-09T15:36:35+00:00" />
 <meta itemprop="wordCount" content="728">
-
-
-
 <meta itemprop="keywords" content="nginx," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用Nginx 的 image filter 模块裁剪图片"/>
@@ -140,7 +136,7 @@
 <p>手动添加参数编译此模块，开始修改nginx的配置文件。</p>
 <h2 id="配置">配置</h2>
 <p>第一个版本的配置如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># 我使用16进制数的方式给图片重命名</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># 我使用16进制数的方式给图片重命名</span>
 location ~* /<span class="o">(</span>.*<span class="o">)</span><span class="se">\/</span><span class="o">([</span>0-9a-f<span class="o">]</span>+<span class="o">)</span>_<span class="o">(</span><span class="se">\d</span>+<span class="o">)</span>x<span class="o">(</span><span class="se">\d</span>+<span class="o">)</span><span class="se">\.</span><span class="o">(</span>jpg<span class="p">|</span>png<span class="p">|</span>jpeg<span class="p">|</span>gif<span class="o">)</span>$ <span class="o">{</span>
     <span class="c1"># 如果存在文件就终止规则</span>
     <span class="k">if</span> <span class="o">(</span>-f <span class="nv">$request_filename</span><span class="o">)</span> <span class="o">{</span>
@@ -169,7 +165,7 @@ location ~* /<span class="o">(</span>.*<span class="o">)</span><span class="se">
 </code></pre></div><p>但是在这个版本的配置中，如果配置原文件不存在，实际上没法正确返回404，而是返回415。过滤还是执行了。</p>
 <p>还有一个问题就是在每次访问缩略图的时候都会重新生成，如果访问量比较大的情况下，效率并不高。</p>
 <p>进过一系列的实践后，我又改好了一个版本：</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">location ~* /<span class="o">(</span>.*<span class="o">)</span><span class="se">\/</span><span class="o">([</span>0-9a-f<span class="o">]</span>+<span class="o">)</span>_<span class="o">(</span><span class="se">\d</span>+<span class="o">)</span>x<span class="o">(</span><span class="se">\d</span>+<span class="o">)</span><span class="se">\.</span><span class="o">(</span>jpg<span class="p">|</span>png<span class="p">|</span>jpeg<span class="p">|</span>gif<span class="o">)</span>$ <span class="o">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">location ~* /<span class="o">(</span>.*<span class="o">)</span><span class="se">\/</span><span class="o">([</span>0-9a-f<span class="o">]</span>+<span class="o">)</span>_<span class="o">(</span><span class="se">\d</span>+<span class="o">)</span>x<span class="o">(</span><span class="se">\d</span>+<span class="o">)</span><span class="se">\.</span><span class="o">(</span>jpg<span class="p">|</span>png<span class="p">|</span>jpeg<span class="p">|</span>gif<span class="o">)</span>$ <span class="o">{</span>
     <span class="k">if</span> <span class="o">(</span>-f <span class="nv">$request_filename</span><span class="o">)</span> <span class="o">{</span>
         break<span class="p">;</span>
     <span class="o">}</span>
@@ -282,7 +278,7 @@ location /image-resize <span class="o">{</span>
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2021</span>
             
             
             <span></span>
@@ -304,7 +300,7 @@ location /image-resize <span class="o">{</span>
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
 
 
 

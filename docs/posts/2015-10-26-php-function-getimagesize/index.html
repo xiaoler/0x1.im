@@ -33,13 +33,9 @@
 
 
 <meta itemprop="name" content="getimagesize 函数不是完全可靠的">
-<meta itemprop="description" content="getimagesize 函数并不属于 GD 扩展的部分，标准安装的 PHP 都可以使用这个函数。可以先看看这个函数的文档描述：http://php.net/manual/zh/">
-<meta itemprop="datePublished" content="2015-10-26T23:12:53&#43;00:00" />
-<meta itemprop="dateModified" content="2015-10-26T23:12:53&#43;00:00" />
-<meta itemprop="wordCount" content="1240">
-
-
-
+<meta itemprop="description" content="getimagesize 函数并不属于 GD 扩展的部分，标准安装的 PHP 都可以使用这个函数。可以先看看这个函数的文档描述：http://php.net/manual/zh/"><meta itemprop="datePublished" content="2015-10-26T23:12:53+00:00" />
+<meta itemprop="dateModified" content="2015-10-26T23:12:53+00:00" />
+<meta itemprop="wordCount" content="1244">
 <meta itemprop="keywords" content="php," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="getimagesize 函数不是完全可靠的"/>
@@ -133,7 +129,7 @@
       <div class="post-content">
         <p><code>getimagesize</code> 函数并不属于 GD 扩展的部分，标准安装的 PHP 都可以使用这个函数。可以先看看这个函数的文档描述：<a href="http://php.net/manual/zh/function.getimagesize.php">http://php.net/manual/zh/function.getimagesize.php</a></p>
 <p>如果指定的文件如果不是有效的图像，会返回 false，返回数据中也有表示文档类型的字段。如果不用来获取文件的大小而是使用它来判断上传文件是否是图片文件，看起来似乎是个很不错的方案，当然这需要屏蔽掉可能产生的警告，比如代码这样写：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nv">$filesize</span> <span class="o">=</span> <span class="o">@</span><span class="nx">getimagesize</span><span class="p">(</span><span class="s1">&#39;/path/to/image.png&#39;</span><span class="p">);</span>
 <span class="k">if</span> <span class="p">(</span><span class="nv">$filesize</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">do_upload</span><span class="p">();</span>
@@ -144,7 +140,7 @@
 </span><span class="c1"># 因为 $filesize[2] 可能是 1 到 16 之间的整数，但却绝对不对是0。
 </span></code></pre></div><p>但是如果你仅仅是做了这样的验证，那么很不幸，你成功的在代码里种下了一个 webshell 的隐患。</p>
 <p>要分析这个问题，我们先来看一下这个函数的原型：</p>
-<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="k">static</span> <span class="kt">void</span> <span class="nf">php_getimagesize_from_stream</span><span class="p">(</span><span class="n">php_stream</span> <span class="o">*</span><span class="n">stream</span><span class="p">,</span> <span class="n">zval</span> <span class="o">**</span><span class="n">info</span><span class="p">,</span> <span class="n">INTERNAL_FUNCTION_PARAMETERS</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">static</span> <span class="kt">void</span> <span class="nf">php_getimagesize_from_stream</span><span class="p">(</span><span class="n">php_stream</span> <span class="o">*</span><span class="n">stream</span><span class="p">,</span> <span class="n">zval</span> <span class="o">**</span><span class="n">info</span><span class="p">,</span> <span class="n">INTERNAL_FUNCTION_PARAMETERS</span><span class="p">)</span>
 <span class="p">{</span>
 	<span class="p">...</span>
 	<span class="n">itype</span> <span class="o">=</span> <span class="n">php_getimagetype</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="nb">NULL</span> <span class="n">TSRMLS_CC</span><span class="p">);</span>
@@ -170,7 +166,7 @@
 <li>负责判断文件类型的函数是 <code>php_getimagetype</code></li>
 </ol>
 <p>接下来看一下 <code>php_getimagetype</code> 的实现：</p>
-<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="n">PHPAPI</span> <span class="kt">int</span> <span class="nf">php_getimagetype</span><span class="p">(</span><span class="n">php_stream</span> <span class="o">*</span> <span class="n">stream</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">filetype</span> <span class="n">TSRMLS_DC</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="n">PHPAPI</span> <span class="kt">int</span> <span class="nf">php_getimagetype</span><span class="p">(</span><span class="n">php_stream</span> <span class="o">*</span> <span class="n">stream</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">filetype</span> <span class="n">TSRMLS_DC</span><span class="p">)</span>
 <span class="p">{</span>
 	<span class="p">...</span>
 	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">memcmp</span><span class="p">(</span><span class="n">filetype</span><span class="p">,</span> <span class="n">php_sig_gif</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="p">{</span>
@@ -182,22 +178,22 @@
 	<span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p>去掉了一些细节，<code>php_sig_gif</code> <code>php_sig_png</code> 等是在文件头部定义的：</p>
-<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="n">PHPAPI</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">php_sig_gif</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="sc">&#39;G&#39;</span><span class="p">,</span> <span class="sc">&#39;I&#39;</span><span class="p">,</span> <span class="sc">&#39;F&#39;</span><span class="p">};</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="n">PHPAPI</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">php_sig_gif</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="sc">&#39;G&#39;</span><span class="p">,</span> <span class="sc">&#39;I&#39;</span><span class="p">,</span> <span class="sc">&#39;F&#39;</span><span class="p">};</span>
 <span class="p">...</span>
 <span class="n">PHPAPI</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">php_sig_png</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="p">{(</span><span class="kt">char</span><span class="p">)</span> <span class="mh">0x89</span><span class="p">,</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span> <span class="mh">0x50</span><span class="p">,</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span> <span class="mh">0x4e</span><span class="p">,</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span> <span class="mh">0x47</span><span class="p">,</span>
                                     <span class="p">(</span><span class="kt">char</span><span class="p">)</span> <span class="mh">0x0d</span><span class="p">,</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span> <span class="mh">0x0a</span><span class="p">,</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span> <span class="mh">0x1a</span><span class="p">,</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span> <span class="mh">0x0a</span><span class="p">};</span>
 </code></pre></div><p>可以看出来 image type 是根据文件流的前几个字节（文件头）来判断的。那么既然如此，我们可不可以构造一个特殊的 PHP 文件来绕过这个判断呢？不如来尝试一下。</p>
 <p>找一个十六进制编辑器来写一个的 PHP 语句，比如：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span> <span class="nx">phpinfo</span><span class="p">();</span> <span class="cp">?&gt;</span>
-</code></pre></div><p>这几个字符的十六进制编码（UTF-8）是这样的：</p>
-<pre><code>3C3F 7068 7020 7068 7069 6E66 6F28 293B 203F 3E
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span> <span class="nx">phpinfo</span><span class="p">();</span> <span class="cp">?&gt;</span><span class="err">
+</span></code></pre></div><p>这几个字符的十六进制编码（UTF-8）是这样的：</p>
+<pre tabindex="0"><code>3C3F 7068 7020 7068 7069 6E66 6F28 293B 203F 3E
 </code></pre><p>我们构造一下，把 PNG 文件的头字节加在前面变成这样的：</p>
-<pre><code>8950 4E47 0D0A 1A0A 3C3F 7068 7020 7068 7069 6E66 6F28 293B 203F 3E
+<pre tabindex="0"><code>8950 4E47 0D0A 1A0A 3C3F 7068 7020 7068 7069 6E66 6F28 293B 203F 3E
 </code></pre><p>最后保存成 <code>.php</code> 后缀的文件（注意上面是文件的十六进制值），比如 test.php。执行一下 <code>php test.php</code> 你会发现完全可以执行成功。那么能用 <code>getimagesize</code> 读取它的文件信息吗？新建一个文件写入代码试一下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nx">print_r</span><span class="p">(</span><span class="nx">getimagesize</span><span class="p">(</span><span class="s1">&#39;test.php&#39;</span><span class="p">));</span>
 </code></pre></div><p>执行结果：</p>
-<pre><code>Array
+<pre tabindex="0"><code>Array
 (
     [0] =&gt; 1885957734
     [1] =&gt; 1864902971
@@ -209,7 +205,7 @@
 </code></pre><p>成功读取出来，并且文件也被正常识别为 PNG 文件，虽然宽和高的值都大的有点离谱。</p>
 <p>现在你应该明白为什么上文说这里留下了一个 webshell 的隐患的吧。如果这里只有这样的上传判断，而且上传之后的文件是可以访问的，就可以通过这个入口注入任意代码执行了。</p>
 <p>那么为什么上面的文件可以 PHP 是可以正常执行的呢？用 <a href="http://php.net/manual/zh/function.token-get-all.php">token_get_all</a> 函数来看一下这个文件：</p>
-<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nx">print_r</span><span class="p">(</span><span class="nx">token_get_all</span><span class="p">(</span><span class="nx">file_get_contents</span><span class="p">(</span><span class="s1">&#39;test.php&#39;</span><span class="p">)));</span>
 </code></pre></div><p>如果显示正常的话你能看到输出数组的第一个元素的解析器代号是 312，通过 <a href="http://php.net/manual/zh/function.token-name.php">token_name</a> 获取到的名称会是 T_INLINE_HTML，也就是说文件头部的信息被当成正常的内嵌的 HTML 代码被忽略掉了。</p>
 <p>至于为什么会有一个大的离谱的宽和高，看一下 <code>php_handle_png</code> 函数的实现就能知道，这些信息也是通过读取特定的文件头的位来获取的。</p>
@@ -237,7 +233,7 @@
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        1240 Words
+        1244 Words
       </p>
 
       <p>
@@ -291,7 +287,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2021</span>
             
             
             <span></span>
@@ -313,7 +309,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
 
 
 
