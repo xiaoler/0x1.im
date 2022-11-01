@@ -128,14 +128,14 @@
 
       <div class="post-content">
         <p>今天有小伙伴说 exit 和 die 有一点差别。我说 die 不就是 exit 的别名吗？为了证明我的观点，翻了翻 PHP 的源码，在 <code>zend_language_scanner.l</code> 中，很容易就能发现这关键字是同一个 token：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="o">&lt;</span><span class="n">ST_IN_SCRIPTING</span><span class="o">&gt;</span><span class="s">&#34;exit&#34;</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="n">T_EXIT</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="o">&lt;</span><span class="n">ST_IN_SCRIPTING</span><span class="o">&gt;</span><span class="s">&#34;die&#34;</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="n">T_EXIT</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>所以最终也是同一个 Opcode：ZEND_EXIT。所以这两个关键字没有任何差别，这其实也没什么好说的。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="o">&lt;</span><span class="n">ST_IN_SCRIPTING</span><span class="o">&gt;</span><span class="s">&#34;exit&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">T_EXIT</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">&lt;</span><span class="n">ST_IN_SCRIPTING</span><span class="o">&gt;</span><span class="s">&#34;die&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">T_EXIT</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>所以最终也是同一个 Opcode：ZEND_EXIT。所以这两个关键字没有任何差别，这其实也没什么好说的。</p>
 <p>我顺便提醒了小伙伴们一句：不要用 exit 输出整数。原因也很简单，在 PHP 官网的文档里就能看到：</p>
 <blockquote>
 <p>void <strong>exit</strong> ([ string <code>$status</code> ] )</p>
@@ -146,74 +146,74 @@
 <p>所以如果 status 是一个整数，会被当成状态码输出，而不是打印，所以如果想返回给前端是不可能的。</p>
 <p>那么这个状态码有什么用呢？</p>
 <p>大家都知道 shell 脚本执行可以返回一个状态码，PHP 的脚本的执行返回的状态码是一样的，可以在环境变量中被捕捉到：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">Scholer: ~ $ php -r <span class="s1">&#39;exit(254);&#39;</span>
-
-Scholer: ~ $ <span class="nb">echo</span> <span class="nv">$?</span>
-<span class="m">254</span>
-</code></pre></div><p>我的好奇心又被勾起来了：如果给的是不在 0 ~ 255 之间的状态码会怎么样呢？经过测试，发现如果是大于 255 的状态码，会返回 status 对 256 求余之后的结果。如果是小于 0 的，在 -1 ~ - 255 之间时返回的是 status 256 求和的结果，小于 -256 的则是绝对值和 256 求余。总之都在 0 ~ 255 之间。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Scholer: ~ $ php -r <span class="s1">&#39;exit(254);&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Scholer: ~ $ <span class="nb">echo</span> <span class="nv">$?</span>
+</span></span><span class="line"><span class="cl"><span class="m">254</span>
+</span></span></code></pre></div><p>我的好奇心又被勾起来了：如果给的是不在 0 ~ 255 之间的状态码会怎么样呢？经过测试，发现如果是大于 255 的状态码，会返回 status 对 256 求余之后的结果。如果是小于 0 的，在 -1 ~ - 255 之间时返回的是 status 256 求和的结果，小于 -256 的则是绝对值和 256 求余。总之都在 0 ~ 255 之间。</p>
 <p>接着探究下去。</p>
 <p>exit 的实现在 zend_vm_def.h 中：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="n">ZEND_VM_HANDLER</span><span class="p">(</span><span class="mi">79</span><span class="p">,</span> <span class="n">ZEND_EXIT</span><span class="p">,</span> <span class="n">CONST</span><span class="o">|</span><span class="n">TMP</span><span class="o">|</span><span class="n">VAR</span><span class="o">|</span><span class="n">UNUSED</span><span class="o">|</span><span class="n">CV</span><span class="p">,</span> <span class="n">ANY</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="cp">#if !defined(ZEND_VM_SPEC) || (OP1_TYPE != IS_UNUSED)
-</span><span class="cp"></span>	<span class="n">USE_OPLINE</span>
-
-	<span class="n">SAVE_OPLINE</span><span class="p">();</span>
-	<span class="k">if</span> <span class="p">(</span><span class="n">OP1_TYPE</span> <span class="o">!=</span> <span class="n">IS_UNUSED</span><span class="p">)</span> <span class="p">{</span>
-		<span class="n">zend_free_op</span> <span class="n">free_op1</span><span class="p">;</span>
-		<span class="n">zval</span> <span class="o">*</span><span class="n">ptr</span> <span class="o">=</span> <span class="n">GET_OP1_ZVAL_PTR</span><span class="p">(</span><span class="n">BP_VAR_R</span><span class="p">);</span>
-
-		<span class="k">if</span> <span class="p">(</span><span class="n">Z_TYPE_P</span><span class="p">(</span><span class="n">ptr</span><span class="p">)</span> <span class="o">==</span> <span class="n">IS_LONG</span><span class="p">)</span> <span class="p">{</span>
-			<span class="n">EG</span><span class="p">(</span><span class="n">exit_status</span><span class="p">)</span> <span class="o">=</span> <span class="n">Z_LVAL_P</span><span class="p">(</span><span class="n">ptr</span><span class="p">);</span>
-		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-			<span class="n">zend_print_variable</span><span class="p">(</span><span class="n">ptr</span><span class="p">);</span>
-		<span class="p">}</span>
-		<span class="n">FREE_OP1</span><span class="p">();</span>
-	<span class="p">}</span>
-<span class="cp">#endif
-</span></code></pre></div><p>从代码中我们可以很明显的看出来通过 <code>Z_TYPE_P</code> 来检测状态码的类型，如果是 long 的话就赋值给全局变量 <code>exit_status</code>（EG 这个宏就是用来便捷的访问全局变量的），如果不是，就调用 <code>zend_print_variable</code> 打印出来。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">ZEND_VM_HANDLER</span><span class="p">(</span><span class="mi">79</span><span class="p">,</span> <span class="n">ZEND_EXIT</span><span class="p">,</span> <span class="n">CONST</span><span class="o">|</span><span class="n">TMP</span><span class="o">|</span><span class="n">VAR</span><span class="o">|</span><span class="n">UNUSED</span><span class="o">|</span><span class="n">CV</span><span class="p">,</span> <span class="n">ANY</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#if !defined(ZEND_VM_SPEC) || (OP1_TYPE != IS_UNUSED)
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="n">USE_OPLINE</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">SAVE_OPLINE</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">OP1_TYPE</span> <span class="o">!=</span> <span class="n">IS_UNUSED</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">zend_free_op</span> <span class="n">free_op1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">zval</span> <span class="o">*</span><span class="n">ptr</span> <span class="o">=</span> <span class="n">GET_OP1_ZVAL_PTR</span><span class="p">(</span><span class="n">BP_VAR_R</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">Z_TYPE_P</span><span class="p">(</span><span class="n">ptr</span><span class="p">)</span> <span class="o">==</span> <span class="n">IS_LONG</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="n">EG</span><span class="p">(</span><span class="n">exit_status</span><span class="p">)</span> <span class="o">=</span> <span class="n">Z_LVAL_P</span><span class="p">(</span><span class="n">ptr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="n">zend_print_variable</span><span class="p">(</span><span class="n">ptr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="n">FREE_OP1</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#endif
+</span></span></span></code></pre></div><p>从代码中我们可以很明显的看出来通过 <code>Z_TYPE_P</code> 来检测状态码的类型，如果是 long 的话就赋值给全局变量 <code>exit_status</code>（EG 这个宏就是用来便捷的访问全局变量的），如果不是，就调用 <code>zend_print_variable</code> 打印出来。</p>
 <p><code>Z_LVAL_P</code> 的声明在 zend_operators.h 中：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#define Z_LVAL_P(zval_p)		Z_LVAL(*zval_p)
-</span><span class="cp"></span><span class="p">...</span>
-<span class="cp">#define Z_LVAL(zval)			(zval).value.lval
-</span></code></pre></div><p>再进一步就是大家都知道的 PHP 解释器中的变量定义了（我这份源码还是 PHP 5.5 的版本，不是 PHP7），在 zend.h 中：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="k">typedef</span> <span class="k">union</span> <span class="n">_zvalue_value</span> <span class="p">{</span>
-	<span class="kt">long</span> <span class="n">lval</span><span class="p">;</span>					<span class="cm">/* long value */</span>
-	<span class="kt">double</span> <span class="n">dval</span><span class="p">;</span>				<span class="cm">/* double value */</span>
-	<span class="k">struct</span> <span class="p">{</span>
-		<span class="kt">char</span> <span class="o">*</span><span class="n">val</span><span class="p">;</span>
-		<span class="kt">int</span> <span class="n">len</span><span class="p">;</span>
-	<span class="p">}</span> <span class="n">str</span><span class="p">;</span>
-	<span class="n">HashTable</span> <span class="o">*</span><span class="n">ht</span><span class="p">;</span>				<span class="cm">/* hash table value */</span>
-	<span class="n">zend_object_value</span> <span class="n">obj</span><span class="p">;</span>
-<span class="p">}</span> <span class="n">zvalue_value</span><span class="p">;</span>
-
-<span class="k">struct</span> <span class="n">_zval_struct</span> <span class="p">{</span>
-	<span class="cm">/* Variable information */</span>
-	<span class="n">zvalue_value</span> <span class="n">value</span><span class="p">;</span>		<span class="cm">/* value */</span>
-	<span class="n">zend_uint</span> <span class="n">refcount__gc</span><span class="p">;</span>
-	<span class="n">zend_uchar</span> <span class="n">type</span><span class="p">;</span>	<span class="cm">/* active type */</span>
-	<span class="n">zend_uchar</span> <span class="n">is_ref__gc</span><span class="p">;</span>
-<span class="p">};</span>
-</code></pre></div><p>所以这里 <code>exit_status</code> 的值到这里还是一个长整形。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#define Z_LVAL_P(zval_p)		Z_LVAL(*zval_p)
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#define Z_LVAL(zval)			(zval).value.lval
+</span></span></span></code></pre></div><p>再进一步就是大家都知道的 PHP 解释器中的变量定义了（我这份源码还是 PHP 5.5 的版本，不是 PHP7），在 zend.h 中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">union</span> <span class="n">_zvalue_value</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">long</span> <span class="n">lval</span><span class="p">;</span>					<span class="cm">/* long value */</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">double</span> <span class="n">dval</span><span class="p">;</span>				<span class="cm">/* double value */</span>
+</span></span><span class="line"><span class="cl">	<span class="k">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="kt">char</span> <span class="o">*</span><span class="n">val</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="kt">int</span> <span class="n">len</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span> <span class="n">str</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">HashTable</span> <span class="o">*</span><span class="n">ht</span><span class="p">;</span>				<span class="cm">/* hash table value */</span>
+</span></span><span class="line"><span class="cl">	<span class="n">zend_object_value</span> <span class="n">obj</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">zvalue_value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">_zval_struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/* Variable information */</span>
+</span></span><span class="line"><span class="cl">	<span class="n">zvalue_value</span> <span class="n">value</span><span class="p">;</span>		<span class="cm">/* value */</span>
+</span></span><span class="line"><span class="cl">	<span class="n">zend_uint</span> <span class="n">refcount__gc</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">zend_uchar</span> <span class="n">type</span><span class="p">;</span>	<span class="cm">/* active type */</span>
+</span></span><span class="line"><span class="cl">	<span class="n">zend_uchar</span> <span class="n">is_ref__gc</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>所以这里 <code>exit_status</code> 的值到这里还是一个长整形。</p>
 <p>那么问题就来了，为什么最终输出的是 0 ~ 255 之间的状态码呢？老实说这个问题我吃的也不是很透，这需要对 Linux 环境编程足够熟悉才行，这里只能简单的说一下。</p>
 <p>通过 strace 跟踪一下执行：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">$ strace php -r <span class="s1">&#39;exit(258);&#39;</span> &gt;<span class="p">&amp;</span> strace.log
-</code></pre></div><p>在结果的最后两行可以很清楚的看到：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">...
-exit_group<span class="o">(</span>258<span class="o">)</span>                         <span class="o">=</span> ?
-+++ exited with <span class="m">2</span> +++
-</code></pre></div><p>exit_group 中还是原始值，但最终会变成 2 。PHP 本身并没有对这个值做特殊处理，但是 exit 或者 main 函数中的 return，只能使用 0 ~ 255 之间的值，其他值都会被处理。可以写一个简单的程序测试：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="k">const</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
-<span class="p">{</span>
-    <span class="k">return</span> <span class="mi">258</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>结果：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">Scholer: ~ $ ./test
-
-Scholer: ~ $ <span class="nb">echo</span> <span class="nv">$?</span>
-<span class="m">2</span>
-</code></pre></div><p>详情参见：<a href="http://www.laruence.com/2012/02/01/2503.html">http://www.laruence.com/2012/02/01/2503.html</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ strace php -r <span class="s1">&#39;exit(258);&#39;</span> &gt;<span class="p">&amp;</span> strace.log
+</span></span></code></pre></div><p>在结果的最后两行可以很清楚的看到：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">exit_group<span class="o">(</span>258<span class="o">)</span>                         <span class="o">=</span> ?
+</span></span><span class="line"><span class="cl">+++ exited with <span class="m">2</span> +++
+</span></span></code></pre></div><p>exit_group 中还是原始值，但最终会变成 2 。PHP 本身并没有对这个值做特殊处理，但是 exit 或者 main 函数中的 return，只能使用 0 ~ 255 之间的值，其他值都会被处理。可以写一个简单的程序测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="k">const</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">258</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Scholer: ~ $ ./test
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Scholer: ~ $ <span class="nb">echo</span> <span class="nv">$?</span>
+</span></span><span class="line"><span class="cl"><span class="m">2</span>
+</span></span></code></pre></div><p>详情参见：<a href="http://www.laruence.com/2012/02/01/2503.html">http://www.laruence.com/2012/02/01/2503.html</a></p>
 
       </div>
     </article>
@@ -290,7 +290,7 @@ Scholer: ~ $ <span class="nb">echo</span> <span class="nv">$?</span>
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2021</span>
+            <span>&copy; 2022</span>
             
             
             <span></span>
@@ -312,7 +312,7 @@ Scholer: ~ $ <span class="nb">echo</span> <span class="nv">$?</span>
 
 
 
-<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
+<script type="text/javascript" src="/bundle.min.188af889e916d7182e7bf4af7bed9ff4c9b70dd61a69188cb044d25745a4ffc32b82cbec846336503520a7716e619cb46848931205cfa3176a691ff9152d4947.js" integrity="sha512-GIr4iekW1xgue/Sve&#43;2f9Mm3DdYaaRiMsETSV0Wk/8MrgsvshGM2UDUgp3FuYZy0aEiTEgXPoxdqaR/5FS1JRw=="></script>
 
 
 

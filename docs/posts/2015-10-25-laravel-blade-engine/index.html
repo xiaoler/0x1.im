@@ -169,23 +169,23 @@
 <li>compileRegularEchos -&gt; 正常输出 （{{ &hellip; }}）</li>
 </ol>
 <p>默认情况下经过字符替换之后 <code>compileEscapedEchos</code> 和 <code>compileRegularEchos</code> 的函数体其实是完全一样的，在输出的时候都是调用一个 <code>e()</code> 的辅助函数来输出：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-    <span class="k">function</span> <span class="nf">e</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$value</span> <span class="nx">instanceof</span> <span class="nx">Htmlable</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="nv">$value</span><span class="o">-&gt;</span><span class="na">toHtml</span><span class="p">();</span>
-        <span class="p">}</span>
-
-        <span class="k">return</span> <span class="nx">htmlentities</span><span class="p">(</span><span class="nv">$value</span><span class="p">,</span> <span class="nx">ENT_QUOTES</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
-    <span class="p">}</span>
-</code></pre></div><p>这貌似是 5.0 之后的版本才改的，之前的版本里 <code>compileRegularEchos</code> 执行的是 <code>compileRawEchos</code> 的行为。不过两个函数还是有一个区别：<code>compileRegularEchos</code> 的转义函数是可以通过 <code>setEchoFormat</code> 自定义的（只是默认是 <code>e()</code>），但是 <code>compileEscapedEchos</code> 不允许自定义。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">    <span class="k">function</span> <span class="nf">e</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nv">$value</span> <span class="nx">instanceof</span> <span class="nx">Htmlable</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nv">$value</span><span class="o">-&gt;</span><span class="na">toHtml</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">htmlentities</span><span class="p">(</span><span class="nv">$value</span><span class="p">,</span> <span class="nx">ENT_QUOTES</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><p>这貌似是 5.0 之后的版本才改的，之前的版本里 <code>compileRegularEchos</code> 执行的是 <code>compileRawEchos</code> 的行为。不过两个函数还是有一个区别：<code>compileRegularEchos</code> 的转义函数是可以通过 <code>setEchoFormat</code> 自定义的（只是默认是 <code>e()</code>），但是 <code>compileEscapedEchos</code> 不允许自定义。</p>
 <p><code>echo</code> 后的内容也是经过正则替换的：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">compileEchoDefaults</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">return</span> <span class="nx">preg_replace</span><span class="p">(</span><span class="s1">&#39;/^(?=\$)(.+?)(?:\s+or\s+)(.+?)$/s&#39;</span><span class="p">,</span> <span class="s1">&#39;isset($1) ? $1 : $2&#39;</span><span class="p">,</span> <span class="nv">$value</span><span class="p">);</span>
-    <span class="p">}</span>
-</code></pre></div><p>从正则表达式中可以看出来输出提供了一个 <code>or</code> 的关键字，<code>$a or $b</code> 的写法会被替换成 <code>isset($a) ? $a : $b</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">compileEchoDefaults</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">preg_replace</span><span class="p">(</span><span class="s1">&#39;/^(?=\$)(.+?)(?:\s+or\s+)(.+?)$/s&#39;</span><span class="p">,</span> <span class="s1">&#39;isset($1) ? $1 : $2&#39;</span><span class="p">,</span> <span class="nv">$value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><p>从正则表达式中可以看出来输出提供了一个 <code>or</code> 的关键字，<code>$a or $b</code> 的写法会被替换成 <code>isset($a) ? $a : $b</code>。</p>
 <p>语句块部分可以分成三种情况：</p>
 <ol>
 <li>和 PHP 本身一样的 <code>if</code> <code>else</code> <code>foreach</code> 以及扩展的 <code>unless</code> 等流程和循环控制的关键字；</li>
@@ -194,44 +194,44 @@
 </ol>
 <p>第一种情况是很简单的替换过程，本身 PHP 为了在 HMTL 和 PHP 混合书写方便就提供了 <code>if</code> <code>foreach</code> 等几个关键字使用冒号和 <code>endif</code> 等关键字代替大括号来控制流程的方法。</p>
 <p>第二种情况稍微复杂一点，比如下面的函数：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-    <span class="k">protected</span> <span class="k">function</span> <span class="nf">compileYield</span><span class="p">(</span><span class="nv">$expression</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">return</span> <span class="s2">&#34;&lt;?php echo </span><span class="se">\$</span><span class="s2">__env-&gt;yieldContent</span><span class="si">{</span><span class="nv">$expression</span><span class="si">}</span><span class="s2">; ?&gt;&#34;</span><span class="p">;</span>
-    <span class="p">}</span>
-</code></pre></div><p>解析之后的语句是调用了一个名为 <code>$_env</code> 的实例中的方法。这个实例其实就是 <code>Illuminate\View\Factory</code> 的实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">    <span class="k">protected</span> <span class="k">function</span> <span class="nf">compileYield</span><span class="p">(</span><span class="nv">$expression</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s2">&#34;&lt;?php echo </span><span class="se">\$</span><span class="s2">__env-&gt;yieldContent</span><span class="si">{</span><span class="nv">$expression</span><span class="si">}</span><span class="s2">; ?&gt;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><p>解析之后的语句是调用了一个名为 <code>$_env</code> 的实例中的方法。这个实例其实就是 <code>Illuminate\View\Factory</code> 的实例：</p>
 <p>Factory 的构造函数：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-    <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="nx">EngineResolver</span> <span class="nv">$engines</span><span class="p">,</span> <span class="nx">ViewFinderInterface</span> <span class="nv">$finder</span><span class="p">,</span> <span class="nx">Dispatcher</span> <span class="nv">$events</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="o">...</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">share</span><span class="p">(</span><span class="s1">&#39;__env&#39;</span><span class="p">,</span> <span class="nv">$this</span><span class="p">);</span>
-    <span class="p">}</span>
-</code></pre></div><p><code>Illuminate\View\View</code> 中：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-    <span class="k">protected</span> <span class="k">function</span> <span class="nf">getContents</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">engine</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">path</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">gatherData</span><span class="p">());</span>
-    <span class="p">}</span>
-
-    <span class="sd">/**
-</span><span class="sd">     * Get the data bound to the view instance.
-</span><span class="sd">     *
-</span><span class="sd">     * @return array
-</span><span class="sd">     */</span>
-    <span class="k">protected</span> <span class="k">function</span> <span class="nf">gatherData</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="nv">$data</span> <span class="o">=</span> <span class="nx">array_merge</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">factory</span><span class="o">-&gt;</span><span class="na">getShared</span><span class="p">(),</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">);</span>
-        <span class="o">...</span>
-        <span class="k">return</span> <span class="nv">$data</span><span class="p">;</span>
-    <span class="p">}</span>
-</code></pre></div><p>由此也可以看出 <code>each</code> <code>yield</code> 等指令的实现也是在 Factory 中，分别对应的是 <code>renderEach</code> <code>yieldContent</code> 等。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="nx">EngineResolver</span> <span class="nv">$engines</span><span class="p">,</span> <span class="nx">ViewFinderInterface</span> <span class="nv">$finder</span><span class="p">,</span> <span class="nx">Dispatcher</span> <span class="nv">$events</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">share</span><span class="p">(</span><span class="s1">&#39;__env&#39;</span><span class="p">,</span> <span class="nv">$this</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><p><code>Illuminate\View\View</code> 中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">    <span class="k">protected</span> <span class="k">function</span> <span class="nf">getContents</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">engine</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">path</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">gatherData</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="sd">/**
+</span></span></span><span class="line"><span class="cl"><span class="sd">     * Get the data bound to the view instance.
+</span></span></span><span class="line"><span class="cl"><span class="sd">     *
+</span></span></span><span class="line"><span class="cl"><span class="sd">     * @return array
+</span></span></span><span class="line"><span class="cl"><span class="sd">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">protected</span> <span class="k">function</span> <span class="nf">gatherData</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$data</span> <span class="o">=</span> <span class="nx">array_merge</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">factory</span><span class="o">-&gt;</span><span class="na">getShared</span><span class="p">(),</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><p>由此也可以看出 <code>each</code> <code>yield</code> 等指令的实现也是在 Factory 中，分别对应的是 <code>renderEach</code> <code>yieldContent</code> 等。</p>
 <p>所以文件引入等指令的实现方式就是：在主视图输出的时候，通过注入的 <code>$__env</code> 来重复调用 Factory 中的 <code>make</code> 方法来输出引入的文件。</p>
 <p>至于 <code>lang</code> 等关键字，替换后就是使用 <code>app()</code> 函数来调用 Laravel 的其他组件。此外 Blade 还提供了 <code>inject</code> 关键字来调用任何你想使用的组件。</p>
 <p>除了以上这些，你还可以通过 <code>directive</code> 方法来增加一些自定义指令。</p>
 <p>compileStatements 方法中最后进行正则替换的正则表达式看起来比较复杂：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">/<span class="se">\B</span>@<span class="o">(</span><span class="se">\w</span>+<span class="o">)([</span> <span class="se">\t</span><span class="o">]</span>*<span class="o">)(</span><span class="se">\(</span> <span class="o">(</span> <span class="o">(</span>?&gt;<span class="o">[</span>^<span class="o">()]</span>+<span class="o">)</span> <span class="p">|</span> <span class="o">(</span>?3<span class="o">)</span> <span class="o">)</span>* <span class="se">\)</span><span class="o">)</span>?/x
-</code></pre></div><p>这是因为正则后面的一部分实现了 <a href="http://php.net/manual/zh/regexp.reference.recursive.php">递归模式</a> 来匹配语句块中括号的数量。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">/<span class="se">\B</span>@<span class="o">(</span><span class="se">\w</span>+<span class="o">)([</span> <span class="se">\t</span><span class="o">]</span>*<span class="o">)(</span><span class="se">\(</span> <span class="o">(</span> <span class="o">(</span>?&gt;<span class="o">[</span>^<span class="o">()]</span>+<span class="o">)</span> <span class="p">|</span> <span class="o">(</span>?3<span class="o">)</span> <span class="o">)</span>* <span class="se">\)</span><span class="o">)</span>?/x
+</span></span></code></pre></div><p>这是因为正则后面的一部分实现了 <a href="http://php.net/manual/zh/regexp.reference.recursive.php">递归模式</a> 来匹配语句块中括号的数量。</p>
 <h2 id="3-后话">3. 后话</h2>
 <p>通过以上的分析可以看出来 Laravel 的视图组件还是十分简洁的，同时也不失灵活性和可扩展性。如果有兴趣的话，也可以实现一个自己的模板解析引擎。</p>
 <p>如果你想在其他项目中使用 Blade 引擎，通过 Composer 安装下来之后会发现还有 Container、Events 等部分，这和 Laravel 本身有关。</p>
@@ -314,7 +314,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2021</span>
+            <span>&copy; 2022</span>
             
             
             <span></span>
@@ -336,7 +336,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
+<script type="text/javascript" src="/bundle.min.188af889e916d7182e7bf4af7bed9ff4c9b70dd61a69188cb044d25745a4ffc32b82cbec846336503520a7716e619cb46848931205cfa3176a691ff9152d4947.js" integrity="sha512-GIr4iekW1xgue/Sve&#43;2f9Mm3DdYaaRiMsETSV0Wk/8MrgsvshGM2UDUgp3FuYZy0aEiTEgXPoxdqaR/5FS1JRw=="></script>
 
 
 

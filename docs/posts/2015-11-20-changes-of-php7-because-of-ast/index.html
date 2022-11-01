@@ -237,94 +237,94 @@
 <p>如果仅仅是时间上的优化，似乎也不是使用 AST 的充足理由。其实实现 AST 并不是基于时间优化上的考虑，而是为了解决语法上的问题。下面来看一下语义上的一些变化。</p>
 <h4 id="yield-不需要括号">yield 不需要括号</h4>
 <p>在 PHP5 的实现中，如果在一个表达式上下文（例如在一个赋值表达式的右侧）中使用 yield，你必须在 yield 申明两边使用括号：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="nv">$result</span> <span class="o">=</span> <span class="k">yield</span> <span class="nx">fn</span><span class="p">();</span>   <span class="c1">// 不合法的
-</span><span class="c1"></span><span class="nv">$result</span> <span class="o">=</span> <span class="p">(</span><span class="k">yield</span> <span class="nx">fn</span><span class="p">());</span> <span class="c1">// 合法的
-</span></code></pre></div><p>这种行为仅仅是因为 PHP5 的实现方式的限制，在 PHP7 中，括号不再是必须的了。所以下面这些写法也都是合法的：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="nv">$result</span> <span class="o">=</span> <span class="k">yield</span><span class="p">;</span>
-<span class="nv">$result</span> <span class="o">=</span> <span class="k">yield</span> <span class="nv">$v</span><span class="p">;</span>
-<span class="nv">$result</span> <span class="o">=</span> <span class="k">yield</span> <span class="nv">$k</span> <span class="o">=&gt;</span> <span class="nv">$v</span><span class="p">;</span>
-</code></pre></div><p>当然了，还得遵循 yield 的应用场景才行。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$result</span> <span class="o">=</span> <span class="k">yield</span> <span class="nx">fn</span><span class="p">();</span>   <span class="c1">// 不合法的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$result</span> <span class="o">=</span> <span class="p">(</span><span class="k">yield</span> <span class="nx">fn</span><span class="p">());</span> <span class="c1">// 合法的
+</span></span></span></code></pre></div><p>这种行为仅仅是因为 PHP5 的实现方式的限制，在 PHP7 中，括号不再是必须的了。所以下面这些写法也都是合法的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$result</span> <span class="o">=</span> <span class="k">yield</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$result</span> <span class="o">=</span> <span class="k">yield</span> <span class="nv">$v</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$result</span> <span class="o">=</span> <span class="k">yield</span> <span class="nv">$k</span> <span class="o">=&gt;</span> <span class="nv">$v</span><span class="p">;</span>
+</span></span></code></pre></div><p>当然了，还得遵循 yield 的应用场景才行。</p>
 <h4 id="括号不影响行为">括号不影响行为</h4>
 <p>在 PHP5 中，<code>($foo)['bar'] = 'baz'</code> 和 <code>$foo['bar'] = 'baz'</code> 两个语句的含义不一样。事实上前一种写法是不合法的，你会得到下面这样的错误：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="p">(</span><span class="nv">$foo</span><span class="p">)[</span><span class="s1">&#39;bar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;baz&#39;</span><span class="p">;</span>
-<span class="c1"># PHP Parse error: Syntax error, unexpected &#39;[&#39; on line 1
-</span></code></pre></div><p>但是在 PHP7 中，两种写法表示同样的意思。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nv">$foo</span><span class="p">)[</span><span class="s1">&#39;bar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;baz&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># PHP Parse error: Syntax error, unexpected &#39;[&#39; on line 1
+</span></span></span></code></pre></div><p>但是在 PHP7 中，两种写法表示同样的意思。</p>
 <p>同样，如果函数的参数被括号包裹，类型检查存在问题，在 PHP7 中这个问题也得到了解决：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="k">function</span> <span class="nf">func</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="p">[];</span>
-<span class="p">}</span>
-
-<span class="k">function</span> <span class="nf">byRef</span><span class="p">(</span><span class="k">array</span> <span class="o">&amp;</span><span class="nv">$a</span><span class="p">)</span> <span class="p">{</span>
-<span class="p">}</span>
-
-<span class="nx">byRef</span><span class="p">((</span><span class="nx">func</span><span class="p">()));</span>
-</code></pre></div><p>以上代码在 PHP5 中不会告警，除非使用 <code>byRef(func())</code> 的方式调用，但是在 PHP7 中，不管 <code>func()</code> 两边有没有括号都会产生以下错误：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">byRef</span><span class="p">(</span><span class="k">array</span> <span class="o">&amp;</span><span class="nv">$a</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">byRef</span><span class="p">((</span><span class="nx">func</span><span class="p">()));</span>
+</span></span></code></pre></div><p>以上代码在 PHP5 中不会告警，除非使用 <code>byRef(func())</code> 的方式调用，但是在 PHP7 中，不管 <code>func()</code> 两边有没有括号都会产生以下错误：</p>
 <pre tabindex="0"><code>PHP Strict standards:  Only variables should be passed by reference ...
 </code></pre><h4 id="list-的变化">list() 的变化</h4>
 <p>list 关键字的行为改变了很多。list 给变量赋值的顺序（等号左右同时的顺序）以前是从右至左，现在是从左到右：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="k">list</span><span class="p">(</span><span class="nv">$array</span><span class="p">[],</span> <span class="nv">$array</span><span class="p">[],</span> <span class="nv">$array</span><span class="p">[])</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
-<span class="nx">var_dump</span><span class="p">(</span><span class="nv">$array</span><span class="p">);</span>
-
-<span class="c1">// PHP5: $array = [3, 2, 1]
-</span><span class="c1">// PHP7: $array = [1, 2, 3]
-</span><span class="c1"></span>
-<span class="c1"># 注意这里的左右的顺序指的是等号左右同时的顺序，
-</span><span class="c1"># list($a, $b) = [1, 2] 这种使用中 $a == 1, $b == 2 是没有疑问的。
-</span></code></pre></div><p>产生上面变化的原因正是因为在 PHP5 的赋值过程中，<code>3</code> 会最先被填入数组，<code>1</code> 最后，但是现在顺序改变了。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="k">list</span><span class="p">(</span><span class="nv">$array</span><span class="p">[],</span> <span class="nv">$array</span><span class="p">[],</span> <span class="nv">$array</span><span class="p">[])</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nx">var_dump</span><span class="p">(</span><span class="nv">$array</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// PHP5: $array = [3, 2, 1]
+</span></span></span><span class="line"><span class="cl"><span class="c1">// PHP7: $array = [1, 2, 3]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 注意这里的左右的顺序指的是等号左右同时的顺序，
+</span></span></span><span class="line"><span class="cl"><span class="c1"># list($a, $b) = [1, 2] 这种使用中 $a == 1, $b == 2 是没有疑问的。
+</span></span></span></code></pre></div><p>产生上面变化的原因正是因为在 PHP5 的赋值过程中，<code>3</code> 会最先被填入数组，<code>1</code> 最后，但是现在顺序改变了。</p>
 <p>同样的变化还有：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="nv">$a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">];</span>
-<span class="k">list</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">)</span> <span class="o">=</span> <span class="nv">$a</span><span class="p">;</span>
-
-<span class="c1">// PHP5: $a = 1, $b = 2
-</span><span class="c1">// PHP7: $a = 1, $b = null + &#34;Undefined index 1&#34;
-</span></code></pre></div><p>这是因为在以前的赋值过程中 <code>$b</code> 先得到 <code>2</code>，然后 <code>$a</code> 的值才变成 <code>1</code>，但是现在 <code>$a</code> 先变成了 <code>1</code>，不再是数组，所以 <code>$b</code> 就成了 <code>null</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="k">list</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">)</span> <span class="o">=</span> <span class="nv">$a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// PHP5: $a = 1, $b = 2
+</span></span></span><span class="line"><span class="cl"><span class="c1">// PHP7: $a = 1, $b = null + &#34;Undefined index 1&#34;
+</span></span></span></code></pre></div><p>这是因为在以前的赋值过程中 <code>$b</code> 先得到 <code>2</code>，然后 <code>$a</code> 的值才变成 <code>1</code>，但是现在 <code>$a</code> 先变成了 <code>1</code>，不再是数组，所以 <code>$b</code> 就成了 <code>null</code>。</p>
 <p>list 现在只会访问每个偏移量一次：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="k">list</span><span class="p">(</span><span class="k">list</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">))</span> <span class="o">=</span> <span class="nv">$array</span><span class="p">;</span>
-
-<span class="c1">// PHP5:
-</span><span class="c1"></span><span class="nv">$b</span> <span class="o">=</span> <span class="nv">$array</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
-<span class="nv">$a</span> <span class="o">=</span> <span class="nv">$array</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
-
-<span class="c1">// PHP7:
-</span><span class="c1">// 会产生一个中间变量，得到 $array[0] 的值
-</span><span class="c1"></span><span class="nv">$_tmp</span> <span class="o">=</span> <span class="nv">$array</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-<span class="nv">$a</span> <span class="o">=</span> <span class="nv">$_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-<span class="nv">$b</span> <span class="o">=</span> <span class="nv">$_tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-</code></pre></div><p>空的 list 成员现在是全部禁止的，以前只是在某些情况下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="k">list</span><span class="p">()</span> <span class="o">=</span> <span class="nv">$a</span><span class="p">;</span>           <span class="c1">// 不合法
-</span><span class="c1"></span><span class="k">list</span><span class="p">(</span><span class="nv">$b</span><span class="p">,</span> <span class="k">list</span><span class="p">())</span> <span class="o">=</span> <span class="nv">$a</span><span class="p">;</span> <span class="c1">// 不合法
-</span><span class="c1"></span><span class="k">foreach</span> <span class="p">(</span><span class="nv">$a</span> <span class="k">as</span> <span class="k">list</span><span class="p">())</span> <span class="c1">// 不合法 (PHP5 中也不合法)
-</span></code></pre></div><h4 id="引用赋值的顺序">引用赋值的顺序</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="k">list</span><span class="p">(</span><span class="k">list</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">))</span> <span class="o">=</span> <span class="nv">$array</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// PHP5:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$b</span> <span class="o">=</span> <span class="nv">$array</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span> <span class="o">=</span> <span class="nv">$array</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// PHP7:
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 会产生一个中间变量，得到 $array[0] 的值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$_tmp</span> <span class="o">=</span> <span class="nv">$array</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span> <span class="o">=</span> <span class="nv">$_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$b</span> <span class="o">=</span> <span class="nv">$_tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span></span></code></pre></div><p>空的 list 成员现在是全部禁止的，以前只是在某些情况下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="k">list</span><span class="p">()</span> <span class="o">=</span> <span class="nv">$a</span><span class="p">;</span>           <span class="c1">// 不合法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">list</span><span class="p">(</span><span class="nv">$b</span><span class="p">,</span> <span class="k">list</span><span class="p">())</span> <span class="o">=</span> <span class="nv">$a</span><span class="p">;</span> <span class="c1">// 不合法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">foreach</span> <span class="p">(</span><span class="nv">$a</span> <span class="k">as</span> <span class="k">list</span><span class="p">())</span> <span class="c1">// 不合法 (PHP5 中也不合法)
+</span></span></span></code></pre></div><h4 id="引用赋值的顺序">引用赋值的顺序</h4>
 <p>引用赋值的顺序在 PHP5 中是从右到左的，现在时从左到右：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="nv">$obj</span> <span class="o">=</span> <span class="k">new</span> <span class="k">stdClass</span><span class="p">;</span>
-<span class="nv">$obj</span><span class="o">-&gt;</span><span class="na">a</span> <span class="o">=</span> <span class="o">&amp;</span><span class="nv">$obj</span><span class="o">-&gt;</span><span class="na">b</span><span class="p">;</span>
-<span class="nv">$obj</span><span class="o">-&gt;</span><span class="na">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="nx">var_dump</span><span class="p">(</span><span class="nv">$obj</span><span class="p">);</span>
-
-<span class="c1">// PHP5:
-</span><span class="c1"></span><span class="nx">object</span><span class="p">(</span><span class="k">stdClass</span><span class="p">)</span><span class="c1">#1 (2) {
-</span><span class="c1"></span>  <span class="p">[</span><span class="s2">&#34;b&#34;</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">&amp;</span><span class="nx">int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-  <span class="p">[</span><span class="s2">&#34;a&#34;</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">&amp;</span><span class="nx">int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="c1">// PHP7:
-</span><span class="c1"></span><span class="nx">object</span><span class="p">(</span><span class="k">stdClass</span><span class="p">)</span><span class="c1">#1 (2) {
-</span><span class="c1"></span>  <span class="p">[</span><span class="s2">&#34;a&#34;</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">&amp;</span><span class="nx">int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-  <span class="p">[</span><span class="s2">&#34;b&#34;</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">&amp;</span><span class="nx">int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><h4 id="__clone-方法可以直接调用">__clone 方法可以直接调用</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$obj</span> <span class="o">=</span> <span class="k">new</span> <span class="k">stdClass</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$obj</span><span class="o">-&gt;</span><span class="na">a</span> <span class="o">=</span> <span class="o">&amp;</span><span class="nv">$obj</span><span class="o">-&gt;</span><span class="na">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$obj</span><span class="o">-&gt;</span><span class="na">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">var_dump</span><span class="p">(</span><span class="nv">$obj</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// PHP5:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">object</span><span class="p">(</span><span class="k">stdClass</span><span class="p">)</span><span class="c1">#1 (2) {
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">[</span><span class="s2">&#34;b&#34;</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">&amp;</span><span class="nx">int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="s2">&#34;a&#34;</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">&amp;</span><span class="nx">int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// PHP7:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">object</span><span class="p">(</span><span class="k">stdClass</span><span class="p">)</span><span class="c1">#1 (2) {
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">[</span><span class="s2">&#34;a&#34;</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">&amp;</span><span class="nx">int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="s2">&#34;b&#34;</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">&amp;</span><span class="nx">int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h4 id="__clone-方法可以直接调用">__clone 方法可以直接调用</h4>
 <p>现在可以直接使用 <code>$obj-&gt;__clone()</code> 的写法去调用 <code>__clone</code> 方法。<code>__clone</code> 是之前唯一一个被禁止直接调用的魔术方法，之前你会得到一个这样的错误：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-s" data-lang="s"><span class="n">Fatal</span> <span class="n">error</span><span class="o">:</span> <span class="n">Cannot</span> <span class="n">call</span> <span class="nf">__clone</span><span class="p">()</span> <span class="n">method</span> <span class="n">on</span> <span class="n">objects</span> <span class="o">-</span> <span class="n">use</span> <span class="s">&#39;clone $obj&#39;</span> <span class="n">instead</span> <span class="n">in</span> <span class="kc">...</span>
-</code></pre></div><h2 id="变量语法一致性">变量语法一致性</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-s" data-lang="s"><span class="line"><span class="cl"><span class="n">Fatal</span> <span class="n">error</span><span class="o">:</span> <span class="n">Cannot</span> <span class="n">call</span> <span class="nf">__clone</span><span class="p">()</span> <span class="n">method</span> <span class="n">on</span> <span class="n">objects</span> <span class="o">-</span> <span class="n">use</span> <span class="s">&#39;clone $obj&#39;</span> <span class="n">instead</span> <span class="n">in</span> <span class="kc">...</span>
+</span></span></code></pre></div><h2 id="变量语法一致性">变量语法一致性</h2>
 <p>AST 也解决了一些语法一致性的问题，这些问题是在另外一个 RFC 中被提出的：<a href="https://wiki.php.net/rfc/uniform_variable_syntax">https://wiki.php.net/rfc/uniform_variable_syntax</a>.</p>
 <p>在新的实现上，以前的一些语法表达的含义和现在有些不同，具体的可以参照下面的表格：</p>
 <table>
@@ -435,7 +435,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2021</span>
+            <span>&copy; 2022</span>
             
             
             <span></span>
@@ -457,7 +457,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
+<script type="text/javascript" src="/bundle.min.188af889e916d7182e7bf4af7bed9ff4c9b70dd61a69188cb044d25745a4ffc32b82cbec846336503520a7716e619cb46848931205cfa3176a691ff9152d4947.js" integrity="sha512-GIr4iekW1xgue/Sve&#43;2f9Mm3DdYaaRiMsETSV0Wk/8MrgsvshGM2UDUgp3FuYZy0aEiTEgXPoxdqaR/5FS1JRw=="></script>
 
 
 

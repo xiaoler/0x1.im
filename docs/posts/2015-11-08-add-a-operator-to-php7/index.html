@@ -128,53 +128,53 @@
 
       <div class="post-content">
         <p>我们知道从 PHP 5.3 起三元运算符 <code>?  :</code> 有一个写法简洁写法是这样的：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="nv">$a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="nv">$b</span> <span class="o">=</span> <span class="nv">$a</span> <span class="o">?:</span> <span class="mi">1</span><span class="p">;</span> <span class="c1"># $b === 1
-</span></code></pre></div><p>这实际上相当于：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="nv">$a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="nv">$b</span> <span class="o">=</span> <span class="nv">$a</span> <span class="o">?</span> <span class="nv">$a</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span> <span class="c1"># $b === 1
-</span></code></pre></div><p>在 PHP5 中，语法分析是这样写的：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="o">|</span>   <span class="n">expr</span> <span class="sc">&#39;?&#39;</span> <span class="p">{</span> <span class="n">zend_do_begin_qm_op</span><span class="p">(</span><span class="o">&amp;</span><span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">2</span> <span class="n">TSRMLS_CC</span><span class="p">);</span> <span class="p">}</span>
-    <span class="n">expr</span> <span class="sc">&#39;:&#39;</span> <span class="p">{</span> <span class="n">zend_do_qm_true</span><span class="p">(</span><span class="o">&amp;</span><span class="err">$</span><span class="mi">4</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">2</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">5</span> <span class="n">TSRMLS_CC</span><span class="p">);</span> <span class="p">}</span>
-    <span class="n">expr</span>     <span class="p">{</span> <span class="n">zend_do_qm_false</span><span class="p">(</span><span class="o">&amp;</span><span class="err">$$</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">7</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">2</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">5</span> <span class="n">TSRMLS_CC</span><span class="p">);</span> <span class="p">}</span>
-<span class="o">|</span>   <span class="n">expr</span> <span class="sc">&#39;?&#39;</span> <span class="sc">&#39;:&#39;</span> <span class="p">{</span> <span class="n">zend_do_jmp_set</span><span class="p">(</span><span class="o">&amp;</span><span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">2</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">3</span> <span class="n">TSRMLS_CC</span><span class="p">);</span> <span class="p">}</span>
-    <span class="n">expr</span>     <span class="p">{</span> <span class="n">zend_do_jmp_set_else</span><span class="p">(</span><span class="o">&amp;</span><span class="err">$$</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">5</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">2</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">3</span> <span class="n">TSRMLS_CC</span><span class="p">);</span> <span class="p">}</span>
-</code></pre></div><p>在 PHP7 中，由于 AST（抽象语法树）的引入，语法分析有些简化：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="o">|</span>   <span class="n">expr</span> <span class="sc">&#39;?&#39;</span> <span class="n">expr</span> <span class="sc">&#39;:&#39;</span> <span class="n">expr</span>
-        <span class="p">{</span> <span class="err">$$</span> <span class="o">=</span> <span class="n">zend_ast_create</span><span class="p">(</span><span class="n">ZEND_AST_CONDITIONAL</span><span class="p">,</span> <span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="err">$</span><span class="mi">3</span><span class="p">,</span> <span class="err">$</span><span class="mi">5</span><span class="p">);</span> <span class="p">}</span>
-<span class="o">|</span>   <span class="n">expr</span> <span class="sc">&#39;?&#39;</span> <span class="sc">&#39;:&#39;</span> <span class="n">expr</span>
-        <span class="p">{</span> <span class="err">$$</span> <span class="o">=</span> <span class="n">zend_ast_create</span><span class="p">(</span><span class="n">ZEND_AST_CONDITIONAL</span><span class="p">,</span> <span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="err">$</span><span class="mi">4</span><span class="p">);</span> <span class="p">}</span>
-</code></pre></div><p>PHP7 中语法分析之后都是写到 AST 的节点上。从上面可以看出，简化的 <code>?:</code> 和完整的三元表达式的区别就是节点中间的值为 NULL。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$b</span> <span class="o">=</span> <span class="nv">$a</span> <span class="o">?:</span> <span class="mi">1</span><span class="p">;</span> <span class="c1"># $b === 1
+</span></span></span></code></pre></div><p>这实际上相当于：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$b</span> <span class="o">=</span> <span class="nv">$a</span> <span class="o">?</span> <span class="nv">$a</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span> <span class="c1"># $b === 1
+</span></span></span></code></pre></div><p>在 PHP5 中，语法分析是这样写的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="o">|</span>   <span class="n">expr</span> <span class="sc">&#39;?&#39;</span> <span class="p">{</span> <span class="n">zend_do_begin_qm_op</span><span class="p">(</span><span class="o">&amp;</span><span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">2</span> <span class="n">TSRMLS_CC</span><span class="p">);</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">expr</span> <span class="sc">&#39;:&#39;</span> <span class="p">{</span> <span class="n">zend_do_qm_true</span><span class="p">(</span><span class="o">&amp;</span><span class="err">$</span><span class="mi">4</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">2</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">5</span> <span class="n">TSRMLS_CC</span><span class="p">);</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">expr</span>     <span class="p">{</span> <span class="n">zend_do_qm_false</span><span class="p">(</span><span class="o">&amp;</span><span class="err">$$</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">7</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">2</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">5</span> <span class="n">TSRMLS_CC</span><span class="p">);</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">|</span>   <span class="n">expr</span> <span class="sc">&#39;?&#39;</span> <span class="sc">&#39;:&#39;</span> <span class="p">{</span> <span class="n">zend_do_jmp_set</span><span class="p">(</span><span class="o">&amp;</span><span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">2</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">3</span> <span class="n">TSRMLS_CC</span><span class="p">);</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">expr</span>     <span class="p">{</span> <span class="n">zend_do_jmp_set_else</span><span class="p">(</span><span class="o">&amp;</span><span class="err">$$</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">5</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">2</span><span class="p">,</span> <span class="o">&amp;</span><span class="err">$</span><span class="mi">3</span> <span class="n">TSRMLS_CC</span><span class="p">);</span> <span class="p">}</span>
+</span></span></code></pre></div><p>在 PHP7 中，由于 AST（抽象语法树）的引入，语法分析有些简化：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="o">|</span>   <span class="n">expr</span> <span class="sc">&#39;?&#39;</span> <span class="n">expr</span> <span class="sc">&#39;:&#39;</span> <span class="n">expr</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="err">$$</span> <span class="o">=</span> <span class="n">zend_ast_create</span><span class="p">(</span><span class="n">ZEND_AST_CONDITIONAL</span><span class="p">,</span> <span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="err">$</span><span class="mi">3</span><span class="p">,</span> <span class="err">$</span><span class="mi">5</span><span class="p">);</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">|</span>   <span class="n">expr</span> <span class="sc">&#39;?&#39;</span> <span class="sc">&#39;:&#39;</span> <span class="n">expr</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="err">$$</span> <span class="o">=</span> <span class="n">zend_ast_create</span><span class="p">(</span><span class="n">ZEND_AST_CONDITIONAL</span><span class="p">,</span> <span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="err">$</span><span class="mi">4</span><span class="p">);</span> <span class="p">}</span>
+</span></span></code></pre></div><p>PHP7 中语法分析之后都是写到 AST 的节点上。从上面可以看出，简化的 <code>?:</code> 和完整的三元表达式的区别就是节点中间的值为 NULL。</p>
 <p>PHP7 添加了一个合并操作符（T_COALESCE），用于简化 <code>isset</code> 的条件判断：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="nv">$b</span> <span class="o">=</span> <span class="nv">$a</span> <span class="o">??</span> <span class="mi">1</span><span class="p">;</span>
-</code></pre></div><p>它相当于：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="nv">$b</span> <span class="o">=</span> <span class="nx">isset</span><span class="p">(</span><span class="nv">$a</span><span class="p">)</span> <span class="o">?</span> <span class="nv">$a</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
-</code></pre></div><p>仅仅是 <code>isset</code> 判断，在 $a 为 0 等值时还是会返回 $b 的值还是为 0 。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$b</span> <span class="o">=</span> <span class="nv">$a</span> <span class="o">??</span> <span class="mi">1</span><span class="p">;</span>
+</span></span></code></pre></div><p>它相当于：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$b</span> <span class="o">=</span> <span class="nx">isset</span><span class="p">(</span><span class="nv">$a</span><span class="p">)</span> <span class="o">?</span> <span class="nv">$a</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span></code></pre></div><p>仅仅是 <code>isset</code> 判断，在 $a 为 0 等值时还是会返回 $b 的值还是为 0 。</p>
 <p>这个操作符的语法分析语句是：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="o">|</span>   <span class="n">expr</span> <span class="n">T_COALESCE</span> <span class="n">expr</span>
-        <span class="p">{</span> <span class="err">$$</span> <span class="o">=</span> <span class="n">zend_ast_create</span><span class="p">(</span><span class="n">ZEND_AST_COALESCE</span><span class="p">,</span> <span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="err">$</span><span class="mi">3</span><span class="p">);</span> <span class="p">}</span>
-</code></pre></div><p>如果想将 <code>isset</code> 换成 <code>empty</code> 的效果，也就是说在变量不存在或转换成 boolean  后为 <code>false</code> 都赋予其他值，需要这样写：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="nv">$b</span> <span class="o">=</span> <span class="nv">$a</span> <span class="o">??</span> <span class="mi">1</span> <span class="o">?:</span> <span class="mi">1</span><span class="p">;</span>
-</code></pre></div><p>显然上面的表达式中中间一部分稍微有些多余，那么做些简化呢？</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="o">|</span>   <span class="n">expr</span> <span class="n">T_COALESCE</span> <span class="n">expr</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="err">$$</span> <span class="o">=</span> <span class="n">zend_ast_create</span><span class="p">(</span><span class="n">ZEND_AST_COALESCE</span><span class="p">,</span> <span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="err">$</span><span class="mi">3</span><span class="p">);</span> <span class="p">}</span>
+</span></span></code></pre></div><p>如果想将 <code>isset</code> 换成 <code>empty</code> 的效果，也就是说在变量不存在或转换成 boolean  后为 <code>false</code> 都赋予其他值，需要这样写：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$b</span> <span class="o">=</span> <span class="nv">$a</span> <span class="o">??</span> <span class="mi">1</span> <span class="o">?:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span></code></pre></div><p>显然上面的表达式中中间一部分稍微有些多余，那么做些简化呢？</p>
 <p>现在我想添加一个语法 <code>??:</code> ，它的作用是对变量做 <code>empty</code> 的判断。也就是说达到上面 <code>$a ?? 1 ?: 1</code> 的效果：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="nv">$b</span> <span class="o">=</span> <span class="nv">$a</span> <span class="o">??:</span> <span class="mi">1</span><span class="p">;</span>
-</code></pre></div><p>改起来很简单，只需要将 <code>?:</code> 和 <code>??</code> 的分析合并一下（注意这里和上面所有的地方 <code>$1</code> <code>$2</code> 等符号的数字表示的都是变量或者常量出现的位置顺序）：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="o">|</span>   <span class="n">expr</span> <span class="n">T_COALESCE</span> <span class="sc">&#39;:&#39;</span> <span class="n">expr</span>
-        <span class="p">{</span> <span class="err">$$</span> <span class="o">=</span> <span class="n">zend_ast_create</span><span class="p">(</span><span class="n">ZEND_AST_CONDITIONAL</span><span class="p">,</span>
-            <span class="n">zend_ast_create</span><span class="p">(</span><span class="n">ZEND_AST_COALESCE</span><span class="p">,</span> <span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="err">$</span><span class="mi">4</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">,</span> <span class="err">$</span><span class="mi">4</span><span class="p">);</span> <span class="p">}</span>
-</code></pre></div><p>仅仅只有两句，因为并没有在词法分析器中添加 Token，所以只能算是个语法糖。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$b</span> <span class="o">=</span> <span class="nv">$a</span> <span class="o">??:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span></code></pre></div><p>改起来很简单，只需要将 <code>?:</code> 和 <code>??</code> 的分析合并一下（注意这里和上面所有的地方 <code>$1</code> <code>$2</code> 等符号的数字表示的都是变量或者常量出现的位置顺序）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="o">|</span>   <span class="n">expr</span> <span class="n">T_COALESCE</span> <span class="sc">&#39;:&#39;</span> <span class="n">expr</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="err">$$</span> <span class="o">=</span> <span class="n">zend_ast_create</span><span class="p">(</span><span class="n">ZEND_AST_CONDITIONAL</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">zend_ast_create</span><span class="p">(</span><span class="n">ZEND_AST_COALESCE</span><span class="p">,</span> <span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="err">$</span><span class="mi">4</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">,</span> <span class="err">$</span><span class="mi">4</span><span class="p">);</span> <span class="p">}</span>
+</span></span></code></pre></div><p>仅仅只有两句，因为并没有在词法分析器中添加 Token，所以只能算是个语法糖。</p>
 <p>重新编译一下之后就能看到效果啦。测试：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">$ /usr/local/php/bin/php -r <span class="s2">&#34;\$a = 0; echo \$a ?? 1, PHP_EOL;&#34;</span>
-<span class="m">0</span>
-$ /usr/local/php/bin/php -r <span class="s2">&#34;\$a = 0; echo \$a ??: 1, PHP_EOL;&#34;</span>
-<span class="m">1</span>
-</code></pre></div><p>Enjoy IT!</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ /usr/local/php/bin/php -r <span class="s2">&#34;\$a = 0; echo \$a ?? 1, PHP_EOL;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="m">0</span>
+</span></span><span class="line"><span class="cl">$ /usr/local/php/bin/php -r <span class="s2">&#34;\$a = 0; echo \$a ??: 1, PHP_EOL;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span>
+</span></span></code></pre></div><p>Enjoy IT!</p>
 
       </div>
     </article>
@@ -251,7 +251,7 @@ $ /usr/local/php/bin/php -r <span class="s2">&#34;\$a = 0; echo \$a ??: 1, PHP_E
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2021</span>
+            <span>&copy; 2022</span>
             
             
             <span></span>
@@ -273,7 +273,7 @@ $ /usr/local/php/bin/php -r <span class="s2">&#34;\$a = 0; echo \$a ??: 1, PHP_E
 
 
 
-<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
+<script type="text/javascript" src="/bundle.min.188af889e916d7182e7bf4af7bed9ff4c9b70dd61a69188cb044d25745a4ffc32b82cbec846336503520a7716e619cb46848931205cfa3176a691ff9152d4947.js" integrity="sha512-GIr4iekW1xgue/Sve&#43;2f9Mm3DdYaaRiMsETSV0Wk/8MrgsvshGM2UDUgp3FuYZy0aEiTEgXPoxdqaR/5FS1JRw=="></script>
 
 
 

@@ -132,16 +132,16 @@
 <p>由于这个事情本身可说的不多，这里就根据 rfc 简单描述一下吧。以下部分是 rfc 的翻译。</p>
 <hr>
 <p>合并赋值操作符在上世纪七十年代就出现了，最早是在 C 语言里，比如 <code>$x = $x + 3</code> 可以被简写为 <code>$x += 3</code>。随着 PHP 成为一门专注于 Web 的语言，<code>??</code> 操作符经常会被用去检查变量是否存在：比如：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="nv">$username</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span> <span class="o">??</span> <span class="s1">&#39;nobody&#39;</span><span class="p">;</span>
-</code></pre></div><p>但是由于大部分情况下变量的名称回避 <code>$username</code> 长很多，所以在使用 <code>??</code> 检查后讲变量本身赋值给自己的时候会需要些一些重复的代码，形如以下形式：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">request</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">[</span><span class="s1">&#39;comments&#39;</span><span class="p">][</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">request</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">[</span><span class="s1">&#39;comments&#39;</span><span class="p">][</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span> <span class="o">??</span> <span class="nx">‘value’</span><span class="p">;</span>
-</code></pre></div><p>这就是为什么需要一个能在自我赋值的时候进行空合并检查的赋值操作符的原因。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$username</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span> <span class="o">??</span> <span class="s1">&#39;nobody&#39;</span><span class="p">;</span>
+</span></span></code></pre></div><p>但是由于大部分情况下变量的名称回避 <code>$username</code> 长很多，所以在使用 <code>??</code> 检查后讲变量本身赋值给自己的时候会需要些一些重复的代码，形如以下形式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">request</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">[</span><span class="s1">&#39;comments&#39;</span><span class="p">][</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">request</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">[</span><span class="s1">&#39;comments&#39;</span><span class="p">][</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span> <span class="o">??</span> <span class="nx">‘value’</span><span class="p">;</span>
+</span></span></code></pre></div><p>这就是为什么需要一个能在自我赋值的时候进行空合并检查的赋值操作符的原因。</p>
 <p>虽然 <code>??</code> 是一个比较操作符，<code>??=</code> 确实一个赋值操作符号。如果左值为 <code>null</code>，右值会被赋给左值，否则不做任何操作。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="c1">// 下面这一行有相同的效果
-</span><span class="c1"></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">request</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">[</span><span class="s1">&#39;comments&#39;</span><span class="p">][</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">request</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">[</span><span class="s1">&#39;comments&#39;</span><span class="p">][</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span> <span class="o">??</span> <span class="s1">&#39;value&#39;</span><span class="p">;</span>
-<span class="c1">// 使用新操作符替代重复的代码
-</span><span class="c1"></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">request</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">[</span><span class="s1">&#39;comments&#39;</span><span class="p">][</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span> <span class="o">??=</span> <span class="s1">&#39;value&#39;</span><span class="p">;</span>
-</code></pre></div><p>用简单描述就是：左值为空时复制右值。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1">// 下面这一行有相同的效果
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">request</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">[</span><span class="s1">&#39;comments&#39;</span><span class="p">][</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">request</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">[</span><span class="s1">&#39;comments&#39;</span><span class="p">][</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span> <span class="o">??</span> <span class="s1">&#39;value&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 使用新操作符替代重复的代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">request</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">[</span><span class="s1">&#39;comments&#39;</span><span class="p">][</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span> <span class="o">??=</span> <span class="s1">&#39;value&#39;</span><span class="p">;</span>
+</span></span></code></pre></div><p>用简单描述就是：左值为空时复制右值。</p>
 <hr>
 <p>从实际的工程经验上来说，这个操作符确实能简化判断。这也不是第一个三个字符组成的操作符（除此之外还有 <code>&lt;&lt;=</code>、<code>&gt;&gt;=</code>、<code>===</code>、<code>!==</code>）。</p>
 <p>这个操作符并没有出现在 PHP7.1 中，因为 rfc 提出来的时候已经 7.1 已经是 beta3 了，而新特性需要在 beta1 时就冻结，所以在 7.2 中应该就可以用上它了。</p>
@@ -222,7 +222,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2021</span>
+            <span>&copy; 2022</span>
             
             
             <span></span>
@@ -244,7 +244,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
+<script type="text/javascript" src="/bundle.min.188af889e916d7182e7bf4af7bed9ff4c9b70dd61a69188cb044d25745a4ffc32b82cbec846336503520a7716e619cb46848931205cfa3176a691ff9152d4947.js" integrity="sha512-GIr4iekW1xgue/Sve&#43;2f9Mm3DdYaaRiMsETSV0Wk/8MrgsvshGM2UDUgp3FuYZy0aEiTEgXPoxdqaR/5FS1JRw=="></script>
 
 
 

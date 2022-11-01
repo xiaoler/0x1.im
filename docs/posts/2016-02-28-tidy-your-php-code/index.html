@@ -137,63 +137,63 @@
 <p>放在 PHP 里面，还有一些附加的地方，比如关键字大小写，语法糖的使用（<code>array()</code> 与 <code>[]</code> 等）的问题。之前整理过 <a href="https://github.com/XiaoLer/php-develop-standards/blob/master/php-basic-coding-standard.md">PSR</a> 的标准，也找过 <a href="http://0x1.im/blog/php/php-cs-fixer.html">php-cs-fixer</a> 这样的工具。这些都是规范代码的重要手段。有统一的标准，配合上工具的检查，形成统一的编码约束不是什么难题。</p>
 <p>没有规范，不同的人甚至同一个人在空格、换行和命名上都有可能是十分随意的。代码一长，回使整个文件看起来无比杂乱。</p>
 <p>典型的例子比如：<code>if</code> 和 <code>else</code> 的组合，可以写出无数种风格，比如：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="c1"># 单语句不写大括号
-</span><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="k">true</span><span class="p">)</span> <span class="nx">doSomething</span><span class="p">();</span>
-<span class="c1"># else 大括号换行 十分占篇幅
-</span><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="k">true</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="nx">doSomething</span><span class="p">();</span>
-<span class="p">}</span>
-<span class="k">else</span> <span class="p">{</span>
-    <span class="nx">doElseThings</span><span class="p">();</span>
-<span class="p">}</span>
-<span class="c1"># 此外还有关键字后不带空格，随意缩进等等
-</span><span class="c1"># ...
-</span></code></pre></div><p>再比如变量函数命名的问题上，各种混搭风格层出不穷：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="c1"># 全小写
-</span><span class="c1"></span><span class="nv">$someparam1</span> <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
-<span class="c1"># 首字母下环线
-</span><span class="c1"></span><span class="nv">$_some_param_1</span> <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
-<span class="c1"># 某些库的类，下划线和大小写混用
-</span><span class="c1"></span><span class="k">class</span> <span class="nc">Abstract_ClassA</span>
-<span class="p">{</span>
-
-<span class="p">}</span>
-</code></pre></div><p>这里并不探讨各种写法的优缺点，只是风格需要保持统一，不要混用。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 单语句不写大括号
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="k">true</span><span class="p">)</span> <span class="nx">doSomething</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># else 大括号换行 十分占篇幅
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="k">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">doSomething</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">doElseThings</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 此外还有关键字后不带空格，随意缩进等等
+</span></span></span><span class="line"><span class="cl"><span class="c1"># ...
+</span></span></span></code></pre></div><p>再比如变量函数命名的问题上，各种混搭风格层出不穷：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 全小写
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$someparam1</span> <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 首字母下环线
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$_some_param_1</span> <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 某些库的类，下划线和大小写混用
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">class</span> <span class="nc">Abstract_ClassA</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>这里并不探讨各种写法的优缺点，只是风格需要保持统一，不要混用。</p>
 <h2 id="2-良好的编码习惯">2. 良好的编码习惯</h2>
 <p>如果你仔细看过 PSR 的标准，可能也会注意到某些地方其实是标准无法涉及到的。比如一个超长的表达式在什么时候换行，如何缩进等。</p>
 <p>这里涉及到的就是编码习惯的约束问题。</p>
 <p>比如方法的链式的调用的问题，比如某些数据库查询的封装：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="c1"># 不换行的情况下句子会很长
-</span><span class="c1"></span><span class="nv">$result</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">groupBy</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">orderBy</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;DESC&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">result</span><span class="p">();</span>
-
-<span class="c1"># 这种情况下我建议是一个条件一行，保持缩进
-</span><span class="c1"></span><span class="nv">$result</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">groupBy</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">orderBy</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;DESC&#39;</span><span class="p">)</span>
-    <span class="o">-&gt;</span><span class="na">result</span><span class="p">();</span>
-</code></pre></div><p>还有数组定义，某些数组成员字符串很长的情况下的写法：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="nv">$array</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;abcdefg&#39;</span><span class="p">,</span> <span class="s1">&#39;acbdfeg&#39;</span><span class="p">,</span> <span class="s1">&#39;bcadgfe&#39;</span><span class="p">,</span> <span class="s1">&#39;cdadgef&#39;</span><span class="p">];</span>
-
-<span class="c1"># 如果成员太长，我建议拆解，这样
-</span><span class="c1"></span><span class="nv">$array</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;abcdefg&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;acbdfeg&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;bcadgfe&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;cdadgef&#39;</span><span class="p">,</span>
-<span class="p">];</span>
-</code></pre></div><h2 id="3-寻找最优的写法">3. 寻找最优的写法</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 不换行的情况下句子会很长
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$result</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="na">groupBy</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">orderBy</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;DESC&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">result</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 这种情况下我建议是一个条件一行，保持缩进
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$result</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="na">groupBy</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="na">orderBy</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;DESC&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="na">result</span><span class="p">();</span>
+</span></span></code></pre></div><p>还有数组定义，某些数组成员字符串很长的情况下的写法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$array</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;abcdefg&#39;</span><span class="p">,</span> <span class="s1">&#39;acbdfeg&#39;</span><span class="p">,</span> <span class="s1">&#39;bcadgfe&#39;</span><span class="p">,</span> <span class="s1">&#39;cdadgef&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 如果成员太长，我建议拆解，这样
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$array</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;abcdefg&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;acbdfeg&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;bcadgfe&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;cdadgef&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">];</span>
+</span></span></code></pre></div><h2 id="3-寻找最优的写法">3. 寻找最优的写法</h2>
 <p>写代码的过程中，最优的写法和编码习惯又不是同一件事情。这里要说的指的是如何遵循 PHP 的语言特性或者框架的特征，充分发挥语言和框架的能力来减少冗余。</p>
 <p>比如在获取前端传入的参数的时候，很多时候能见到这样的代码：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="nv">$param</span> <span class="o">=</span> <span class="nx">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;param&#39;</span><span class="p">])</span> <span class="o">?</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;param&#39;</span><span class="p">]</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
-</code></pre></div><p>更有甚者一些框架将前端传入的参数封装了一层，比如 <code>$this-&gt;request-&gt;data['param']</code>，如果再去用 <code>isset</code> 或者 <code>array_key_exists</code> 判断，整个获取参数的语句就会变得很长。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$param</span> <span class="o">=</span> <span class="nx">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;param&#39;</span><span class="p">])</span> <span class="o">?</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;param&#39;</span><span class="p">]</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span></code></pre></div><p>更有甚者一些框架将前端传入的参数封装了一层，比如 <code>$this-&gt;request-&gt;data['param']</code>，如果再去用 <code>isset</code> 或者 <code>array_key_exists</code> 判断，整个获取参数的语句就会变得很长。</p>
 <p>某些情况下使用三元运算符的时候需要注意 <code>?:</code> 是可以<a href="http://0x1.im/blog/php/add-a-operator-to-php7.html">合并使用</a>的。</p>
 <p>其实我们应该去尝试封装这种写法，防止同样的变量出现在一个语句中多次的情况。对于默认值的赋予，可以调研框架是否有封装提供，或者通过强制类型转换的方式进行。</p>
 <p>还有一种情况是条件和循环嵌套的时候。比如从数组里抽取某一个字段，或者对某一个字段的值进行处理的时候，善用 <code>array_map</code> 以及引用（<code>&amp;</code>）往往能节省不少工作量。但是使用的时候也要注意数组指针最后的位置。</p>
@@ -280,7 +280,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2021</span>
+            <span>&copy; 2022</span>
             
             
             <span></span>
@@ -302,7 +302,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
+<script type="text/javascript" src="/bundle.min.188af889e916d7182e7bf4af7bed9ff4c9b70dd61a69188cb044d25745a4ffc32b82cbec846336503520a7716e619cb46848931205cfa3176a691ff9152d4947.js" integrity="sha512-GIr4iekW1xgue/Sve&#43;2f9Mm3DdYaaRiMsETSV0Wk/8MrgsvshGM2UDUgp3FuYZy0aEiTEgXPoxdqaR/5FS1JRw=="></script>
 
 
 

@@ -35,7 +35,7 @@
 <meta itemprop="name" content="iOS推送（Apple Push Notification Service）部署总结">
 <meta itemprop="description" content="1. 基础部署 后端：PHP 依赖：zendframework/zendservice-apple-apns 本文中使用的PHP框架：laravel 2."><meta itemprop="datePublished" content="2014-08-09T15:50:00+00:00" />
 <meta itemprop="dateModified" content="2014-08-09T15:50:00+00:00" />
-<meta itemprop="wordCount" content="1787">
+<meta itemprop="wordCount" content="1779">
 <meta itemprop="keywords" content="mobile," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="iOS推送（Apple Push Notification Service）部署总结"/>
@@ -163,26 +163,26 @@
 <h3 id="4-实际部署">4. 实际部署</h3>
 <p>实际部署中，需要对使用的库做出一些改动。</p>
 <p>1.<strong>在ZendService\Apple\Apns\Client\Message中增加一个方法用于每次推送结束之后获取反馈：</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="sd">/**
-</span><span class="sd"> * Get Response
-</span><span class="sd"> *
-</span><span class="sd"> * @return ZendService\Apple\Apns\Response\Message
-</span><span class="sd"> */</span>
-<span class="k">public</span> <span class="k">function</span> <span class="nf">getResponse</span><span class="p">(){</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">isConnected</span><span class="p">())</span> <span class="p">{</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="nx">Exception\RuntimeException</span><span class="p">(</span><span class="s1">&#39;You must first open the connection by calling open()&#39;</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="nx">MessageResponse</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">read</span><span class="p">());</span>
-<span class="p">}</span>
-<span class="cp">?&gt;</span><span class="err">
-</span></code></pre></div><p>2.<strong>修改ZendService\Apple\Apns\Client\Feedback中的feedback方法，增加一个判断：</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="k">if</span> <span class="p">(</span><span class="nx">strlen</span><span class="p">(</span><span class="nv">$token</span><span class="p">)</span> <span class="o">==</span> <span class="mi">38</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nv">$tokens</span><span class="p">[]</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FeedbackResponse</span><span class="p">(</span><span class="nv">$token</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="cp">?&gt;</span><span class="err">
-</span></code></pre></div><p>这是因为在实际测试中发现，从feedback中读取到的信息除了38位的反馈，末尾还有一个1位的字符会导致产生异常。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="sd">/**
+</span></span></span><span class="line"><span class="cl"><span class="sd"> * Get Response
+</span></span></span><span class="line"><span class="cl"><span class="sd"> *
+</span></span></span><span class="line"><span class="cl"><span class="sd"> * @return ZendService\Apple\Apns\Response\Message
+</span></span></span><span class="line"><span class="cl"><span class="sd"> */</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">function</span> <span class="nf">getResponse</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">isConnected</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">throw</span> <span class="k">new</span> <span class="nx">Exception\RuntimeException</span><span class="p">(</span><span class="s1">&#39;You must first open the connection by calling open()&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="nx">MessageResponse</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">read</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><p>2.<strong>修改ZendService\Apple\Apns\Client\Feedback中的feedback方法，增加一个判断：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="nx">strlen</span><span class="p">(</span><span class="nv">$token</span><span class="p">)</span> <span class="o">==</span> <span class="mi">38</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$tokens</span><span class="p">[]</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FeedbackResponse</span><span class="p">(</span><span class="nv">$token</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><p>这是因为在实际测试中发现，从feedback中读取到的信息除了38位的反馈，末尾还有一个1位的字符会导致产生异常。</p>
 <p>3.<strong>具体的实现见附录中的代码</strong></p>
 <h3 id="5-参考文档">5. 参考文档</h3>
 <ol>
@@ -195,158 +195,158 @@
 </ol>
 <h3 id="附录">附录</h3>
 <p>推送类实现：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="k">require_once</span> <span class="no">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../../vendor/autoload.php&#39;</span><span class="p">;</span>
-
-<span class="k">use</span> <span class="nx">ZendService\Apple\Apns\Client\Message</span> <span class="k">as</span> <span class="nx">Client</span><span class="p">;</span>
-<span class="k">use</span> <span class="nx">ZendService\Apple\Apns\Message</span><span class="p">;</span>
-<span class="k">use</span> <span class="nx">ZendService\Apple\Apns\Message\Alert</span><span class="p">;</span>
-<span class="k">use</span> <span class="nx">ZendService\Apple\Apns\Response\Message</span> <span class="k">as</span> <span class="nx">Response</span><span class="p">;</span>
-<span class="k">use</span> <span class="nx">ZendService\Apple\Apns\Client\Feedback</span> <span class="k">as</span> <span class="nx">Feedback</span><span class="p">;</span>
-<span class="k">use</span> <span class="nx">ZendService\Apple\Apns\Exception\RuntimeException</span><span class="p">;</span>
-
-<span class="k">class</span> <span class="nc">ApnsController</span> <span class="k">extends</span> <span class="nx">BaseController</span> <span class="p">{</span>
-    <span class="c1">//保存设备信息集合
-</span><span class="c1"></span>    <span class="k">private</span> <span class="nv">$deviceCollection</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
-    <span class="c1">//不可用的设备id集合
-</span><span class="c1"></span>    <span class="k">private</span> <span class="nv">$invalidCollection</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
-    <span class="c1">//推送消息
-</span><span class="c1"></span>    <span class="k">private</span> <span class="nv">$messageAlert</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
-    <span class="k">private</span> <span class="nv">$messageBadge</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="k">private</span> <span class="nv">$messageSound</span> <span class="o">=</span> <span class="s1">&#39;default&#39;</span><span class="p">;</span>
-
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">push</span><span class="p">(){</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">messageAlert</span> <span class="o">=</span> <span class="nx">date</span><span class="p">(</span><span class="s1">&#39;Y-m-d H:i:s&#39;</span><span class="p">);</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deviceCollection</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-            <span class="s1">&#39;4191747e d62960e8 62afd700 bba42d23 cd0203be 6389688d 307ac833 7db66c34&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;1b0b80f4 beed1d2a e2b3f45a cce243e7 74d95455 17402870 e925edc4 dcedbfbe&#39;</span><span class="p">,</span>
-            <span class="p">);</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_sendMessage</span><span class="p">();</span>
-    <span class="p">}</span>
-
-    <span class="c1">//获取卸载token
-</span><span class="c1"></span>    <span class="k">private</span> <span class="k">function</span> <span class="nf">_getFeedback</span><span class="p">(){</span>
-        <span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Feedback</span><span class="p">();</span>
-        <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">open</span><span class="p">(</span><span class="nx">Client</span><span class="o">::</span><span class="na">PRODUCTION_URI</span><span class="p">,</span> <span class="s1">&#39;/path/to/cer.pem&#39;</span><span class="p">);</span>
-        <span class="nv">$responses</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">feedback</span><span class="p">();</span>
-        <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">close</span><span class="p">();</span>
-        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$responses</span> <span class="k">as</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">//处理已经卸载的设备token
-</span><span class="c1"></span>        <span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="c1">//使用zendservice-apple-apns做推送的接口
-</span><span class="c1"></span>    <span class="k">private</span> <span class="k">function</span> <span class="nf">_sendMessage</span><span class="p">(){</span>
-        <span class="c1">//新建连接
-</span><span class="c1"></span>        <span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Client</span><span class="p">();</span>
-        <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">open</span><span class="p">(</span><span class="nx">Client</span><span class="o">::</span><span class="na">PRODUCTION_URI</span><span class="p">,</span> <span class="s1">&#39;/path/to/cer.pem&#39;</span><span class="p">);</span>
-
-        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deviceCollection</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$deviceToken</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">//实测等待2ms秒左右基本上可以获得稳定的反馈信息 数据量大的时候可以不等待
-</span><span class="c1"></span>            <span class="nx">usleep</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
-            <span class="nv">$message</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_packMessage</span><span class="p">(</span><span class="nv">$key</span><span class="p">,</span><span class="nx">str_replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="nv">$deviceToken</span><span class="p">));</span>
-            <span class="k">try</span> <span class="p">{</span>
-                <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">(</span><span class="nv">$message</span><span class="p">);</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getCode</span><span class="p">()</span> <span class="o">!=</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_OK</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="k">break</span><span class="p">;</span>
-                <span class="p">}</span>
-            <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">RuntimeException</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">close</span><span class="p">();</span>
-                <span class="c1">//推送断开之后获取上次推送的feedback
-</span><span class="c1"></span>                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_getFeedback</span><span class="p">();</span>
-                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_invalidCollectionHandle</span><span class="p">();</span>
-                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deviceCollection</span> <span class="o">=</span> <span class="nx">array_slice</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deviceCollection</span><span class="p">,</span><span class="nv">$key</span><span class="p">);</span>
-                <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_sendMessage</span><span class="p">();</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-        <span class="c1">//如果没有捕捉错误,0.5s之后再捕捉一次
-</span><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getCode</span><span class="p">()</span> <span class="o">==</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_OK</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">usleep</span><span class="p">(</span><span class="mi">500000</span><span class="p">);</span>
-            <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">();</span>
-        <span class="p">}</span>
-        <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">close</span><span class="p">();</span>
-        <span class="c1">//推送断开之后获取上次推送的feedback
-</span><span class="c1"></span>        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_getFeedback</span><span class="p">();</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_responseHandle</span><span class="p">(</span><span class="nv">$response</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="c1">//消息和token打包
-</span><span class="c1"></span>    <span class="k">private</span> <span class="k">function</span> <span class="nf">_packMessage</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span><span class="nv">$deviceToken</span><span class="p">){</span>
-        <span class="nv">$message</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Message</span><span class="p">();</span>
-        <span class="nv">$message</span><span class="o">-&gt;</span><span class="na">setId</span><span class="p">(</span><span class="nv">$id</span><span class="p">);</span>
-        <span class="nv">$message</span><span class="o">-&gt;</span><span class="na">setExpire</span><span class="p">(</span><span class="mi">86400</span><span class="p">);</span>
-        <span class="nv">$message</span><span class="o">-&gt;</span><span class="na">setToken</span><span class="p">(</span><span class="nv">$deviceToken</span><span class="p">);</span>
-        <span class="nv">$message</span><span class="o">-&gt;</span><span class="na">setBadge</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">messageBadge</span><span class="p">);</span>
-        <span class="nv">$message</span><span class="o">-&gt;</span><span class="na">setSound</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">messageSound</span><span class="p">);</span>
-        <span class="c1">// simple alert:
-</span><span class="c1"></span>        <span class="nv">$message</span><span class="o">-&gt;</span><span class="na">setAlert</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">messageAlert</span><span class="p">);</span>
-        <span class="k">return</span> <span class="nv">$message</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="c1">//处理异常
-</span><span class="c1"></span>    <span class="k">private</span> <span class="k">function</span> <span class="nf">_responseHandle</span><span class="p">(</span><span class="nv">$response</span><span class="p">){</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getCode</span><span class="p">()</span> <span class="o">!=</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_OK</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">//先记录完整的错误log再处理
-</span><span class="c1"></span>            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_errorLog</span><span class="p">(</span><span class="nv">$response</span><span class="p">);</span>
-
-            <span class="k">switch</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getCode</span><span class="p">())</span> <span class="p">{</span>
-                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_PROCESSING_ERROR</span><span class="o">:</span>
-                    <span class="c1">// you may want to retry
-</span><span class="c1"></span>                    <span class="k">break</span><span class="p">;</span>
-                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_MISSING_TOKEN</span><span class="o">:</span>
-                    <span class="c1">// you were missing a token
-</span><span class="c1"></span>                    <span class="k">break</span><span class="p">;</span>
-                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_MISSING_TOPIC</span><span class="o">:</span>
-                    <span class="c1">// you are missing a message id
-</span><span class="c1"></span>                    <span class="k">break</span><span class="p">;</span>
-                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_MISSING_PAYLOAD</span><span class="o">:</span>
-                    <span class="c1">// you need to send a payload
-</span><span class="c1"></span>                    <span class="k">break</span><span class="p">;</span>
-                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_INVALID_TOKEN_SIZE</span><span class="o">:</span>
-                    <span class="c1">// the token provided was not of the proper size
-</span><span class="c1"></span>                    <span class="k">break</span><span class="p">;</span>
-                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_INVALID_TOPIC_SIZE</span><span class="o">:</span>
-                    <span class="c1">// the topic was too long
-</span><span class="c1"></span>                    <span class="k">break</span><span class="p">;</span>
-                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_INVALID_PAYLOAD_SIZE</span><span class="o">:</span>
-                    <span class="c1">// the payload was too large
-</span><span class="c1"></span>                    <span class="k">break</span><span class="p">;</span>
-                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_INVALID_TOKEN</span><span class="o">:</span>
-                    <span class="c1">// the token was invalid; remove it from your system
-</span><span class="c1"></span>                    <span class="nx">array_push</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">invalidCollection</span><span class="p">,</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deviceCollection</span><span class="p">[</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getId</span><span class="p">()]);</span>
-                    <span class="k">break</span><span class="p">;</span>
-                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_UNKNOWN_ERROR</span><span class="o">:</span>
-                    <span class="c1">// apple didn&#39;t tell us what happened
-</span><span class="c1"></span>                    <span class="k">break</span><span class="p">;</span>
-            <span class="p">}</span>
-            <span class="c1">//截取错误之后的token数组
-</span><span class="c1"></span>            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deviceCollection</span> <span class="o">=</span> <span class="nx">array_slice</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deviceCollection</span><span class="p">,</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getId</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-            <span class="c1">//重发 数组为空表示全部设备已经推送完毕
-</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deviceCollection</span><span class="p">))</span> <span class="p">{</span>
-                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_sendMessage</span><span class="p">();</span>
-            <span class="p">}</span>
-            <span class="k">else</span> <span class="p">{</span>
-                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_invalidCollectionHandle</span><span class="p">();</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-        <span class="k">else</span><span class="p">{</span>
-            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_invalidCollectionHandle</span><span class="p">();</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="c1">//推送完成 处理不可用的设备id
-</span><span class="c1"></span>    <span class="k">private</span> <span class="k">function</span> <span class="nf">_invalidCollectionHandle</span><span class="p">(){</span>
-
-    <span class="p">}</span>
-
-    <span class="c1">//记录推送过程中的错误
-</span><span class="c1"></span>    <span class="k">private</span> <span class="k">function</span> <span class="nf">_errorLog</span><span class="p">(</span><span class="nv">$response</span><span class="p">){</span>
-
-    <span class="p">}</span>
-<span class="p">}</span>
-<span class="cp">?&gt;</span><span class="err">
-</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="k">require_once</span> <span class="no">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../../vendor/autoload.php&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nx">ZendService\Apple\Apns\Client\Message</span> <span class="k">as</span> <span class="nx">Client</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nx">ZendService\Apple\Apns\Message</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nx">ZendService\Apple\Apns\Message\Alert</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nx">ZendService\Apple\Apns\Response\Message</span> <span class="k">as</span> <span class="nx">Response</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nx">ZendService\Apple\Apns\Client\Feedback</span> <span class="k">as</span> <span class="nx">Feedback</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nx">ZendService\Apple\Apns\Exception\RuntimeException</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ApnsController</span> <span class="k">extends</span> <span class="nx">BaseController</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//保存设备信息集合
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">private</span> <span class="nv">$deviceCollection</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//不可用的设备id集合
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">private</span> <span class="nv">$invalidCollection</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//推送消息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">private</span> <span class="nv">$messageAlert</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="nv">$messageBadge</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="nv">$messageSound</span> <span class="o">=</span> <span class="s1">&#39;default&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">push</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">messageAlert</span> <span class="o">=</span> <span class="nx">date</span><span class="p">(</span><span class="s1">&#39;Y-m-d H:i:s&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deviceCollection</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;4191747e d62960e8 62afd700 bba42d23 cd0203be 6389688d 307ac833 7db66c34&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;1b0b80f4 beed1d2a e2b3f45a cce243e7 74d95455 17402870 e925edc4 dcedbfbe&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_sendMessage</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//获取卸载token
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">private</span> <span class="k">function</span> <span class="nf">_getFeedback</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Feedback</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">open</span><span class="p">(</span><span class="nx">Client</span><span class="o">::</span><span class="na">PRODUCTION_URI</span><span class="p">,</span> <span class="s1">&#39;/path/to/cer.pem&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$responses</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">feedback</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">close</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$responses</span> <span class="k">as</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//处理已经卸载的设备token
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//使用zendservice-apple-apns做推送的接口
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">private</span> <span class="k">function</span> <span class="nf">_sendMessage</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//新建连接
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Client</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">open</span><span class="p">(</span><span class="nx">Client</span><span class="o">::</span><span class="na">PRODUCTION_URI</span><span class="p">,</span> <span class="s1">&#39;/path/to/cer.pem&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deviceCollection</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$deviceToken</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//实测等待2ms秒左右基本上可以获得稳定的反馈信息 数据量大的时候可以不等待
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nx">usleep</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$message</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_packMessage</span><span class="p">(</span><span class="nv">$key</span><span class="p">,</span><span class="nx">str_replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="nv">$deviceToken</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">            <span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">(</span><span class="nv">$message</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getCode</span><span class="p">()</span> <span class="o">!=</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_OK</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">RuntimeException</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">close</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">//推送断开之后获取上次推送的feedback
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_getFeedback</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_invalidCollectionHandle</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deviceCollection</span> <span class="o">=</span> <span class="nx">array_slice</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deviceCollection</span><span class="p">,</span><span class="nv">$key</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_sendMessage</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//如果没有捕捉错误,0.5s之后再捕捉一次
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getCode</span><span class="p">()</span> <span class="o">==</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_OK</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">usleep</span><span class="p">(</span><span class="mi">500000</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">close</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//推送断开之后获取上次推送的feedback
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_getFeedback</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_responseHandle</span><span class="p">(</span><span class="nv">$response</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//消息和token打包
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">private</span> <span class="k">function</span> <span class="nf">_packMessage</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span><span class="nv">$deviceToken</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$message</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Message</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$message</span><span class="o">-&gt;</span><span class="na">setId</span><span class="p">(</span><span class="nv">$id</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$message</span><span class="o">-&gt;</span><span class="na">setExpire</span><span class="p">(</span><span class="mi">86400</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$message</span><span class="o">-&gt;</span><span class="na">setToken</span><span class="p">(</span><span class="nv">$deviceToken</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$message</span><span class="o">-&gt;</span><span class="na">setBadge</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">messageBadge</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$message</span><span class="o">-&gt;</span><span class="na">setSound</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">messageSound</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// simple alert:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nv">$message</span><span class="o">-&gt;</span><span class="na">setAlert</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">messageAlert</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$message</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//处理异常
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">private</span> <span class="k">function</span> <span class="nf">_responseHandle</span><span class="p">(</span><span class="nv">$response</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getCode</span><span class="p">()</span> <span class="o">!=</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_OK</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//先记录完整的错误log再处理
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_errorLog</span><span class="p">(</span><span class="nv">$response</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">switch</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getCode</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_PROCESSING_ERROR</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// you may want to retry
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_MISSING_TOKEN</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// you were missing a token
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_MISSING_TOPIC</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// you are missing a message id
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_MISSING_PAYLOAD</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// you need to send a payload
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_INVALID_TOKEN_SIZE</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// the token provided was not of the proper size
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_INVALID_TOPIC_SIZE</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// the topic was too long
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_INVALID_PAYLOAD_SIZE</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// the payload was too large
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_INVALID_TOKEN</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// the token was invalid; remove it from your system
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="nx">array_push</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">invalidCollection</span><span class="p">,</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deviceCollection</span><span class="p">[</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getId</span><span class="p">()]);</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="nx">Response</span><span class="o">::</span><span class="na">RESULT_UNKNOWN_ERROR</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// apple didn&#39;t tell us what happened
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//截取错误之后的token数组
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deviceCollection</span> <span class="o">=</span> <span class="nx">array_slice</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deviceCollection</span><span class="p">,</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getId</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//重发 数组为空表示全部设备已经推送完毕
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">deviceCollection</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_sendMessage</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_invalidCollectionHandle</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_invalidCollectionHandle</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//推送完成 处理不可用的设备id
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">private</span> <span class="k">function</span> <span class="nf">_invalidCollectionHandle</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//记录推送过程中的错误
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">private</span> <span class="k">function</span> <span class="nf">_errorLog</span><span class="p">(</span><span class="nv">$response</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div>
       </div>
     </article>
 
@@ -368,7 +368,7 @@
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        1787 Words
+        1779 Words
       </p>
 
       <p>
@@ -422,7 +422,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2021</span>
+            <span>&copy; 2022</span>
             
             
             <span></span>
@@ -444,7 +444,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
+<script type="text/javascript" src="/bundle.min.188af889e916d7182e7bf4af7bed9ff4c9b70dd61a69188cb044d25745a4ffc32b82cbec846336503520a7716e619cb46848931205cfa3176a691ff9152d4947.js" integrity="sha512-GIr4iekW1xgue/Sve&#43;2f9Mm3DdYaaRiMsETSV0Wk/8MrgsvshGM2UDUgp3FuYZy0aEiTEgXPoxdqaR/5FS1JRw=="></script>
 
 
 

@@ -137,43 +137,43 @@
 <li><a href="https://github.com/nrk/predis-async">predis-async</a>: PHP 实现的异步 Redis 客户端</li>
 </ul>
 <p>仔细看上面的描述，除了 <em>PHP 实现</em> 外，他们还有一个相同的关键词：异步。没错，这里的异步和 node.js 描述的异步差不多是同一回事。实现异步的基础就是：EventLoop。这里我也不具体描述 EventLoop 到底是怎么一回事儿。其实 Ratchet 提供的 examples 里也有一个借用 zeromq 实现 push的例子：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="nv">$loop</span>   <span class="o">=</span> <span class="nx">React\EventLoop\Factory</span><span class="o">::</span><span class="na">create</span><span class="p">();</span>
-<span class="c1">// Listen for the web server to make a ZeroMQ push after an ajax request
-</span><span class="c1"></span><span class="nv">$context</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">React\ZMQ\Context</span><span class="p">(</span><span class="nv">$loop</span><span class="p">);</span>
-<span class="nv">$pusher</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyApp\Pusher</span><span class="p">;</span>
-
-<span class="nv">$pull</span> <span class="o">=</span> <span class="nv">$context</span><span class="o">-&gt;</span><span class="na">getSocket</span><span class="p">(</span><span class="nx">ZMQ</span><span class="o">::</span><span class="na">SOCKET_PULL</span><span class="p">);</span>
-<span class="nv">$pull</span><span class="o">-&gt;</span><span class="na">bind</span><span class="p">(</span><span class="s1">&#39;tcp://127.0.0.1:5555&#39;</span><span class="p">);</span> <span class="c1">// Binding to 127.0.0.1 means the only client that can connect is itself
-</span><span class="c1"></span><span class="nv">$pull</span><span class="o">-&gt;</span><span class="na">on</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="nv">$pusher</span><span class="p">,</span> <span class="s1">&#39;onBlogEntry&#39;</span><span class="p">));</span>
-
-<span class="c1">// Set up our WebSocket server for clients wanting real-time updates
-</span><span class="c1"></span><span class="nv">$webSock</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">React\Socket\Server</span><span class="p">(</span><span class="s1">&#39;0.0.0.0:8080&#39;</span><span class="p">,</span> <span class="nv">$loop</span><span class="p">);</span> <span class="c1">// Binding to 0.0.0.0 means remotes can connect
-</span></code></pre></div><p>上面的例子中可以看出来，实现主动推送的核心点也是在于共享了同一个 loop 实例。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$loop</span>   <span class="o">=</span> <span class="nx">React\EventLoop\Factory</span><span class="o">::</span><span class="na">create</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Listen for the web server to make a ZeroMQ push after an ajax request
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$context</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">React\ZMQ\Context</span><span class="p">(</span><span class="nv">$loop</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$pusher</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyApp\Pusher</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$pull</span> <span class="o">=</span> <span class="nv">$context</span><span class="o">-&gt;</span><span class="na">getSocket</span><span class="p">(</span><span class="nx">ZMQ</span><span class="o">::</span><span class="na">SOCKET_PULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$pull</span><span class="o">-&gt;</span><span class="na">bind</span><span class="p">(</span><span class="s1">&#39;tcp://127.0.0.1:5555&#39;</span><span class="p">);</span> <span class="c1">// Binding to 127.0.0.1 means the only client that can connect is itself
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$pull</span><span class="o">-&gt;</span><span class="na">on</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="nv">$pusher</span><span class="p">,</span> <span class="s1">&#39;onBlogEntry&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Set up our WebSocket server for clients wanting real-time updates
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$webSock</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">React\Socket\Server</span><span class="p">(</span><span class="s1">&#39;0.0.0.0:8080&#39;</span><span class="p">,</span> <span class="nv">$loop</span><span class="p">);</span> <span class="c1">// Binding to 0.0.0.0 means remotes can connect
+</span></span></span></code></pre></div><p>上面的例子中可以看出来，实现主动推送的核心点也是在于共享了同一个 loop 实例。</p>
 <p>同样，如果要实现基于 Redis Pub/Sub 的推送，也是要利用这一点。上面这两个库使用的 EventLoop 库恰好是同一个：<a href="https://github.com/reactphp/event-loop">reactphp/event-loop</a>，并且也是上述基于 zeromq 实现推送的 EventLoop 库。</p>
 <p>实现上和上面的代码示例类似：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-
-<span class="nv">$loop</span> <span class="o">=</span> <span class="nx">LoopFactory</span><span class="o">::</span><span class="na">create</span><span class="p">();</span>
-<span class="nv">$redis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Predis\Async\Client</span><span class="p">(</span><span class="s1">&#39;tcp://127.0.0.1:6379&#39;</span><span class="p">,</span> <span class="nv">$loop</span><span class="p">);</span>
-
-<span class="c1">// 自己实现一个 WebSocket 的方法实现类
-</span><span class="c1"></span><span class="nv">$handler</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Handler</span><span class="p">();</span>
-
-<span class="nv">$redis</span><span class="o">-&gt;</span><span class="na">connect</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nv">$client</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$handler</span><span class="p">,</span> <span class="nv">$handler</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">echo</span> <span class="s1">&#39;Connected to Redis, now listening for incoming messages...&#39;</span><span class="p">,</span> <span class="nx">PHP_EOL</span><span class="p">;</span>
-
-    <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">pubSubLoop</span><span class="p">([</span><span class="s1">&#39;psubscribe&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;pub.*&#39;</span><span class="p">],</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$event</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$handler</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// 在 Handler 类中 onOpen 方法被调用时，注意存储下当前连接信息。
-</span><span class="c1"></span>        <span class="c1">// 在 Handler 类中自己实现一个方法用于接收事件消息后的调用，就可以根据连接信息来源主动 push 了
-</span><span class="c1"></span>        <span class="nv">$handler</span><span class="o">-&gt;</span><span class="na">onPublishEntry</span><span class="p">(</span><span class="nv">$event</span><span class="p">);</span>
-    <span class="p">});</span>
-<span class="p">});</span>
-
-<span class="c1">// Run the server application through the WebSocket protocol on port 8090
-</span><span class="c1"></span><span class="nv">$app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RatchetApp</span><span class="p">(</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="mi">8099</span><span class="p">,</span> <span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="nv">$loop</span><span class="p">);</span>
-<span class="c1">// Set a route
-</span><span class="c1"></span><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="s1">&#39;/handler&#39;</span><span class="p">,</span> <span class="nv">$handler</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">]);</span>
-</code></pre></div><p>通过上面的实现，就可以监听 Pub 到 <code>pub.*</code> 的消息并主动推送给通过 WebSocket 连接到后端的客户端了。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$loop</span> <span class="o">=</span> <span class="nx">LoopFactory</span><span class="o">::</span><span class="na">create</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$redis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Predis\Async\Client</span><span class="p">(</span><span class="s1">&#39;tcp://127.0.0.1:6379&#39;</span><span class="p">,</span> <span class="nv">$loop</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 自己实现一个 WebSocket 的方法实现类
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$handler</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Handler</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$redis</span><span class="o">-&gt;</span><span class="na">connect</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nv">$client</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$handler</span><span class="p">,</span> <span class="nv">$handler</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s1">&#39;Connected to Redis, now listening for incoming messages...&#39;</span><span class="p">,</span> <span class="nx">PHP_EOL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">pubSubLoop</span><span class="p">([</span><span class="s1">&#39;psubscribe&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;pub.*&#39;</span><span class="p">],</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$event</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$handler</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 在 Handler 类中 onOpen 方法被调用时，注意存储下当前连接信息。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// 在 Handler 类中自己实现一个方法用于接收事件消息后的调用，就可以根据连接信息来源主动 push 了
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nv">$handler</span><span class="o">-&gt;</span><span class="na">onPublishEntry</span><span class="p">(</span><span class="nv">$event</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Run the server application through the WebSocket protocol on port 8090
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RatchetApp</span><span class="p">(</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="mi">8099</span><span class="p">,</span> <span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="nv">$loop</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Set a route
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="s1">&#39;/handler&#39;</span><span class="p">,</span> <span class="nv">$handler</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">]);</span>
+</span></span></code></pre></div><p>通过上面的实现，就可以监听 Pub 到 <code>pub.*</code> 的消息并主动推送给通过 WebSocket 连接到后端的客户端了。</p>
 <h3 id="其他">其他</h3>
 <p>Ratchet 的 WebSocket hander  一旦被实例化，在所有新进入的连接中都是共享的，所以一定要处理好各个连接之间的身份认证、数据隔离等关系。新连接的认证可以在 <code>onOpen</code> 方法被调用时处理。</p>
 <p>由于小程序也不支持 Cookie，我推荐使用 <a href="https://jwt.io/">JWT</a> 做身份认证。虽然 JWT 本身并不完美，但是一个不错的解决问题的方式。</p>
@@ -254,7 +254,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2021</span>
+            <span>&copy; 2022</span>
             
             
             <span></span>
@@ -276,7 +276,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
+<script type="text/javascript" src="/bundle.min.188af889e916d7182e7bf4af7bed9ff4c9b70dd61a69188cb044d25745a4ffc32b82cbec846336503520a7716e619cb46848931205cfa3176a691ff9152d4947.js" integrity="sha512-GIr4iekW1xgue/Sve&#43;2f9Mm3DdYaaRiMsETSV0Wk/8MrgsvshGM2UDUgp3FuYZy0aEiTEgXPoxdqaR/5FS1JRw=="></script>
 
 
 

@@ -145,32 +145,32 @@
 <p>PHP 会在执行的过程中做隐式类型转换（虽然也提供了类型转换的函数和关键字），go 的类型转换却需要手动、强制的来执行。</p>
 <p>弱类型语言带来了很多便利性，但是也隐含了很多问题，以至于 PHP 要引入 <code>===</code> 这种比较方式，不过经验丰富的 PHP 开发应该是能在每一个变量定义之前都确认好它的数据类型的。go 语言中不存在隐式转换的问题，但是写起来肯定也没有那么爽，光是 <code>int</code> 都有多种长度的类型，会让很多新手不太适应，同样的道理，定义每一个变量之前都稍加思考，就能轻松解决这个问题。</p>
 <p>go 提供了 <code>:=</code> 和 <code>var</code> 关键字的赋值方式，编译器会根据初始化的值自动推导出相应的类型，但是这个用法同样也要求你小心处理作用域的问题，不妨猜一下下面这段代码的输出：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-    <span class="s">&#34;fmt&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">a</span> <span class="kt">int</span>
-    <span class="nx">a</span> <span class="p">=</span> <span class="mi">1</span>
-
-    <span class="k">if</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nf">foo</span><span class="p">();</span> <span class="nx">ok</span> <span class="o">==</span> <span class="kc">true</span> <span class="p">{</span>
-        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
-    <span class="p">}</span>
-    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
-
-    <span class="kd">var</span> <span class="nx">ok</span> <span class="kt">bool</span>
-    <span class="k">if</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">ok</span> <span class="p">=</span> <span class="nf">foo</span><span class="p">();</span> <span class="nx">ok</span> <span class="o">==</span> <span class="kc">true</span> <span class="p">{</span>
-        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
-    <span class="p">}</span>
-    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="nf">foo</span><span class="p">()</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">true</span>
-<span class="p">}</span>
-</code></pre></div><h3 id="3-go-还要不要-mvc">3. Go 还要不要 MVC</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">a</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">a</span> <span class="p">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nf">foo</span><span class="p">();</span> <span class="nx">ok</span> <span class="o">==</span> <span class="kc">true</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">ok</span> <span class="kt">bool</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">ok</span> <span class="p">=</span> <span class="nf">foo</span><span class="p">();</span> <span class="nx">ok</span> <span class="o">==</span> <span class="kc">true</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">foo</span><span class="p">()</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="3-go-还要不要-mvc">3. Go 还要不要 MVC</h3>
 <p>先说我的观点：不需要。其实不只是 go 开发，PHP 的微服务框架比如 Slim 默认也不是按照 MVC 的方式组织代码的。本身现在前端工程化程度越来越高，一般都拉出去单独开项目，也不需要接口项目准备 V  的部分，所以说 MVC 是时代的产物，可以被淘汰了。</p>
 <p>再者，go 使用的函数名、变量一般都比较简洁，<code>Controller</code> 这个长长的单词看起来真的有点突兀。</p>
 <p>go 语言本身有一些约定性的命名方式，对代码的访问、编译和执行都是有影响的，比如 <code>internal</code> 目录下的内容不能被外部包访问，在搭建 go 项目的时候，也应该按照这些约定来，这才符合 go 的规范。</p>
@@ -256,7 +256,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2021</span>
+            <span>&copy; 2022</span>
             
             
             <span></span>
@@ -278,7 +278,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
+<script type="text/javascript" src="/bundle.min.188af889e916d7182e7bf4af7bed9ff4c9b70dd61a69188cb044d25745a4ffc32b82cbec846336503520a7716e619cb46848931205cfa3176a691ff9152d4947.js" integrity="sha512-GIr4iekW1xgue/Sve&#43;2f9Mm3DdYaaRiMsETSV0Wk/8MrgsvshGM2UDUgp3FuYZy0aEiTEgXPoxdqaR/5FS1JRw=="></script>
 
 
 

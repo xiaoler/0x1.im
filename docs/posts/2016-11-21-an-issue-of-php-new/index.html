@@ -129,47 +129,47 @@
       <div class="post-content">
         <h2 id="问题起因">问题起因</h2>
 <p>前两天有人在群里说了一个关于 <code>new</code> 和 <code>stdClass</code> 的问题，具体表现如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="k">stdClass</span><span class="p">;</span>
-<span class="nv">$b</span> <span class="o">=</span> <span class="k">new</span> <span class="nv">$a</span><span class="p">;</span>
-<span class="nx">var_dump</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">);</span>
-</code></pre></div><p>这段代码是可以正确运行的，并且 <code>$a</code> 和 <code>$b</code> 是两个不同的空对象。即使在 <code>new $a</code> 之前给 <code>$a</code> 添加属性并赋值，<code>$b</code> 也始终是一个的空对象。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="k">stdClass</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$b</span> <span class="o">=</span> <span class="k">new</span> <span class="nv">$a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">var_dump</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">);</span>
+</span></span></code></pre></div><p>这段代码是可以正确运行的，并且 <code>$a</code> 和 <code>$b</code> 是两个不同的空对象。即使在 <code>new $a</code> 之前给 <code>$a</code> 添加属性并赋值，<code>$b</code> 也始终是一个的空对象。</p>
 <p>所以问题就是：为什么空对象还可以跟在 <code>new</code> 后面，<code>stdClass</code> 有什么特殊的地方吗？</p>
 <h2 id="实际表现">实际表现</h2>
 <p>其实主要稍加验证就能知道，其实这和 <code>stdClass</code> 并没有什么关系，完全是 <code>new</code> 的行为决定的，比如在 <a href="http://psysh.org/">psysh</a> 上做一下简单的测试：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&gt;&gt;&gt;</span> <span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Reflection</span><span class="p">;</span>
-<span class="o">=&gt;</span> <span class="nx">Reflection</span> <span class="p">{</span><span class="c1">#174}
-</span><span class="c1"></span><span class="o">&gt;&gt;&gt;</span> <span class="nv">$b</span> <span class="o">=</span> <span class="k">new</span> <span class="nv">$a</span><span class="p">;</span>
-<span class="o">=&gt;</span> <span class="nx">Reflection</span> <span class="p">{</span><span class="c1">#177}
-</span></code></pre></div><p>这里我是 new 了一个 <code>Reflection</code> 类的实例，和 <code>stdClass</code> 的表现没有区别。当然也可以自定义一个类：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">Test</span> <span class="p">{</span> <span class="k">public</span> <span class="nv">$foo</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="p">}</span>
-<span class="o">=&gt;</span> <span class="k">null</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Test</span>
-<span class="o">=&gt;</span> <span class="nx">Test</span> <span class="p">{</span><span class="c1">#178
-</span><span class="c1"></span>     <span class="o">+</span><span class="nx">foo</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
-   <span class="p">}</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nv">$a</span><span class="o">-&gt;</span><span class="na">foo</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
-<span class="o">=&gt;</span> <span class="mi">2</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nv">$b</span> <span class="o">=</span> <span class="k">new</span> <span class="nv">$a</span><span class="p">;</span>
-<span class="o">=&gt;</span> <span class="nx">Test</span> <span class="p">{</span><span class="c1">#180
-</span><span class="c1"></span>     <span class="o">+</span><span class="nx">foo</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
-   <span class="p">}</span>
-</code></pre></div><p>从这个例子中我们可以清楚的看到，改变 <code>$a</code> 的属性对 <code>$b</code> 没有任何影响（到这里也可以顺便思考一下 PHP 的一个关键字：<code>clone</code>）。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Reflection</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">=&gt;</span> <span class="nx">Reflection</span> <span class="p">{</span><span class="c1">#174}
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">&gt;&gt;&gt;</span> <span class="nv">$b</span> <span class="o">=</span> <span class="k">new</span> <span class="nv">$a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">=&gt;</span> <span class="nx">Reflection</span> <span class="p">{</span><span class="c1">#177}
+</span></span></span></code></pre></div><p>这里我是 new 了一个 <code>Reflection</code> 类的实例，和 <code>stdClass</code> 的表现没有区别。当然也可以自定义一个类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">Test</span> <span class="p">{</span> <span class="k">public</span> <span class="nv">$foo</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">=&gt;</span> <span class="k">null</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Test</span>
+</span></span><span class="line"><span class="cl"><span class="o">=&gt;</span> <span class="nx">Test</span> <span class="p">{</span><span class="c1">#178
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>     <span class="o">+</span><span class="nx">foo</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="nv">$a</span><span class="o">-&gt;</span><span class="na">foo</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">=&gt;</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="nv">$b</span> <span class="o">=</span> <span class="k">new</span> <span class="nv">$a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">=&gt;</span> <span class="nx">Test</span> <span class="p">{</span><span class="c1">#180
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>     <span class="o">+</span><span class="nx">foo</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span></code></pre></div><p>从这个例子中我们可以清楚的看到，改变 <code>$a</code> 的属性对 <code>$b</code> 没有任何影响（到这里也可以顺便思考一下 PHP 的一个关键字：<code>clone</code>）。</p>
 <p>既然已经知道了表现，也可以得到结论：通过一个类的对象 <code>new</code> 出一个新对象等同于 <code>new</code> 原对象的类。</p>
 <h2 id="原因">原因</h2>
 <p>那么 PHP 是什么样的实现造成了这种表现呢？还是从源码入手来解析这个问题。</p>
 <p>其实从源码中，我们可以直奔 <code>zend_vm_def.h</code> 中找到答案，在关于 <code>ZEND_FETCH_CLASS</code> 这个 opcode 的解释中，我们可以看到以下内容：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="n">ZEND_VM_HANDLER</span><span class="p">(</span><span class="mi">109</span><span class="p">,</span> <span class="n">ZEND_FETCH_CLASS</span><span class="p">,</span> <span class="n">ANY</span><span class="p">,</span> <span class="n">CONST</span><span class="o">|</span><span class="n">TMPVAR</span><span class="o">|</span><span class="n">UNUSED</span><span class="o">|</span><span class="n">CV</span><span class="p">)</span>
-<span class="p">{</span>
-        <span class="p">...</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">OP2_TYPE</span> <span class="o">==</span> <span class="n">IS_CONST</span><span class="p">)</span> <span class="p">{</span>
-            <span class="p">...</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">Z_TYPE_P</span><span class="p">(</span><span class="n">class_name</span><span class="p">)</span> <span class="o">==</span> <span class="n">IS_OBJECT</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">Z_CE_P</span><span class="p">(</span><span class="n">EX_VAR</span><span class="p">(</span><span class="n">opline</span><span class="o">-&gt;</span><span class="n">result</span><span class="p">.</span><span class="n">var</span><span class="p">))</span> <span class="o">=</span> <span class="n">Z_OBJCE_P</span><span class="p">(</span><span class="n">class_name</span><span class="p">);</span>
-        <span class="p">}</span> <span class="p">...</span>
-        <span class="p">...</span>
-<span class="p">}</span>
-</code></pre></div><p>去掉一些干扰的上下文，上面的内容很清晰的呈现出一个解释：如果取到的 <code>class_name</code> 是一个对象，则通过 <code>Z_OBJCE_P</code> 的宏找到它的类。所以上面的表现解释起来就很容易了。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">ZEND_VM_HANDLER</span><span class="p">(</span><span class="mi">109</span><span class="p">,</span> <span class="n">ZEND_FETCH_CLASS</span><span class="p">,</span> <span class="n">ANY</span><span class="p">,</span> <span class="n">CONST</span><span class="o">|</span><span class="n">TMPVAR</span><span class="o">|</span><span class="n">UNUSED</span><span class="o">|</span><span class="n">CV</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="p">...</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">OP2_TYPE</span> <span class="o">==</span> <span class="n">IS_CONST</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="p">...</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">Z_TYPE_P</span><span class="p">(</span><span class="n">class_name</span><span class="p">)</span> <span class="o">==</span> <span class="n">IS_OBJECT</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Z_CE_P</span><span class="p">(</span><span class="n">EX_VAR</span><span class="p">(</span><span class="n">opline</span><span class="o">-&gt;</span><span class="n">result</span><span class="p">.</span><span class="n">var</span><span class="p">))</span> <span class="o">=</span> <span class="n">Z_OBJCE_P</span><span class="p">(</span><span class="n">class_name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="p">...</span>
+</span></span><span class="line"><span class="cl">        <span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>去掉一些干扰的上下文，上面的内容很清晰的呈现出一个解释：如果取到的 <code>class_name</code> 是一个对象，则通过 <code>Z_OBJCE_P</code> 的宏找到它的类。所以上面的表现解释起来就很容易了。</p>
 <p>这本身是一个很简单的问题，不用往复杂了去想。如果想知道具体的 <code>new</code> 的实现，可以到 <code>zend_compile.c</code> 文件中去查看 <code>zend_compile_new</code> 的实现。</p>
 
       </div>
@@ -247,7 +247,7 @@
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2021</span>
+            <span>&copy; 2022</span>
             
             
             <span></span>
@@ -269,7 +269,7 @@
 
 
 
-<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
+<script type="text/javascript" src="/bundle.min.188af889e916d7182e7bf4af7bed9ff4c9b70dd61a69188cb044d25745a4ffc32b82cbec846336503520a7716e619cb46848931205cfa3176a691ff9152d4947.js" integrity="sha512-GIr4iekW1xgue/Sve&#43;2f9Mm3DdYaaRiMsETSV0Wk/8MrgsvshGM2UDUgp3FuYZy0aEiTEgXPoxdqaR/5FS1JRw=="></script>
 
 
 

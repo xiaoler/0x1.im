@@ -150,8 +150,8 @@ netfilter/iptables是内核集成的，不存在start/stop或者禁用的说法�
 </ul>
 <h3 id="2-规则参数">2. 规则参数</h3>
 <p>iptables创建规则的命令和参数相当繁杂，基本的规则形式如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">iptables <span class="o">[</span>-t table<span class="o">]</span> <span class="nb">command</span> chain <span class="o">[</span>match<span class="o">]</span> <span class="o">[</span>-j target<span class="o">]</span>
-</code></pre></div><p>以下是各段命令主要参数的解释。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">iptables <span class="o">[</span>-t table<span class="o">]</span> <span class="nb">command</span> chain <span class="o">[</span>match<span class="o">]</span> <span class="o">[</span>-j target<span class="o">]</span>
+</span></span></code></pre></div><p>以下是各段命令主要参数的解释。</p>
 <ul>
 <li>
 <p><strong>-t table，table有四个选项，默认为filter：</strong></p>
@@ -215,55 +215,55 @@ netfilter/iptables是内核集成的，不存在start/stop或者禁用的说法�
 <ol>
 <li>允许已经建立的连接接收数据（状态为ESTABLISHED或RELATED的连接）：</li>
 </ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-</code></pre></div><ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+</span></span></code></pre></div><ol>
 <li>eth0开放端口22（SSH的默认端口）：</li>
 </ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">iptables -A INPUT -p tcp -i eth0 --dport <span class="m">22</span> -j ACCEPT
-<span class="c1"># 如果有多个网卡，可以选择开放，比如只开放局域网网卡允许ssh登录</span>
-</code></pre></div><ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">iptables -A INPUT -p tcp -i eth0 --dport <span class="m">22</span> -j ACCEPT
+</span></span><span class="line"><span class="cl"><span class="c1"># 如果有多个网卡，可以选择开放，比如只开放局域网网卡允许ssh登录</span>
+</span></span></code></pre></div><ol>
 <li>开放其它需要的服务端口，比如80端口：</li>
 </ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">iptables -A INPUT -p tcp --dport <span class="m">80</span> -j ACCEPT
-
-<span class="c1"># 或者是开放多个端口：</span>
-iptables -A INPUT -p tcp -m multiport --source-port 8081,8082,8083 -j ACCEPT
-
-<span class="c1">#或者开放一个端口段：</span>
-iptables -A INPUT -p tcp --dport 8084:8090 -j ACCEPT
-</code></pre></div><ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">iptables -A INPUT -p tcp --dport <span class="m">80</span> -j ACCEPT
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 或者是开放多个端口：</span>
+</span></span><span class="line"><span class="cl">iptables -A INPUT -p tcp -m multiport --source-port 8081,8082,8083 -j ACCEPT
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#或者开放一个端口段：</span>
+</span></span><span class="line"><span class="cl">iptables -A INPUT -p tcp --dport 8084:8090 -j ACCEPT
+</span></span></code></pre></div><ol>
 <li>如果需要接受ping</li>
 </ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># echo-request</span>
-iptables -A INPUT -p icmp -m icmp --icmp-type <span class="m">8</span> -j ACCEPT
-
-<span class="c1"># echo-reply</span>
-iptables -A INPUT -p icmp -m icmp --icmp-type <span class="m">0</span> -j ACCEPT
-</code></pre></div><ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># echo-request</span>
+</span></span><span class="line"><span class="cl">iptables -A INPUT -p icmp -m icmp --icmp-type <span class="m">8</span> -j ACCEPT
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># echo-reply</span>
+</span></span><span class="line"><span class="cl">iptables -A INPUT -p icmp -m icmp --icmp-type <span class="m">0</span> -j ACCEPT
+</span></span></code></pre></div><ol>
 <li>最后执行全局策略：</li>
 </ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">iptables -P INPUT DROP
-iptables -P OUTPUT ACCEPT
-iptables -P FORWARD DROP
-</code></pre></div><h3 id="4-保存和恢复规则">4. 保存和恢复规则</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">iptables -P INPUT DROP
+</span></span><span class="line"><span class="cl">iptables -P OUTPUT ACCEPT
+</span></span><span class="line"><span class="cl">iptables -P FORWARD DROP
+</span></span></code></pre></div><h3 id="4-保存和恢复规则">4. 保存和恢复规则</h3>
 <p>通过命令设定的规则只会在当前系统运行的情况下生效，需要通过一定的配置达到在每次开机时自动启动规则。</p>
 <p>保存当前iptables的规则到文件中：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">iptables-save &gt; /etc/iptables.up.rules
-
-<span class="c1"># 以下语句添加到/etc/rc.local，在系统重启时恢复规则：</span>
-/sbin/iptables-restore &lt; /etc/iptables.up.rules
-</code></pre></div><h3 id="5-如果需要清除所有规则">5. 如果需要清除所有规则</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">iptables-save &gt; /etc/iptables.up.rules
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 以下语句添加到/etc/rc.local，在系统重启时恢复规则：</span>
+</span></span><span class="line"><span class="cl">/sbin/iptables-restore &lt; /etc/iptables.up.rules
+</span></span></code></pre></div><h3 id="5-如果需要清除所有规则">5. 如果需要清除所有规则</h3>
 <p><strong>当Chain INPUT (policy DROP)时执行/sbin/iptables -F后，你将和服务器断开连接，
 所以在清空所有规则前把policy DROP该为INPUT，防止悲剧发生。</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">iptables -P INPUT ACCEPT
-
-<span class="c1"># 清空所有规则</span>
-iptables -F
-iptables -X
-
-<span class="c1"># 计数器置0</span>
-iptables -Z
-</code></pre></div><h3 id="6-ubuntu集成的工具ufw">6. Ubuntu集成的工具：ufw</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">iptables -P INPUT ACCEPT
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 清空所有规则</span>
+</span></span><span class="line"><span class="cl">iptables -F
+</span></span><span class="line"><span class="cl">iptables -X
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 计数器置0</span>
+</span></span><span class="line"><span class="cl">iptables -Z
+</span></span></code></pre></div><h3 id="6-ubuntu集成的工具ufw">6. Ubuntu集成的工具：ufw</h3>
 <p>ufw为了使Ubuntu的netfilter更易于使用和管理而发行的，是由Canonical公司开发的，采用python编写。</p>
 <p>ufw的实质也是通过创建iptables规则的方式实现的，只是简化了参数的格式。如果需要对服务器做一些过滤规则，我建议还是直接使用iptables来创建过滤。</p>
 <p>ufw使用文档：<a href="http://wiki.ubuntu.org.cn/Ufw%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97">http://wiki.ubuntu.org.cn/Ufw使用指南</a></p>
@@ -343,7 +343,7 @@ iptables -Z
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2021</span>
+            <span>&copy; 2022</span>
             
             
             <span></span>
@@ -365,7 +365,7 @@ iptables -Z
 
 
 
-<script type="text/javascript" src="/bundle.min.a0f363fdf81cdc5cfacc447a79c33189eb000d090336cd04aac8ee256f423b3133b836c281944c19c75e38d0b0b449f01ce5807e37798b7ac94ac1db51983fc4.js" integrity="sha512-oPNj/fgc3Fz6zER6ecMxiesADQkDNs0EqsjuJW9COzEzuDbCgZRMGcdeONCwtEnwHOWAfjd5i3rJSsHbUZg/xA=="></script>
+<script type="text/javascript" src="/bundle.min.188af889e916d7182e7bf4af7bed9ff4c9b70dd61a69188cb044d25745a4ffc32b82cbec846336503520a7716e619cb46848931205cfa3176a691ff9152d4947.js" integrity="sha512-GIr4iekW1xgue/Sve&#43;2f9Mm3DdYaaRiMsETSV0Wk/8MrgsvshGM2UDUgp3FuYZy0aEiTEgXPoxdqaR/5FS1JRw=="></script>
 
 
 
