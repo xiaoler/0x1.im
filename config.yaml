@@ -6,7 +6,7 @@ hasCJKLanguage: true
 title: Scholer's Pages
 pygmentsCodefences: true
 pygmentsUseClasses: true
-publishDir: docs
+publishDir: public
 disableKinds:
   - RSS
   - sitemap
@@ -19,7 +19,7 @@ params:
   dateformShort: "Jan 2"
   dateformNum: "2006-01-02"
   dateformNumTime: "2006-01-02 15:04"
-  homeSubtitle: 深漂码农，主要从事 PHP/Golang 应用开发，兴趣爱好广泛。
+  homeSubtitle: 码农，主要从事 PHP/Golang 应用开发，兴趣爱好广泛。
   defaultTheme: dark
   logo:
     logoText: "echo 0x1.im"
