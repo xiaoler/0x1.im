@@ -1,0 +1,16 @@
+[book]
+authors = ["Scholer"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Scholer 的闲言碎语"
+
+[output.html]
+# theme = "my-theme"
+cname = "0x1.im"
+default-theme = "rust"
+git-repository-url = "https://github.com/xiaoler/0x1.im"
+preferred-dark-theme = "navy"
+
+[output.html.print]
+enable = false
