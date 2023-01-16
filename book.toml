@@ -10,6 +10,7 @@ title = "Scholer 的闲言碎语"
 cname = "0x1.im"
 default-theme = "rust"
 git-repository-url = "https://github.com/xiaoler/0x1.im"
+input-404 = "404.md"
 preferred-dark-theme = "navy"
 
 [output.html.print]
