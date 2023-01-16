@@ -16,7 +16,7 @@ _created_at: 2023-01-16_
 2. 使用 github actions 发布：[peaceiris/actions-mdbook](https://github.com/peaceiris/actions-mdbook)
 3. 在项目的 Settings - Pages 下面选择以 branch 的方式部署，配置好域名，在域名配置出设置好 DNS 解析
 
-目前发现一个 bug，Summary 目录的首行没有被渲染出来，所以我在文件头添加了一个空 `#` 。
+注意：Summary 目录的首行不会被渲染出来，所以我在文件头添加了一个空 `#` 。
 
 ### Histroy
 
