@@ -131,7 +131,7 @@ h6:target::before {
 .content ul {
     line-height: 1.45em;
 }
-.content li {
+.content ul li {
     margin-left: 1em;
     list-style-type: disc;
 }
