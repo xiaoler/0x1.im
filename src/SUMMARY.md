@@ -4,6 +4,8 @@
 
 # 工作
 
+-   [Golang](./golang/README.md)
+    -   [go 编译过程]()
 -   [常用开发术语简写](./work/some-abbr-words.md)
 -   [使用 Golang 实现一个 JSON 命令行工具](./work/a-json-toys.md)
 
