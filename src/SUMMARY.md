@@ -9,6 +9,7 @@
 
 # 生活
 
+-   [2022](./life/2022.md)
 -   [局域网影视+音乐+图书服务自建](./life/entertainment-in-lan.md)
 
 ---
