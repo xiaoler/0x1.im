@@ -1,6 +1,6 @@
 [book]
 authors = ["Scholer"]
-language = "en"
+language = "cn"
 multilingual = false
 src = "src"
 title = "Scholer 的闲言碎语"
