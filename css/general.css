@@ -97,7 +97,11 @@ h6:target::before {
     margin-right: auto;
     max-width: var(--content-max-width);
 }
-.content p { line-height: 1.45em; }
+.content p { 
+    line-height: 1.45em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
 .content ol { line-height: 1.45em; }
 .content ul { line-height: 1.45em; }
 .content a { text-decoration: none; }
