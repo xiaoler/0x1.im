@@ -21,3 +21,7 @@ _created_at: 2023-01-16_
 ### Histroy
 
 过往的文章都留存在这里，但不做展示了：[Github](https://github.com/xiaoler/0x1.im/blob/master/src/archives)
+
+---
+
+**未经过作者本人许可，本博客所有文章均不得转载。**
