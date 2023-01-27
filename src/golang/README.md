@@ -13,3 +13,13 @@ _created_at: 2023-01-17_
 -   [Introduction to the Go compiler](https://sourcegraph.com/github.com/golang/go/-/blob/src/cmd/compile/README.md) - go 源码里对编译过程的描述
 -   [Introduction to the Go compiler's SSA backend](https://sourcegraph.com/github.com/golang/go/-/blob/src/cmd/compile/internal/ssa/README.md)
 -   [Go internal ABI specification](https://sourcegraph.com/github.com/golang/go/-/blob/src/cmd/compile/abi-internal.md)
+
+核心点：
+
+-   GMP
+-   lock & race
+-   gc
+-   plan9 -> 机器码
+-   Syscall
+-   SSA
+-   ABI

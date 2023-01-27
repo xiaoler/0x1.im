@@ -5,12 +5,12 @@
 # 工作
 
 -   [Golang](./golang/README.md)
+
     -   [语言、编译、运行](./golang/00-lang-compile-execute.md)
     -   [go 编译过程]()
     <!-- -   [go 网络模块]() -->
 
-<!-- -   [电商平台支付系统设计]() -->
-
+-   [电商平台支付系统设计概要](./work/pay-system-of-ecommerce.md)
 -   [常用开发术语简写](./work/some-abbr-words.md)
 -   [使用 Golang 实现一个 JSON 命令行工具](./work/a-json-toys.md)
 
@@ -21,5 +21,5 @@
 
 ---
 
-[闲言碎语](./tweet.md)
+[一个假 weibo](./tweet.md)
 [关于我](./about.md)
