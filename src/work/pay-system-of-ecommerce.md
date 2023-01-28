@@ -135,6 +135,7 @@ SET 化是一种需要后端服务开发和运维配合实施的结构。可以�
 
 ### 参考资料：
 
+-   [新一代金融核心突破之全分布式单元化技术架构](https://mp.weixin.qq.com/s/-pwgwEB97tG6eKsDje8pYQ)
 -   [蚂蚁金服异地多活单元化架构下的微服务体系](https://developer.aliyun.com/article/665155)
 -   [阿里云 - 金融分布式架构 SOFAStack](https://help.aliyun.com/document_detail/417028.html)
 -   [微信 PaxosStore 简介](https://pic.huodongjia.com/ganhuodocs/2017-06-29/1498718050.42.pdf)
