@@ -191,7 +191,7 @@
 <li>按商户号分表</li>
 <li>按订单号取模分表</li>
 <li>按地区或者商户号分 SET，然后按照单号分表</li>
-<li>分库分表+历史数据转存</li>
+<li>分库分表+历史数据转存（也可以是单号+时间<strong>双维度分库分表</strong>）</li>
 </ol>
 <p>每一种方式都有其优缺点，选取哪种方式，要视业务量和业务特性来决定，数据量越多，需要设计的逻辑就越多。</p>
 <p>除了要解决订单数量的问题，还需要解决数据备份的问题。要解决这个问题十分复杂。简单来说，微信支付采用了跨园区强一致的 <a href="https://www.infoq.cn/article/u897dqtxkttpaxwfprik">PaxosStore</a> 的方案，而支付宝是<a href="https://help.aliyun.com/document_detail/417028.html">对数据进行分类分区</a>。此外腾讯云上有提供基于 <a href="https://cloud.tencent.com/document/product/557/10521">TDSQL</a> 的分布式数据库，它的实现是基于 shardkey 自动水平拆分。</p>
