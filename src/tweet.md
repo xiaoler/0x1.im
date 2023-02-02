@@ -10,3 +10,9 @@ _2022-11-20_
 -   [from: Steam & Magic@twitter](https://twitter-thread.com/t/1593469165892820992)
 
 ---
+
+_2022-11-06_
+
+Web3 的本质是 P2P，去中心化的本质是分布式。
+
+---
