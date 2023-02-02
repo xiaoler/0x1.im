@@ -78,7 +78,7 @@ _created_at: 2023-01-27_
 
 每一种方式都有其优缺点，选取哪种方式，要视业务量和业务特性来决定，数据量越多，需要设计的逻辑就越多。
 
-除了要解决订单数量的问题，还需要解决数据备份的问题。要解决这个问题十分复杂。简单来说，微信支付采用了跨园区强一致的 [PaxosStore](https://www.infoq.cn/article/u897dqtxkttpaxwfprik) 的方案，而支付宝是[对数据进行分类分区](https://help.aliyun.com/document_detail/417028.html)。此外腾讯云上有提供基于 [TDSQL](https://cloud.tencent.com/document/product/557/10521) 的分布式数据库，它的实现是基于 shardkey 自动水平拆分。
+除了要解决订单数量的问题，还需要解决数据备份的问题。要解决这个问题十分复杂。简单来说，微信支付采用了跨园区强一致的 [phxsql](https://github.com/Tencent/phxsql) 和的[PaxosStore](https://github.com/Tencent/paxosstore)，而支付宝是[对数据进行分类分区](https://help.aliyun.com/document_detail/417028.html)。此外腾讯云上有提供基于 [TDSQL](https://cloud.tencent.com/document/product/557/10521) 的分布式数据库，它的实现是基于 shardkey 自动水平拆分。
 
 #### 4. 数据平台
 
@@ -142,3 +142,4 @@ SET 化是一种需要后端服务开发和运维配合实施的结构。可以�
 -   [PaxosStore 在微信支付业务的实践](https://www.infoq.cn/article/u897dqtxkttpaxwfprik)
 -   [微信支付 - 跨城冗灾升级指引](https://pay.weixin.qq.com/wiki/doc/apiv3/Practices/chapter1_1_7.shtml)
 -   [百亿级微信红包的高并发资金交易系统设计方案](https://www.infoq.cn/article/2017hongbao-weixin)
+-   [微信支付数据库管理实践](https://pic.huodongjia.com/ganhuodocs/2017-07-15/1500104397.69.pdf)
