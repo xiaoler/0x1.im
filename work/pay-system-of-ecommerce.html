@@ -194,7 +194,7 @@
 <li>分库分表+历史数据转存（也可以是单号+时间<strong>双维度分库分表</strong>）</li>
 </ol>
 <p>每一种方式都有其优缺点，选取哪种方式，要视业务量和业务特性来决定，数据量越多，需要设计的逻辑就越多。</p>
-<p>除了要解决订单数量的问题，还需要解决数据备份的问题。要解决这个问题十分复杂。简单来说，微信支付采用了跨园区强一致的 <a href="https://www.infoq.cn/article/u897dqtxkttpaxwfprik">PaxosStore</a> 的方案，而支付宝是<a href="https://help.aliyun.com/document_detail/417028.html">对数据进行分类分区</a>。此外腾讯云上有提供基于 <a href="https://cloud.tencent.com/document/product/557/10521">TDSQL</a> 的分布式数据库，它的实现是基于 shardkey 自动水平拆分。</p>
+<p>除了要解决订单数量的问题，还需要解决数据备份的问题。要解决这个问题十分复杂。简单来说，微信支付采用了跨园区强一致的 <a href="https://github.com/Tencent/phxsql">phxsql</a> 和的<a href="https://github.com/Tencent/paxosstore">PaxosStore</a>，而支付宝是<a href="https://help.aliyun.com/document_detail/417028.html">对数据进行分类分区</a>。此外腾讯云上有提供基于 <a href="https://cloud.tencent.com/document/product/557/10521">TDSQL</a> 的分布式数据库，它的实现是基于 shardkey 自动水平拆分。</p>
 <h4 id="4-数据平台"><a class="header" href="#4-数据平台">4. 数据平台</a></h4>
 <p>OLAP 数据库会用于数据的聚合运算，包括结算、分析、初步对账等场景。</p>
 <p>需要注意的是，OLAP 中的数据一般是从 OLTP 中异步抽取或者通过消息队列写入，并不能完全保证和原始数据完全一致。如果不一致，应该以原始数据为主。</p>
@@ -237,6 +237,7 @@
 <li><a href="https://www.infoq.cn/article/u897dqtxkttpaxwfprik">PaxosStore 在微信支付业务的实践</a></li>
 <li><a href="https://pay.weixin.qq.com/wiki/doc/apiv3/Practices/chapter1_1_7.shtml">微信支付 - 跨城冗灾升级指引</a></li>
 <li><a href="https://www.infoq.cn/article/2017hongbao-weixin">百亿级微信红包的高并发资金交易系统设计方案</a></li>
+<li><a href="https://pic.huodongjia.com/ganhuodocs/2017-07-15/1500104397.69.pdf">微信支付数据库管理实践</a></li>
 </ul>
 
                     </main>
