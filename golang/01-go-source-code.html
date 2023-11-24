@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>常用开发术语简写 - Scholer 的闲言碎语</title>
+        <title>从源码看 go - Scholer 的闲言碎语</title>
 
 
         <!-- Custom HTML head -->
@@ -79,7 +79,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">使用 mdBook 写博客</a></li><li class="chapter-item expanded affix "><li class="part-title">工作</li><li class="chapter-item expanded "><a href="../golang/index.html"><strong aria-hidden="true">1.</strong> Golang</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../golang/00-lang-compile-execute.html"><strong aria-hidden="true">1.1.</strong> 语言、编译、运行</a></li><li class="chapter-item expanded "><a href="../golang/01-go-source-code.html"><strong aria-hidden="true">1.2.</strong> 从源码看 go</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.3.</strong> go 编译过程</div></li></ol></li><li class="chapter-item expanded "><a href="../work/pay-system-of-ecommerce.html"><strong aria-hidden="true">2.</strong> 电商平台支付系统设计概要</a></li><li class="chapter-item expanded "><a href="../work/a-json-toys.html"><strong aria-hidden="true">3.</strong> 使用 Golang 实现一个 JSON 命令行工具</a></li><li class="chapter-item expanded "><a href="../work/some-abbr-words.html" class="active"><strong aria-hidden="true">4.</strong> 常用开发术语简写</a></li><li class="chapter-item expanded affix "><li class="part-title">生活</li><li class="chapter-item expanded "><a href="../life/2022.html"><strong aria-hidden="true">5.</strong> 2022</a></li><li class="chapter-item expanded "><a href="../life/entertainment-in-lan.html"><strong aria-hidden="true">6.</strong> 局域网影视+音乐+图书服务自建</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../tweet.html">一个假 weibo</a></li><li class="chapter-item expanded affix "><a href="../about.html">关于我</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">使用 mdBook 写博客</a></li><li class="chapter-item expanded affix "><li class="part-title">工作</li><li class="chapter-item expanded "><a href="../golang/index.html"><strong aria-hidden="true">1.</strong> Golang</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../golang/00-lang-compile-execute.html"><strong aria-hidden="true">1.1.</strong> 语言、编译、运行</a></li><li class="chapter-item expanded "><a href="../golang/01-go-source-code.html" class="active"><strong aria-hidden="true">1.2.</strong> 从源码看 go</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.3.</strong> go 编译过程</div></li></ol></li><li class="chapter-item expanded "><a href="../work/pay-system-of-ecommerce.html"><strong aria-hidden="true">2.</strong> 电商平台支付系统设计概要</a></li><li class="chapter-item expanded "><a href="../work/a-json-toys.html"><strong aria-hidden="true">3.</strong> 使用 Golang 实现一个 JSON 命令行工具</a></li><li class="chapter-item expanded "><a href="../work/some-abbr-words.html"><strong aria-hidden="true">4.</strong> 常用开发术语简写</a></li><li class="chapter-item expanded affix "><li class="part-title">生活</li><li class="chapter-item expanded "><a href="../life/2022.html"><strong aria-hidden="true">5.</strong> 2022</a></li><li class="chapter-item expanded "><a href="../life/entertainment-in-lan.html"><strong aria-hidden="true">6.</strong> 局域网影视+音乐+图书服务自建</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../tweet.html">一个假 weibo</a></li><li class="chapter-item expanded affix "><a href="../about.html">关于我</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -140,86 +140,101 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="常用开发术语简写"><a class="header" href="#常用开发术语简写">常用开发术语简写</a></h1>
-<p><em>created_at: 2022-11-20</em>，收集自网上。</p>
+                        <h1 id="从源码看-go"><a class="header" href="#从源码看-go">从源码看 go</a></h1>
+<p><em>created_at: 2023-11-25</em></p>
 <hr />
+<p>go 的源码库本身是一个很好的 go 代码的样例库，如果要对 go 理解更深刻，可以多看。</p>
+<h3 id="如何编译或索引代码"><a class="header" href="#如何编译或索引代码">如何编译或索引代码</a></h3>
+<p>从 Github 或者官网下载一份代码，进入到 src 目录执行 <code>make.bash</code> 或者 <code>make.bat</code> 即可，这个前期是本地的有一个在 PATH 下能被找到的 go 版本。因为 go 的编译是自举的。</p>
+<p>如果用 ide 直接打开 go 项目目录，ide 可能会报错，因为系统本身已经有一个 go 环境了，这时候跳函数也会跳到已安装的 go 版本上。解决这个问题的方法很简单，将环境变量中的 <code>GOPATH</code> 设置为当前目录（绝对路径），同时 GOPATH 下的 <code>bin</code> 目录加入 <code>PATH</code>（要在已经安装版本之前），重装 gopls，即可正确索引代码。</p>
+<h3 id="go-源码组成"><a class="header" href="#go-源码组成">go 源码组成</a></h3>
+<p>简单来说，go 源码主要组成可以分为三部分（src 下，src 目录外的不重要）：</p>
 <ul>
-<li><strong>PR:</strong> Pull Request.</li>
-<li><strong>LGTM:</strong> Looks Good To Me.</li>
-<li><strong>SGTM:</strong> Sounds Good To Me.</li>
-<li><strong>WIP:</strong> Work In Progress.</li>
-<li><strong>PTAL:</strong> Please Take A Look.</li>
-<li><strong>TBR:</strong> To Be Reviewed.</li>
-<li><strong>TL;DR:</strong> Too Long; Didn't Read.</li>
-<li><strong>TBD:</strong> To Be Done (or Defined/Discussed/Decided/Determined).</li>
+<li>供 go 程序引用的 <code>std</code> 包，也就是 src 目录下除了 cmd、internal 和 builtin 目录的全部部分；</li>
+<li>go 编译器部分，也就是用来编译其他 go 程序的工具链，在 cmd/compile 和 cmd/go 目录下；</li>
+<li>go 用来自举的工具链（也就是编译 go 编译器自身），主要在 cmd/dist 目录下，这个从 <code>make.bash</code> 里可以看出来；</li>
 </ul>
-<hr />
-<div class="table-wrapper"><table><thead><tr><th>AFAIC</th><th>As far as I'm concerned</th></tr></thead><tbody>
-<tr><td>AFAIK</td><td>As far as I know</td></tr>
-<tr><td>AFK</td><td>Away from keyboard</td></tr>
-<tr><td>ASAP</td><td>As soon as possible</td></tr>
-<tr><td>BRB</td><td>Be right back</td></tr>
-<tr><td>BTDT</td><td>Been there, done that</td></tr>
-<tr><td>BTW</td><td>By the way</td></tr>
-<tr><td>BUAG</td><td>Butt-ugly ASCII graphic</td></tr>
-<tr><td>C/C</td><td>Comments and criticism</td></tr>
-<tr><td>EOM</td><td>End of message</td></tr>
-<tr><td>FAQ</td><td>Frequently Asked Question(s). When people say &quot;the FAQ&quot;, they are generally referring to a list of answers to Frequently Asked Questions.</td></tr>
-<tr><td>FTFY</td><td>Fixed that for you; often accompanied by a correction</td></tr>
-<tr><td>FTW</td><td>For the win</td></tr>
-<tr><td>FWIW</td><td>For what it's worth</td></tr>
-<tr><td>FYI</td><td>For your information</td></tr>
-<tr><td>HTH</td><td>Hope this helps</td></tr>
-<tr><td>IANAL</td><td>I am not a lawyer</td></tr>
-<tr><td>IIRC</td><td>If I recall correctly</td></tr>
-<tr><td>IMHO</td><td>In my humble opinion</td></tr>
-<tr><td>IMNSHO</td><td>In my not so humble opinion</td></tr>
-<tr><td>IMO</td><td>In my opinion</td></tr>
-<tr><td>IOW</td><td>In other words</td></tr>
-<tr><td>l33t or 1337</td><td>From &quot;elite&quot;. This has become a term used to describe the informal communication of Internet gaming. L33t speak is easily identified by the substitution of number and other characters for regular letters; e.g., hackers becomes h4XX0rz.</td></tr>
-<tr><td>LFG</td><td>Looking for group, usually used in MMORPGs</td></tr>
-<tr><td>LMAO</td><td>Laughing my butt off</td></tr>
-<tr><td>LMGTFY</td><td><a href="http://lmgtfy.com/?q=lmgtfy">Let me Google that for you</a></td></tr>
-<tr><td>LOL</td><td>Laughing out loud</td></tr>
-<tr><td>MMORPG</td><td>Massive multiplayer online role-playing game (e.g., World of Warcraft or Star Wars Galaxies); sometimes shortened to MMO</td></tr>
-<tr><td>MOTAS</td><td>Member of the appropriate sex</td></tr>
-<tr><td>MOTOS</td><td>Member of the opposite sex</td></tr>
-<tr><td>MOTSS</td><td>Member of the same sex</td></tr>
-<tr><td>NG</td><td>Newsgroup</td></tr>
-<tr><td>n00b</td><td>From &quot;newbie&quot;, meaning a newcomer not yet familiar with the rules</td></tr>
-<tr><td>NT</td><td>No text; usually in the subject line of a message with no body</td></tr>
-<tr><td>OMG</td><td>Oh my God</td></tr>
-<tr><td>OTOH</td><td>On the other hand</td></tr>
-<tr><td>PWN</td><td>Usage of the term &quot;own&quot;, as in &quot;I PWNed you!&quot;</td></tr>
-<tr><td>QQ</td><td>Cry more, noob (representation of eyes crying, often found in MMORPGs)</td></tr>
-<tr><td>RL</td><td>Real life, as opposed to the Internet</td></tr>
-<tr><td>ROFL</td><td>Rolling on the floor laughing</td></tr>
-<tr><td>ROFLMAO</td><td>Rolling on the floor laughing my butt off</td></tr>
-<tr><td>RTFM</td><td>Read the fine manual. This may be interpreted as: &quot;You have asked a question which would best be answered by consulting the manual (or FAQ, or other help files), a copy of which should be in your possession. The question you have asked is clearly answered in the manual and you are wasting time asking people to read it to you.&quot; It's good netiquette to mail this type of answer to another user rather than post it in public messages.</td></tr>
-<tr><td>RTFSC</td><td>Read the f**k source code.</td></tr>
-<tr><td>SO</td><td>Significant other; used to refer to someone's romantic partner</td></tr>
-<tr><td>TBH</td><td>To be honest</td></tr>
-<tr><td>TLA</td><td>Three letter acronym</td></tr>
-<tr><td>TTFN</td><td>Ta ta for now</td></tr>
-<tr><td>TTYL</td><td>Talk to you later</td></tr>
-<tr><td>W/E</td><td>Whatever</td></tr>
-<tr><td>w00t</td><td>An expression of joy</td></tr>
-<tr><td>WFN</td><td>Wrong forum, noob</td></tr>
-<tr><td>WTF</td><td>What the heck</td></tr>
-<tr><td>WYSIWYG</td><td>An acronym for &quot;What You See Is What You Get&quot;.</td></tr>
-<tr><td>YMMH</td><td>You might mean here</td></tr>
-<tr><td>YMMV</td><td>Your mileage may vary</td></tr>
-</tbody></table>
-</div>
+<p>当然这三部分并不是完全相互独立的，会有共同依赖的部分；甚至有个很特别的地方：<code>src/cmd/compile/internal/types2</code> 整个就是 copy 的 <code>src/go/types</code> 目录，既是对外暴漏的 std 包，也是编译器需要的依赖。</p>
+<p>所以再阅读 go 代码时，可以根据我们的目的来选择，如果是要看写代码需要引用的依赖，看 std 部分就行，如果是要分析编译过程，就看编译器部分，而如果想理解 go 自举的过程，就看自举部分。</p>
+<p>但是这里面又有个需要特别注意的点：go 的内置函数并不是在 std 包中实现的，在 builtin 目录下只能看到对应的定义，内置函数真正的实现在编译器部分，<code>src/cmd/compile/internal/types2/builtins.go</code> 文件里。</p>
+<h3 id="玩两个把戏"><a class="header" href="#玩两个把戏">玩两个把戏</a></h3>
+<p>既然知道了 go 目录结构的分工，我们就来玩两个把戏吧：</p>
+<ol>
+<li>我们知道 go 1.21 版本史诗级的加入了 min/max 函数，现在我们把这两个函数的作用调换过来，也就是说 min 的表现是 max，max 的表现是 min；</li>
+<li>cmp.Compare 同样是用来比较大小的，根据大小返回 -1、0 或者 1，我们同样把结果调换过来；</li>
+</ol>
+<p>玩这两个把戏不是出于好玩的目的，而是为了验证本地的 go 源码配置的编译和 std 包部分都是走的本地这份源码。</p>
+<p>打开 <code>src/cmd/compile/internal/types2/builtins.go</code> 文件，搜索 <code>case _Max, _Min:</code>，下面就是关于 min/max 函数的实现了，能看到以下代码：</p>
+<pre><code class="language-go">		op := token.LSS
+		if id == _Max {
+			op = token.GTR
+		}
+</code></pre>
+<p>我们稍作修改，把 op 调换一下位置：</p>
+<pre><code class="language-go">		op := token.GTR
+		if id == _Max {
+			op = token.LSS
+		}
+</code></pre>
+<p>打开 <code>src/cmp/cmp.go</code>，直接修改 <code>Compare</code> 函数，找到以下代码：</p>
+<pre><code class="language-go">	if xNaN || x &lt; y {
+		return -1
+	}
+	if yNaN || x &gt; y {
+		return +1
+	}
+</code></pre>
+<p>我们调整一下 <code>+1</code> 和 <code>-1</code> 的位置，修改为：</p>
+<pre><code class="language-go">	if xNaN || x &lt; y {
+		return +1
+	}
+	if yNaN || x &gt; y {
+		return -1
+	}
+</code></pre>
+<p>接下来执行 <code>make.bash</code> 进行编译。</p>
+<p>编译完成后，写一个测试文件命名为 <code>main_test.go</code>，内容如下：</p>
+<pre><code class="language-go">package main
+
+import (
+	&quot;cmp&quot;
+	&quot;fmt&quot;
+	&quot;testing&quot;
+)
+
+func TestExample1(t *testing.T) {
+	fmt.Println(min(1, 2))
+	fmt.Println(max(3, 4))
+}
+
+func TestExample2(t *testing.T) {
+	fmt.Println(cmp.Compare(1, 2))
+	fmt.Println(cmp.Compare(4, 3))
+}
+</code></pre>
+<p>进入 <code>bin</code> 目录，执行 <code>go test -v ../main_test.go</code>，结果如下：</p>
+<pre><code>=== RUN   TestExample1
+2
+3
+--- PASS: TestExample1 (0.00s)
+=== RUN   TestExample2
+1
+-1
+--- PASS: TestExample2 (0.00s)
+PASS
+ok      command-line-arguments  0.382s
+</code></pre>
+<p>比较和正常的 go 程序的结果相反，目的达成。事后不要忘了恢复刚才修改过的两个文件。</p>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../work/a-json-toys.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../golang/00-lang-compile-execute.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../life/2022.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../work/pay-system-of-ecommerce.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -229,11 +244,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../work/a-json-toys.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../golang/00-lang-compile-execute.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../life/2022.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../work/pay-system-of-ecommerce.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
