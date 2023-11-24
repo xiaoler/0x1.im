@@ -7,6 +7,7 @@
 -   [Golang](./golang/README.md)
 
     -   [语言、编译、运行](./golang/00-lang-compile-execute.md)
+    -   [从源码看 go](./golang/01-go-source-code.md)
     -   [go 编译过程]()
     <!-- -   [go 网络模块]() -->
 
